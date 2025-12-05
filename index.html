@@ -106,6 +106,112 @@ function loadAnalytics(){
 
 
 <style>
+  /* الحاوية الرئيسية */
+.article-container {
+  max-width: 900px;
+  margin: 60px auto 40px auto;
+  padding: 25px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.8;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  opacity: 1;
+}
+
+/* محتوى المقال */
+.article-content h2 {
+  font-size: 30px;
+  margin-bottom: 15px;
+  color: #222;
+}
+
+.article-content h3 {
+  font-size: 22px;
+  margin-top: 25px;
+  margin-bottom: 12px;
+  color: #333;
+}
+
+.article-content p, .article-content ul {
+  font-size: 17px;
+  color: #555;
+}
+
+.article-content ul {
+  padding-left: 22px;
+  margin-bottom: 18px;
+}
+
+.article-content li {
+  margin-bottom: 10px;
+}
+
+/* أزرار التنقل */
+.article-nav {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.article-nav button {
+  background: #007BFF;
+  color: #fff;
+  border: none;
+  padding: 12px 25px;
+  margin: 0 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.article-nav button:hover {
+  background: #0056b3;
+  transform: translateY(-2px);
+}
+
+/* زر تغيير اللغة */
+.lang-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: #28a745;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  z-index: 1000;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.lang-toggle:hover {
+  background: #1e7e34;
+  transform: scale(1.05);
+}
+
+/* دعم RTL */
+html[dir="rtl"] .article-container {
+  direction: rtl;
+}
+
+html[dir="rtl"] .article-nav button {
+  margin: 0 5px;
+}
+
+/* تأثير تبديل المقال */
+.article-fade-out {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.article-fade-in {
+  opacity: 1;
+  transform: translateY(0);
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
 /* ---------- VARIABLES ---------- */
 :root{
   --bg:#f6f7fb;            /* light bg */
@@ -328,7 +434,18 @@ footer{margin-top:26px;text-align:center;color:var(--muted);font-size:13px}
 
   <!-- ARTICLE (fully translatable) -->
   <article class="article" id="article" aria-label="article content">
-    <!-- content injected by JS translations -->
+  <!-- ARTICLE (fully translatable) -->
+<article class="article-container" aria-label="article content">
+  <!-- أزرار التنقل -->
+  <div class="article-nav">
+    <button id="prevArticle">‹ المقال السابق</button>
+    <button id="nextArticle">المقال التالي ›</button>
+  </div>
+
+  <!-- هنا المحتوى الديناميكي للمقال -->
+  <div id="article" class="article-content"></div>
+</article>
+
   </article>
 
   <footer>
@@ -379,6 +496,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 </body>
 </html>
+
 
 
 
