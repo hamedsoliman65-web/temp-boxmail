@@ -812,44 +812,57 @@ function onAccountReady(){
 /* ================
    Buttons binding
    ================ */
-$('copyBtn').addEventListener('click', () => {
-  if(!account?.address) return alert(currentLang() === 'ar' ? 'لا يوجد عنوان لنسخه' : 'No address to copy');
-  navigator.clipboard.writeText(account.address).then(()=> alert(currentLang() === 'ar' ? 'تم النسخ' : 'Copied'));
-});
-
-$('newBtn').addEventListener('click', () => {
-  if(confirm(currentLang() === 'ar' ? 'إنشاء بريد جديد سيحذف الحالي. موافق؟' : 'Creating a new email will replace the current one. Continue?')){
-    // optionally delete old (not forced), just create new and replace stored
-    createAccount();
-  }
-});
-
-$('refreshBtn').addEventListener('click', () => {
-  fetchMessages().then(() => alert(currentLang() === 'ar' ? 'تم التحديث' : 'Refreshed'));
-});
-
-$('deleteBtn').addEventListener('click', () => {
-  if(confirm(currentLang() === 'ar' ? 'حذف الحساب نهائيًا؟' : 'Delete account permanently?')){
-    deleteAccount();
-  }
-});
-
-/* Language toggle button */
-$('langToggle').addEventListener('click', () => {
-  const next = currentLang() === 'ar' ? 'en' : 'ar';
-  applyLanguage(next);
-});
-
-/* initialize: apply lang, load stored or create new */
 document.addEventListener('DOMContentLoaded', () => {
+
+  // تطبيق اللغة الحالية
   applyLanguage(currentLang());
+
+  // تحميل الحساب المخزن أو إنشاء حساب جديد
   const loaded = loadStored();
   if(!loaded){
-    // create account automatically on first load
     createAccount();
   }
-}); // ← إغلاق القوس والدالة
 
+  // أزرار البريد
+  $('copyBtn').addEventListener('click', () => {
+    if(!account?.address) return alert(currentLang() === 'ar' ? 'لا يوجد عنوان لنسخه' : 'No address to copy');
+    navigator.clipboard.writeText(account.address).then(()=> alert(currentLang() === 'ar' ? 'تم النسخ' : 'Copied'));
+  });
+
+  $('newBtn').addEventListener('click', () => {
+    if(confirm(currentLang() === 'ar' ? 'إنشاء بريد جديد سيحذف الحالي. موافق؟' : 'Creating a new email will replace the current one. Continue?')){
+      createAccount();
+    }
+  });
+
+  $('refreshBtn').addEventListener('click', () => {
+    fetchMessages().then(() => alert(currentLang() === 'ar' ? 'تم التحديث' : 'Refreshed'));
+  });
+
+  $('deleteBtn').addEventListener('click', () => {
+    if(confirm(currentLang() === 'ar' ? 'حذف الحساب نهائيًا؟' : 'Delete account permanently?')){
+      deleteAccount();
+    }
+  });
+
+  // زر تغيير اللغة
+  $('langToggle').addEventListener('click', () => {
+    const next = currentLang() === 'ar' ? 'en' : 'ar';
+    applyLanguage(next);
+  });
+
+  // أزرار التنقل بين المقالات
+  $('prevArticle').addEventListener('click', () => {
+    if(currentArticleIndex > 0) currentArticleIndex--;
+    applyLanguage(currentLang());
+  });
+
+  $('nextArticle').addEventListener('click', () => {
+    if(currentArticleIndex < ALL_ARTICLES.length - 1) currentArticleIndex++;
+    applyLanguage(currentLang());
+  });
+
+}); // ← نهاية DOMContentLoaded
 
 /* ==============
    END OF SCRIPT
