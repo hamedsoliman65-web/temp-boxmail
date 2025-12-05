@@ -1,7 +1,5 @@
-// =======================
-// mail.js - GA + AdSense + Consent Banner
-// =======================
 
+// mail.js - GA + AdSense + Consent Banner
 // 1️⃣ دالة currentLang لتجنب خطأ الكونسول
 function currentLang() {
     return localStorage.getItem('lang') || 'ar';
