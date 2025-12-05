@@ -2,19 +2,12 @@
 <html lang="ar" dir="rtl">
 <head>
   <!--Content Security Policy (CSP)-->
-<meta http-equiv="Content-Security-Policy"
-content="
-default-src 'self' https://pagead2.googlesyndication.com https://www.googletagmanager.com https://www.googletagservices.com https://tpc.googlesyndication.com https://www.gstatic.com https://api.mail.tm;
-script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pagead2.googlesyndication.com https://www.googletagmanager.com https://www.googletagservices.com https://tpc.googlesyndication.com https://www.gstatic.com https://api.mail.tm;
-style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-font-src 'self' https://fonts.gstatic.com data:;
-img-src 'self' data:;
-connect-src 'self' https://api.mail.tm https://pagead2.googlesyndication.com https://www.googletagmanager.com;
-frame-src https://googleads.g.doubleclick.net https://tpc.googlesyndication.com;
-object-src 'none';
-base-uri 'self';
-form-action 'self';
-upgrade-insecure-requests;
+<meta http-equiv="Content-Security-Policy" content="
+  default-src 'self';
+  script-src 'self' 'unsafe-inline' https://cdn.ampproject.org https://pagead2.googlesyndication.com https://www.googletagmanager.com;
+  img-src 'self' data: https://pagead2.googlesyndication.com;
+  connect-src 'self' https://www.google-analytics.com https://api.mail.tm;
+  style-src 'self' 'unsafe-inline';
 ">
 
 
@@ -494,6 +487,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 </body>
 </html>
+
 
 
 
