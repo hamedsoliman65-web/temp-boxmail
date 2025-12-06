@@ -133,8 +133,7 @@ function loadAnalytics(){
 
 
 
-<style>
-  /* الحاوية الرئيسية */
+<style>/* الحاوية الرئيسية */
 .article-container {
   max-width: 900px;
   margin: 60px auto 40px auto;
@@ -197,6 +196,42 @@ function loadAnalytics(){
 .article-nav button:hover {
   background: #0b4b0b;
   transform: translateY(-2px);
+}
+
+/* --------------------------- */
+/*     تحسين التجاوب للهواتف   */
+/* --------------------------- */
+
+@media (max-width: 600px) {
+  .article-container {
+    padding: 18px;
+    margin: 25px 10px;
+  }
+
+  .article-content h2 {
+    font-size: 24px;
+  }
+
+  .article-content h3 {
+    font-size: 19px;
+  }
+
+  .article-content p, .article-content ul {
+    font-size: 16px;
+  }
+
+  .article-nav button {
+    width: 45%;
+    margin: 5px;
+    padding: 12px;
+    font-size: 15px;
+  }
+
+  .article-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 5px;
+  }
 }
 
 /* زر تغيير اللغة */
