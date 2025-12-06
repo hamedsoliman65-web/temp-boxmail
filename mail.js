@@ -1371,7 +1371,7 @@ function stopPolling(){ if(pollInterval) clearInterval(pollInterval); pollInterv
 /* Called when account created */
 function onAccountReady(){
   $('address').textContent = account.address; // ALWAYS untranslated
-  $('expiry').textContent = currentLang() === 'ar' ? 'العنوان مُدار بواسطة temp-boxmail.online' : 'Address managed by temp-boxmail.online';
+  $('expiry').textContent = currentLang() === 'ar' ? 'العنوان مُدار بواسطة temp-boxmail.org' : 'Address managed by temp-boxmail.online';
   startPolling();
   fetchMessages();
   alert((currentLang() === 'ar' ? 'تم إنشاء البريد: ' : 'Created email: ') + account.address);
