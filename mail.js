@@ -193,8 +193,8 @@ const ARTICLE_1 = {
 <h1>Temporary Email: Comprehensive Guide for Privacy and Safe Internet Experience</h1>
 <p>In the digital age, where threats and online scams are constantly increasing, protecting personal email and privacy has become essential. Temporary email is a key tool for safe internet browsing without risking your main email address. In this comprehensive guide, we cover everything you need to know about temporary email, its uses, benefits, and trusted sources to obtain it.</p>
 
-<img src="https://images.unsplash.com/photo-1581092335125-3d1fbd8f2ef0" alt="Privacy and Security" style="width:100%;max-width:700px;margin:20px 0;" />
-<p><em>Image source: <a href="https://unsplash.com/photos/3d1fbd8f2ef0" target="_blank">Unsplash</a></em></p>
+<img src="https://ec.europa.eu/newsroom/repository/picture/2022-12/hackerga63d7088a_1280_sTAj6Ra0Q1b9XskayE1dMF72jo_91126.jpg" alt="Privacy and Security" style="width:100%;max-width:700px;margin:20px 0;" />
+
 
 <h2>What is Temporary Email?</h2>
 <p>Temporary email provides a disposable email address that can be used for a limited time. It allows you to receive messages, OTPs, and activation emails without using your primary email. After expiration, the email is automatically deleted, protecting your digital identity.</p>
@@ -234,8 +234,8 @@ const ARTICLE_1 = {
 <li>Use reputable services that guarantee deletion after expiration</li>
 </ul>
 
-<img src="https://images.unsplash.com/photo-1581090700227-9e3f9e3c9c5e" alt="Digital Security" style="width:100%;max-width:700px;margin:20px 0;" />
-<p><em>Image source: <a href="https://unsplash.com/photos/9e3f9e3c9c5e" target="_blank">Unsplash</a></em></p>
+<img src="https://www.globalgovernmentforum.com/wp-content/uploads/2025-11-19_Canadian-cyber-defence_common-threats-webinar-writeup_padlock-laptop_CREDIT-AI-generated-image-by-Brian-Penny-via-Pixabay-620x414.jpg" alt="Digital Security" style="width:100%;max-width:700px;margin:20px 0;" />
+
 
 <h2>Temporary Email and E-commerce</h2>
 <p>Temporary email is useful for online shopping to prevent spam and protect card information, especially on new or unverified websites.</p>
@@ -250,6 +250,7 @@ const ARTICLE_1 = {
 <li>Check the privacy policy of websites before entering temporary emails.</li>
 <li>Keep updated on security measures for the services you use.</li>
 </ul>
+<img src="https://cache.getarchive.net/Prod/thumb/cdn12/L3Bob3RvLzIwMTYvMTIvMzEvY3liZXItc2VjdXJpdHktaW50ZXJuZXQtc2VjdXJpdHktY29tcHV0ZXItc2VjdXJpdHktY29tcHV0ZXItY29tbXVuaWNhdGlvbi02MTIzMjEtMTAyNC5wbmc%3D/320/232/jpg" alt="Cyber Security" style="width:100%;max-width:700px;margin:20px 0;" />
 
 <h2>Conclusion</h2>
 <p>Temporary email is a powerful tool for privacy protection and safe internet browsing. Using it correctly allows you to test applications, websites, and services without compromising your main email or digital identity.</p>
