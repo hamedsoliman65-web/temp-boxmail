@@ -262,8 +262,7 @@ const ARTICLE_2 = {
 <h1>أفضل الممارسات عند استخدام البريد المؤقت</h1>
 <p>حتى مع قوة البريد المؤقت، هناك ممارسات يجب اتباعها لضمان استخدام آمن وفعّال. في هذا المقال، سنغطي نصائح عملية لحماية البيانات الرقمية، الحفاظ على الخصوصية، وضمان تجربة إنترنت آمنة.</p>
 
-<img src="https://images.unsplash.com/photo-1612832021365-0f2e7e5e4c9d" alt="Digital Practices" style="width:100%;max-width:700px;margin:20px 0;" />
-<p><em>مصدر الصورة: <a href="https://unsplash.com/photos/0f2e7e5e4c9d" target="_blank">Unsplash</a></em></p>
+<img src="https://www.mailstore.com/en/wp-content/uploads/sites/3/2019/10/gmail-inbox.jpg" alt="Digital Practices" style="width:100%;max-width:700px;margin:20px 0;" />
 
 <h2>اختيار خدمة موثوقة</h2>
 <p>أول خطوة لضمان أمان البريد المؤقت هي اختيار خدمة موثوقة ومرموقة. يجب أن توفر الخدمة:</p>
@@ -282,8 +281,7 @@ const ARTICLE_2 = {
 <li>مشاركة كلمات المرور أو معلومات الهوية.</li>
 </ul>
 
-<img src="https://images.unsplash.com/photo-1605902711622-cfb43c4431c6" alt="Security Caution" style="width:100%;max-width:700px;margin:20px 0;" />
-<p><em>مصدر الصورة: <a href="https://unsplash.com/photos/cfb43c4431c6" target="_blank">Unsplash</a></em></p>
+<img src="https://thumbs.wbm.im/pw/medium/a1af225cc9b61ba8bbe6af1a9b946ea7.jpg" alt="Security Caution" style="width:100%;max-width:700px;margin:20px 0;" />
 
 <h2>التحكم في الوصول</h2>
 <p>لتجنب أي تسريب للبيانات:</p>
@@ -309,8 +307,7 @@ const ARTICLE_2 = {
 <li>تجربة التطبيقات الجديدة دون المخاطرة بالبريد الرئيسي.</li>
 </ul>
 
-<img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c" alt="Quick Registration" style="width:100%;max-width:700px;margin:20px 0;" />
-<p><em>مصدر الصورة: <a href="https://unsplash.com/photos/47ba0277781c" target="_blank">Unsplash</a></em></p>
+<img src="https://masterbundles.com/wp-content/uploads/2023/08/email-newsletter_madterbundles-2-166.jpg" alt="Quick Registration" style="width:100%;max-width:700px;margin:20px 0;" />
 
 <h2>أفضل الممارسات المتقدمة</h2>
 <ul>
@@ -327,8 +324,7 @@ const ARTICLE_2 = {
 <h1>Best Practices for Using Temporary Email</h1>
 <p>Even with the power of temporary email, following best practices ensures safe and effective usage. This article provides practical tips to protect digital data, maintain privacy, and ensure a secure internet experience.</p>
 
-<img src="https://images.unsplash.com/photo-1612832021365-0f2e7e5e4c9d" alt="Digital Practices" style="width:100%;max-width:700px;margin:20px 0;" />
-<p><em>Image source: <a href="https://unsplash.com/photos/0f2e7e5e4c9d" target="_blank">Unsplash</a></em></p>
+<img src="https://www.mailstore.com/en/wp-content/uploads/sites/3/2019/10/gmail-inbox.jpg" alt="Digital Practices" style="width:100%;max-width:700px;margin:20px 0;" />
 
 <h2>Choosing a Reliable Service</h2>
 <p>The first step in safe temporary email usage is selecting a trusted, reputable service. The service should:</p>
@@ -347,8 +343,8 @@ const ARTICLE_2 = {
 <li>Sharing passwords or identity information</li>
 </ul>
 
-<img src="https://images.unsplash.com/photo-1605902711622-cfb43c4431c6" alt="Security Caution" style="width:100%;max-width:700px;margin:20px 0;" />
-<p><em>Image source: <a href="https://unsplash.com/photos/cfb43c4431c6" target="_blank">Unsplash</a></em></p>
+<img src="https://thumbs.wbm.im/pw/medium/a1af225cc9b61ba8bbe6af1a9b946ea7.jpg" alt="Security Caution" style="width:100%;max-width:700px;margin:20px 0;" />
+
 
 <h2>Control Access</h2>
 <p>To prevent data leaks:</p>
@@ -374,8 +370,8 @@ const ARTICLE_2 = {
 <li>Testing new apps without risking your main email</li>
 </ul>
 
-<img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c" alt="Quick Registration" style="width:100%;max-width:700px;margin:20px 0;" />
-<p><em>Image source: <a href="https://unsplash.com/photos/47ba0277781c" target="_blank">Unsplash</a></em></p>
+<img src="https://masterbundles.com/wp-content/uploads/2023/08/email-newsletter_madterbundles-2-166.jpg" alt="Quick Registration" style="width:100%;max-width:700px;margin:20px 0;" />
+
 
 <h2>Advanced Best Practices</h2>
 <ul>
