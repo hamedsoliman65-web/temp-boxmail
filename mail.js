@@ -391,8 +391,7 @@ const ARTICLE_3 = {
 <h1>البريد المؤقت وحماية الهوية الرقمية</h1>
 <p>في عصرنا الرقمي الحالي، أصبحت الهوية الرقمية جزءًا مهمًا من حياتنا اليومية. الهجمات الإلكترونية، الرسائل المزعجة، وتسريبات البيانات أصبحت تهدد المستخدمين باستمرار. البريد المؤقت يعتبر أداة قوية لحماية الهوية الرقمية وتقليل المخاطر عند التسجيل في المواقع والتطبيقات المختلفة.</p>
 
-<img src="https://images.unsplash.com/photo-1581090700227-cf33f4c0d20c" alt="Digital Identity Protection" style="width:100%;max-width:700px;margin:20px 0;" />
-<p><em>مصدر الصورة: <a href="https://unsplash.com/photos/cf33f4c0d20c" target="_blank">Unsplash</a></em></p>
+<img src="https://cdn3.vectorstock.com/i/1000x1000/60/12/email-cybersecurity-icon-vector-44676012.jpg" alt="Digital Identity Protection" style="width:100%;max-width:700px;margin:20px 0;" />
 
 <h2>فوائد حماية الهوية الرقمية باستخدام البريد المؤقت</h2>
 <p>استخدام البريد المؤقت يقدم مجموعة من الفوائد المهمة للحفاظ على هويتك الرقمية:</p>
@@ -412,9 +411,7 @@ const ARTICLE_3 = {
 <li>التحقق من مصداقية المواقع قبل تقديم البيانات الشخصية.</li>
 </ul>
 
-<img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5" alt="Fast Registration" style="width:100%;max-width:700px;margin:20px 0;" />
-<p><em>مصدر الصورة: <a href="https://unsplash.com/photos/7f61d4dc18c5" target="_blank">Unsplash</a></em></p>
-
+<img src="https://unblast.com/wp-content/uploads/2022/11/Email-Marketing-Illustration.jpg" alt="Fast Registration" style="width:100%;max-width:700px;margin:20px 0;" />
 <h2>الاستخدامات العملية للبريد المؤقت</h2>
 <p>البريد المؤقت ليس فقط للأمان، بل له استخدامات عملية واسعة تشمل:</p>
 <ul>
@@ -432,8 +429,7 @@ const ARTICLE_3 = {
 <li>تأكد من أن أي روابط أو مرفقات تتلقاها عبر البريد المؤقت آمنة قبل النقر عليها.</li>
 </ul>
 
-<img src="https://images.unsplash.com/photo-1591696205602-2f2d8dbbe358" alt="Digital Security Tips" style="width:100%;max-width:700px;margin:20px 0;" />
-<p><em>مصدر الصورة: <a href="https://unsplash.com/photos/2f2d8dbbe358" target="_blank">Unsplash</a></em></p>
+<img src="https://npr.brightspotcdn.com/dims4/default/694be01/2147483647/strip/true/crop/1277x787+0+0/resize/1760x1084!/quality/90/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2F9d%2F2f%2F9ad55a334f799c6c31ed4ff5d331%2Ftechnology-6692943-1280.png" alt="Digital Security Tips" style="width:100%;max-width:700px;margin:20px 0;" />
 
 <h2>البريد المؤقت والأمان على المدى الطويل</h2>
 <p>البريد المؤقت يمكن أن يكون جزءًا من استراتيجية أوسع لحماية هويتك الرقمية:</p>
@@ -451,8 +447,8 @@ const ARTICLE_3 = {
 <h1>Temporary Email and Digital Identity Protection</h1>
 <p>In today's digital era, digital identity is an essential part of daily life. Cyber attacks, spam messages, and data leaks continuously threaten users. Temporary email is a powerful tool to safeguard digital identity and reduce risks when registering on websites and apps.</p>
 
-<img src="https://images.unsplash.com/photo-1581090700227-cf33f4c0d20c" alt="Digital Identity Protection" style="width:100%;max-width:700px;margin:20px 0;" />
-<p><em>Image source: <a href="https://unsplash.com/photos/cf33f4c0d20c" target="_blank">Unsplash</a></em></p>
+<img src="https://cdn3.vectorstock.com/i/1000x1000/60/12/email-cybersecurity-icon-vector-44676012.jpg" alt="Digital Identity Protection" style="width:100%;max-width:700px;margin:20px 0;" />
+
 
 <h2>Benefits of Protecting Digital Identity with Temporary Email</h2>
 <p>Using temporary email offers several key benefits for safeguarding your digital identity:</p>
@@ -472,8 +468,8 @@ const ARTICLE_3 = {
 <li>Verifying website credibility before providing personal data.</li>
 </ul>
 
-<img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5" alt="Fast Registration" style="width:100%;max-width:700px;margin:20px 0;" />
-<p><em>Image source: <a href="https://unsplash.com/photos/7f61d4dc18c5" target="_blank">Unsplash</a></em></p>
+<img src="https://unblast.com/wp-content/uploads/2022/11/Email-Marketing-Illustration.jpg" alt="Fast Registration" style="width:100%;max-width:700px;margin:20px 0;" />
+
 
 <h2>Practical Uses of Temporary Email</h2>
 <p>Temporary email has practical uses beyond security, including:</p>
@@ -492,8 +488,8 @@ const ARTICLE_3 = {
 <li>Ensure any links or attachments received via temporary email are safe before clicking.</li>
 </ul>
 
-<img src="https://images.unsplash.com/photo-1591696205602-2f2d8dbbe358" alt="Digital Security Tips" style="width:100%;max-width:700px;margin:20px 0;" />
-<p><em>Image source: <a href="https://unsplash.com/photos/2f2d8dbbe358" target="_blank">Unsplash</a></em></p>
+<img src="https://npr.brightspotcdn.com/dims4/default/694be01/2147483647/strip/true/crop/1277x787+0+0/resize/1760x1084!/quality/90/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2F9d%2F2f%2F9ad55a334f799c6c31ed4ff5d331%2Ftechnology-6692943-1280.png" alt="Digital Security Tips" style="width:100%;max-width:700px;margin:20px 0;" />
+
 
 <h2>Temporary Email and Long-Term Security</h2>
 <p>Temporary email can be part of a broader strategy for digital identity protection:</p>
