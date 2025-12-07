@@ -1,28 +1,36 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-<!-- Content Security Policy (Unified CSP) -->
+<!-- Content Security Policy نهائي لموقع temp-boxmail.org -->
 <meta http-equiv="Content-Security-Policy" content="
   default-src 'self';
 
-  <script-src 'self' 'unsafe-inline' 'unsafe-eval'
+  script-src 'self' 'unsafe-inline' 'unsafe-eval'
     https://cdn.ampproject.org
     https://pagead2.googlesyndication.com
     https://www.googletagmanager.com
     https://www.googletagservices.com
     https://www.gstatic.com
+    https://fundingchoicesmessages.google.com
+    https://googleads.g.doubleclick.net
     https://ep1.adtrafficquality.google
     https://ep2.adtrafficquality.google;
+
+  script-src-elem 'self' 'unsafe-inline' 'unsafe-eval'
+    https://cdn.ampproject.org
+    https://pagead2.googlesyndication.com
+    https://www.googletagmanager.com
+    https://www.googletagservices.com
+    https://googleads.g.doubleclick.net
+    https://www.gstatic.com;
 
   style-src 'self' 'unsafe-inline'
     https://fonts.googleapis.com
     https://cdn.jsdelivr.net;
 
-  font-src 'self' https://fonts.gstatic.com;
+  img-src 'self' data: blob: https://* https://pagead2.googlesyndication.com;
 
-  img-src 'self' data: blob:
-    https://*
-    https://pagead2.googlesyndication.com;
+  font-src 'self' https://fonts.gstatic.com;
 
   connect-src 'self'
     https://api.mail.tm
@@ -607,6 +615,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 </body>
 </html>
+
 
 
 
