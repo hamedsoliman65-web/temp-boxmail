@@ -7,6 +7,8 @@
   
   script-src 'self' 'unsafe-inline' 'unsafe-eval'
     https://cdn.ampproject.org
+    https://cdn.vercel-analytics.com
+    https://vitals.vercel-analytics.com
     https://pagead2.googlesyndication.com
     https://www.googletagmanager.com
     https://www.googletagservices.com
@@ -22,6 +24,7 @@
 
   connect-src 'self' 
   https://api.mail.tm
+  https://api.vercel.com
   https://www.google-analytics.com
   https://www.googletagmanager.com
   https://pagead2.googlesyndication.com
@@ -29,6 +32,7 @@
   https://cdn.ampproject.org
   https://epl.adtrafficquality.google
   https://ep1.adtrafficquality.google
+  https://vitals.vercel-analytics.com
   https://fundingchoicesmessages.google.com;
 
 
@@ -127,6 +131,9 @@ function loadAnalytics(){
 <meta name="amp-auto-ads-client" content="ca-pub-4901985375072472">
 <script async custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"></script>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4901985375072472" crossorigin="anonymous"></script>
+
+<!-- Vercel Speed Insights - Collects Core Web Vitals and performance metrics -->
+<script defer src="https://cdn.vercel-analytics.com/v1/script.js"></script>
 
 <!-- Hreflang for multilingual SEO -->
 <link rel="alternate" hreflang="ar" href="https://www.temp-boxmail.org/">
@@ -345,7 +352,7 @@ body{background:linear-gradient(180deg,var(--bg),#02060a 80%);color:var(--text);
 
 /* حركة عند الضغط */
 .btn:active {
-    transform: scale(0.95); /* تصغير عند الضغط */
+    transform: scale(0.95); /* تص��ير عند الضغط */
     box-shadow: 0 2px 6px rgba(0,0,0,0.2);
 }
 
@@ -374,7 +381,7 @@ body{background:linear-gradient(180deg,var(--bg),#02060a 80%);color:var(--text);
     border: none;
 }
 
-/* الوضع الداكن */
+/* الوضع الداك�� */
 @media (prefers-color-scheme: dark) {
     #newBtn {
         background: #27ae60;
@@ -390,7 +397,7 @@ body{background:linear-gradient(180deg,var(--bg),#02060a 80%);color:var(--text);
     }
 }
 
-/* أيقونات داخل الأزرار */
+/* ��يقونات داخل الأزرار */
 .icon-btn {
     display: inline-flex;
     align-items: center;
@@ -470,12 +477,12 @@ footer{margin-top:26px;text-align:center;color:var(--muted);font-size:13px}
       <li>حماية الخصوصية: يمنع تسريب بريدك الشخصي. | Privacy protection: keeps your real inbox safe.</li>
       <li>تقليل الرسائل المزعجة: لا تبقى الرسائل الدعائية في صندوقك الدائم. | Less spam: avoids promotional clutter in your main email.</li>
       <li>سرعة وسهولة: لا حاجة لإنشاء حساب طويل. | Fast and easy: no long registration required.</li>
-      <li>استقبال أكواد OTP: مناسب لتفعيل الحسابات بسرعة. | Receive OTP quickly: great for fast verification flows.</li>
+      <li>استقبال أكواد OTP: مناسب لت��عيل الحسابات بسرعة. | Receive OTP quickly: great for fast verification flows.</li>
     </ul>
     <h3>متى لا تستخدم البريد المؤقت؟ | When NOT to Use</h3>
     <ul>
       <li>الخدمات البنكية والحسابات الرسمية. | Banking and official government services.</li>
-      <li>حفظ معلومات مهمة طويلة الأمد. | Accounts where long-term access is required.</li>
+      <li>حفظ معلومات مه��ة طويلة الأمد. | Accounts where long-term access is required.</li>
     </ul>
     <p>الخلاصة: البريد المؤقت مفيد في العديد من الحالات لكنه ليس بديلاً لحساباتك الرسمية. | Temporary email is useful but not a replacement for important accounts.</p>
   </div>
@@ -609,73 +616,3 @@ document.addEventListener("DOMContentLoaded", function() {
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
