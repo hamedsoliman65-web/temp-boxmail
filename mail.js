@@ -126,8 +126,7 @@ const ARTICLE_1 = {
 <h1>البريد المؤقت: دليل شامل لحماية الخصوصية وتجربة الإنترنت بأمان</h1>
 <p>في عصر تتزايد فيه التهديدات الرقمية والاختراقات الإلكترونية، أصبح الحفاظ على الخصوصية وحماية البريد الإلكتروني أمرًا حيويًا. البريد المؤقت هو أداة أساسية لكل مستخدم يريد تجربة الإنترنت بأمان دون تعريض بريده الشخصي للمخاطر. في هذا الدليل المفصل، سنغطي جميع الجوانب المتعلقة بالبريد المؤقت، استخداماته، فوائده، والمصادر الموثوقة للحصول عليه.</p>
 
-<img src="https://images.unsplash.com/photo-1581092335125-3d1fbd8f2ef0" alt="Privacy and Security" style="width:100%;max-width:700px;margin:20px 0;" />
-<p><em>مصدر الصورة: <a href="https://unsplash.com/photos/3d1fbd8f2ef0" target="_blank">Unsplash</a></em></p>
+<img src="https://cdn12.picryl.com/photo/2016/12/31/hacker-hacking-cyber-security-computer-communication-8c2eb8-1024.jpg" alt="Privacy and Security" style="width:100%;max-width:700px;margin:20px 0;" />
 
 <h2>ما هو البريد المؤقت؟</h2>
 <p>البريد المؤقت هو عنوان بريد إلكتروني يُستخدم لفترة زمنية محددة، ويتيح للمستخدم استقبال الرسائل، الرموز المؤقتة OTP، ورسائل التفعيل دون الحاجة لاستخدام البريد الرئيسي. بعد انتهاء الصلاحية، يُحذف البريد بالكامل تلقائيًا، مما يحمي الهوية الرقمية.</p>
@@ -169,8 +168,7 @@ const ARTICLE_1 = {
 <li>استخدم خدمات موثوقة تضمن حذف البريد بعد انتهاء الصلاحية.</li>
 </ul>
 
-<img src="https://images.unsplash.com/photo-1581090700227-9e3f9e3c9c5e" alt="Digital Security" style="width:100%;max-width:700px;margin:20px 0;" />
-<p><em>مصدر الصورة: <a href="https://unsplash.com/photos/9e3f9e3c9c5e" target="_blank">Unsplash</a></em></p>
+<img src="https://www.globalgovernmentforum.com/wp-content/uploads/2025-11-19_Canadian-cyber-defence_common-threats-webinar-writeup_padlock-laptop_CREDIT-AI-generated-image-by-Brian-Penny-via-Pixabay-620x414.jpg" alt="Digital Security" style="width:100%;max-width:700px;margin:20px 0;" />
 
 <h2>البريد المؤقت والتجارة الإلكترونية</h2>
 <p>يمكن استخدام البريد المؤقت عند التسوق عبر الإنترنت لتجنب الرسائل الدعائية وحماية بيانات البطاقات من الاختراق أو التسريب، خاصة عند تجربة مواقع جديدة غير معروفة.</p>
@@ -185,6 +183,8 @@ const ARTICLE_1 = {
 <li>التحقق من سياسات الخصوصية للمواقع قبل إدخال البريد المؤقت.</li>
 <li>البقاء على اطلاع على آخر تحديثات الأمان للخدمات المستخدمة.</li>
 </ul>
+
+<img src="https://cache.getarchive.net/Prod/thumb/cdn12/L3Bob3RvLzIwMTYvMTIvMzEvY3liZXItc2VjdXJpdHktaW50ZXJuZXQtc2VjdXJpdHktY29tcHV0ZXItc2VjdXJpdHktY29tcHV0ZXItY29tbXVuaWNhdGlvbi02MTIzMjEtMTAyNC5wbmc%3D/320/232/jpg" alt="Cyber Security" style="width:100%;max-width:700px;margin:20px 0;" />
 
 <h2>خلاصة</h2>
 <p>البريد المؤقت أداة قوية لحماية الخصوصية الرقمية وتجربة الإنترنت بأمان. باستخدام البريد المؤقت بشكل صحيح، يمكنك الاستمتاع بخدمات الإنترنت وتجربة التطبيقات والمواقع دون المخاطرة بالبريد الشخصي أو الهوية الرقمية.</p>
