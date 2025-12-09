@@ -417,7 +417,7 @@ body{background:linear-gradient(180deg,var(--bg),#02060a 80%);color:var(--text);
 .addr small{display:block;color:var(--muted);font-weight:400}
 
 /* ---------- LAYOUT ---------- */
-.main{display:grid;grid-template-columns:360px 1fr;gap:18px;margin-top:18px}
+.main{display:grid;gap:18px;margin-top:18px}
 .panel{background:var(--card);padding:12px;border-radius:calc(var(--radius) - 2px);box-shadow:0 6px 18px rgba(0,0,0,0.06)}
 .inbox-list{max-height:65vh;overflow:auto;padding-right:6px}
 .mail-item{padding:10px;border-radius:10px;margin-bottom:10px;background:linear-gradient(180deg,rgba(0,0,0,0.01),transparent);cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
@@ -427,7 +427,7 @@ body{background:linear-gradient(180deg,var(--bg),#02060a 80%);color:var(--text);
 .mail-time{font-size:11px;color:var(--muted)}
 
 /* viewer */
-.viewer{display:flex;flex-direction:column;min-height:60vh}
+.viewer{display:flex;flex-direction:column}
 .toolbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
 .msg-body{margin-top:12px;padding:12px;border-radius:10px;background:linear-gradient(180deg,rgba(0,0,0,0.01),transparent);overflow:auto;flex:1;min-height:280px}
 .otp{display:inline-block;padding:6px 10px;border-radius:8px;font-weight:700;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#032;}
@@ -530,12 +530,12 @@ footer{margin-top:26px;text-align:center;color:var(--muted);font-size:13px}
   </div>
 
   <!-- MAIN (inbox + viewer) -->
-  <main class="main" role="main">
+  <section class="main" role="main">
     <aside class="panel" aria-label="inbox panel">
       <h2 id="inbox-title">البريد الوارد</h2>
       <div id="inbox-desc" style="color:var(--muted);font-size:13px;margin-bottom:8px">يتم جلب الرسائل تلقائيًا</div>
       <div class="inbox-list" id="inbox"></div>
-    </aside>
+    </section>
 
     <section class="panel viewer" aria-label="message viewer">
       <div class="toolbar">
@@ -564,16 +564,30 @@ footer{margin-top:26px;text-align:center;color:var(--muted);font-size:13px}
     <button id="prevArticle">‹ المقال السابق</button>
     <button id="nextArticle">المقال التالي ›</button>
   </div>
+<script src="articles.js"></script>
 
 </article>
+<!--المقالات السته -->
 
- 
+<main>
+<div id="articles" class="grid"></div>
+</main>
+
+
+<script src="articles-lang.js"></script>
+
+
+
+
+
 
   <footer>
     <div id="footer-text">جميع الحقوق محفوظه - © Temp-BoxMail</div>
     <div style="margin-top:8px;font-size:13px"><a href="pages/privacy.html" style="color:var(--muted)">🔒 الخصوصية | privacy </a> • <a href="pages/terms.html" style="color:var(--muted)">📄 الشروط والأحكام | Terms & Conditions
 </a> • <a href="pages/contact.html" style="color:var(--muted)">📩 تواصل معنا | Contact </a></div>
   </footer>
+<div class="row"></div>
+
 </div>
 
 
@@ -615,14 +629,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 </body>
 </html>
-
-
-
-
-
-
-
-
 
 
 
