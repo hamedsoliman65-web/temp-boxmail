@@ -104,6 +104,8 @@ const UI = {
     refresh:"تحديث",
     newMail:"إنشاء بريد جديد",
     delete:"حذف",
+prevArticle: '‹ المقال السابق',
+    nextArticle: 'المقال التالي ›',
     noMessages:"لا توجد رسائل بعد — اضغط \"إنشاء بريد جديد\" ثم استقبل الرسائل هنا.",
     footer:"جميع الحقوق محفوظه - © Temp-BoxMail"
   },
@@ -116,6 +118,8 @@ const UI = {
     refresh:"Refresh",
     newMail:"Create New Email",
     delete:"Delete",
+prevArticle: '‹ Previous Article',
+    nextArticle: 'Next Article ›',
     noMessages:"No messages yet — click \"Create New Email\" to start receiving emails.",
     footer:"All rights reserved - © Temp-BoxMail"
   }
@@ -1139,7 +1143,10 @@ function applyLanguage(lang){
 
   // Article content (HTML)
   $('article').innerHTML = ALL_ARTICLES[currentArticleIndex][lang];
-
+ 
+// Article navigation buttons
+  $('prevArticle').textContent = t.prevArticle;
+  $('nextArticle').textContent = t.nextArticle;
 
   // If there are no messages, set default body text (localized)
   if(!messages.length){
