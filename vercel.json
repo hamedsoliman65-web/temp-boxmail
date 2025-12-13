@@ -1,15 +1,12 @@
 {
+  "version": 2,
   "builds": [
     {
-      "src": "Tech-blog/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "Tech blog/dist"
-      }
+      "src": "dist/**",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
-    { "src": "/blog/(.*)", "dest": "/Tech-blog/dist/$1" },
-    { "src": "/(.*)", "dest": "/$1" }
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
