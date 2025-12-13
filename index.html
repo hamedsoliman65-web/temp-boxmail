@@ -336,7 +336,18 @@ body{background:linear-gradient(180deg,var(--bg),#02060a 80%);color:var(--text);
 .container{max-width:var(--max-width);margin:20px auto;padding:16px}
 
 /* ---------- HEADER ---------- */
-.header{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+
+    background-color: #16222f; /* لون خلفية الهيدر */
+    color: #ffffff;           /* لون النص داخل الهيدر */
+    padding: 12px 16px;       /* مسافة داخلية */
+}
+
 .brand{display:flex;align-items:center;gap:12px}
 .brand img{width:56px;height:56px;border-radius:10px;object-fit:cover;box-shadow:0 6px 20px rgba(0,0,0,0.25)}
 .brand h1{font-size:18px;margin:0}
@@ -667,6 +678,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 </body>
 </html>
+
 
 
 
