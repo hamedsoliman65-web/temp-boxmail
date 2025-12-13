@@ -1,7 +1,5 @@
 {
-  "name": "tech-blog",
-  "version": "1.0.0",
   "scripts": {
-    "build": "echo 'Nothing to build, just static files'"
+    "build": "tsx script/build.ts"
   }
 }
