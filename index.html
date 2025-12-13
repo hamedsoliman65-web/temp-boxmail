@@ -453,6 +453,10 @@ body{background:linear-gradient(180deg,var(--bg),#02060a 80%);color:var(--text);
 .inbox-list,
 .mail-item,
 .mail-from,
+  .msg-body p {
+    color: #ffffff; /* أبيض للنصوص على الخلفية الداكنة */
+    font-weight: 400; /* منع الخط الغامق */
+}
 .mail-time {
     font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
     font-weight: 400 !important;
@@ -462,7 +466,14 @@ body{background:linear-gradient(180deg,var(--bg),#02060a 80%);color:var(--text);
 
 .main{display:grid;gap:18px;margin-top:18px}
 .panel{background:var(--card);padding:12px;border-radius:calc(var(--radius) - 2px);box-shadow:0 6px 18px rgba(0,0,0,0.06)}
-.inbox-list{max-height:65vh;overflow:auto;padding-right:6px}
+.inbox-list {
+    max-height: 65vh;
+    overflow: auto;
+    padding-right: 6px;
+    background-color: #ebebeb; /* لون الخلفية */
+    border-radius: 8px;
+}
+
 .mail-item{padding:10px;border-radius:10px;margin-bottom:10px;background:linear-gradient(180deg,rgba(0,0,0,0.01),transparent);cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
 .mail-item:hover{transform:translateY(-1px)}
 .mail-sub{font-weight:600}
@@ -482,7 +493,21 @@ body {
 /* viewer */
 .viewer{display:flex;flex-direction:column}
 .toolbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.msg-body{margin-top:12px;padding:12px;border-radius:10px;background:linear-gradient(180deg,rgba(0,0,0,0.01),transparent);overflow:auto;flex:1;min-height:280px}
+.msg-body {
+    margin-top: 12px;
+    padding: 12px;
+    border-radius: 10px;
+
+    /* خلفية جديدة */
+    background-color: #16222f; /* اختر اللون الذي تحبه */
+    /* إذا أردت استمرار التدرج: */
+    /* background: linear-gradient(180deg, rgba(22,34,47,0.1), rgba(22,34,47,0)); */
+
+    overflow: auto;
+    flex: 1;
+    min-height: 280px;
+}
+
 .otp{display:inline-block;padding:6px 10px;border-radius:8px;font-weight:700;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#ffffff;}
 
 /* ---------- ARTICLE ---------- */
@@ -686,6 +711,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 </body>
 </html>
+
 
 
 
