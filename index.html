@@ -435,6 +435,15 @@ body{background:linear-gradient(180deg,var(--bg),#02060a 80%);color:var(--text);
 .addr small{display:block;color:var(--muted);font-weight:400}
 
 /* ---------- LAYOUT ---------- */
+.main,
+.panel,
+#inbox-title,
+#inbox-desc,
+.inbox-list {
+    font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+    font-weight: 400 !important; /* منع الـ Bold */
+}
+
 .main{display:grid;gap:18px;margin-top:18px}
 .panel{background:var(--card);padding:12px;border-radius:calc(var(--radius) - 2px);box-shadow:0 6px 18px rgba(0,0,0,0.06)}
 .inbox-list{max-height:65vh;overflow:auto;padding-right:6px}
@@ -443,6 +452,13 @@ body{background:linear-gradient(180deg,var(--bg),#02060a 80%);color:var(--text);
 .mail-sub{font-weight:600}
 .mail-from{font-size:12px;color:var(--muted)}
 .mail-time{font-size:11px;color:var(--muted)}
+
+body {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 400;
+}
 
 /* viewer */
 .viewer{display:flex;flex-direction:column}
