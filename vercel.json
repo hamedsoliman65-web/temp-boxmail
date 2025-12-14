@@ -1,18 +1,1 @@
-{
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/Tech-blog/blog/(.*)",
-      "dest": "/index.html"
-    }
-  ]
-}
- 
+
