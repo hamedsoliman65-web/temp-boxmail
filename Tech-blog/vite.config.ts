@@ -5,7 +5,7 @@ import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
 export default defineConfig(({ mode }) => ({
   // 🔥 مهم جدًا لمسار البلوج
-  base: "/blog/",
+  base: "/Tech-blog/blog/",
 
   // 🔹 جذر تطبيق React
   root: path.resolve(import.meta.dirname, "client"),
