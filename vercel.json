@@ -10,7 +10,7 @@
   ],
   "routes": [
     {
-      "src": "/blog/(.*)",
+      "src": "/Tech-blog/blog/(.*)",
       "dest": "/index.html"
     }
   ]
