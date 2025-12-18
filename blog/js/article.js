@@ -34,8 +34,7 @@ function setOG(property, content) {
   tag.setAttribute("content", content);
 }
 
-
-
+// ================= MAIN =================
 document.addEventListener("DOMContentLoaded", () => {
   let lang = localStorage.getItem("lang") || "en";
   const langBtn = document.getElementById("langBtn");
@@ -63,30 +62,26 @@ document.addEventListener("DOMContentLoaded", () => {
     const id = params.get("id");
     if(!id || !window.ARTICLES) return;
 
-
     const article = ARTICLES.find(a=>a.id==id);
     if(!article) return;
 
-// تحديث صورة البنر والعنوان والمحتوى
-  const articleImg = document.getElementById("articleImg");
-  if (articleImg) articleImg.src = article.img;
-  if (articleImg) articleImg.alt = article.title[lang];
+    const articleImg = document.getElementById("articleImg");
+    if (articleImg) {
+      articleImg.src = article.img;
+      articleImg.alt = article.title[lang];
+    }
 
-
-    document.getElementById("articleImg").src = article.img;
-    document.getElementById("articleImg").alt = article.title[lang];
     document.getElementById("articleTitle").textContent = article.title[lang];
     document.getElementById("articleCat").textContent = article.cat[lang];
     document.getElementById("articleMeta").textContent = article.meta[lang];
     document.getElementById("articleContent").innerHTML = article.content[lang];
 
-    // ← ** كود التفعيل الأول للتبويب**
-  const firstTab = document.querySelector(".tab-btn");
-  if (firstTab) activateTab(firstTab);
+    // تفعيل أول تبويب تلقائي بعد تحميل المقال
+    const firstTab = document.querySelector(".tab-btn");
+    if(firstTab) activateTab(firstTab);
 
-
-  // ← هذا السطر مهم لتطبيق الميتا تاجز على المقال
-  applyArticleSEO(article, lang);
+    // تحديث الميتا تاجز
+    applyArticleSEO(article, lang);
   }
 
   langBtn?.addEventListener("click", ()=>{
@@ -104,31 +99,23 @@ document.addEventListener("DOMContentLoaded", () => {
 function activateTab(tabBtn){
   const tabId = tabBtn.dataset.tab;
 
-  // إزالة التفعيل
-  document.querySelectorAll(".tab-btn")
-    .forEach(btn => btn.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+  document.querySelectorAll(".tab-content").forEach(tab => tab.classList.remove("active"));
 
-  document.querySelectorAll(".tab-content")
-    .forEach(tab => tab.classList.remove("active"));
-
-  // تفعيل الحالي
   tabBtn.classList.add("active");
   const target = document.getElementById(tabId);
-  if (target) target.classList.add("active");
+  if(target) target.classList.add("active");
 }
 
-// يعمل مع click و touch
-document.addEventListener("click", function (e) {
+// click + touch دعم كامل
+document.addEventListener("click", function(e){
   const btn = e.target.closest(".tab-btn");
-  if (!btn) return;
+  if(!btn) return;
   activateTab(btn);
 });
 
-document.addEventListener("touchstart", function (e) {
+document.addEventListener("touchstart", function(e){
   const btn = e.target.closest(".tab-btn");
-  if (!btn) return;
+  if(!btn) return;
   activateTab(btn);
 }, { passive: true });
-
-
-
