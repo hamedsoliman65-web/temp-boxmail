@@ -2,49 +2,232 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>تواصل معنا | Contact Us</title>
+<title>من نحن & اتصل بنا | About & Contact - Temp-BoxMail</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="robots" content="index, follow">
+<meta name="description" content="تعرف على موقع Temp-BoxMail وخدمة البريد الإلكتروني المؤقت، وتواصل معنا في حال وجود أي استفسار أو ملاحظة.">
+
 <style>
-body {max-width:900px;margin:auto;padding:20px;font-family:Arial;background:#111;color:#fff;line-height:1.7;}
-h2 {color:#00ff88;}
-  footer {
-  margin-top:40px;
+:root{
+  --main:#00ff88;
+  --bg:#0f0f0f;
+  --card:#171717;
+  --text:#f1f1f1;
+  --muted:#aaa;
+}
+
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Arial;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.9;
+}
+
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:30px 20px;
+}
+
+.card{
+  background:var(--card);
+  border-radius:12px;
+  padding:30px;
+  margin-bottom:30px;
+  box-shadow:0 0 0 1px #222;
+}
+
+h1,h2{
+  color:var(--main);
+  margin-top:0;
+}
+
+p{margin:12px 0}
+
+ul{
+  padding-right:22px;
+}
+
+li{margin:8px 0}
+
+hr{
+  border:none;
+  border-top:1px solid #333;
+  margin:40px 0;
+}
+
+/* Contact form */
+form{
+  margin-top:20px;
+}
+
+input, textarea{
+  width:100%;
+  padding:12px;
+  margin:10px 0;
+  border-radius:8px;
+  border:1px solid #333;
+  background:#111;
+  color:#fff;
+  font-size:1rem;
+}
+
+input:focus, textarea:focus{
+  outline:none;
+  border-color:var(--main);
+}
+
+button{
+  background:var(--main);
+  color:#000;
+  border:none;
+  padding:12px 25px;
+  border-radius:30px;
+  font-size:1rem;
+  cursor:pointer;
+}
+
+button:hover{opacity:.85}
+
+.lang{
+  color:var(--muted);
+  font-size:1.05rem;
+  margin-bottom:10px;
+}
+
+footer{
   text-align:center;
   padding:20px;
-  border-top:1px solid #333;
-  opacity:0.8;
+  font-size:.9rem;
+  color:var(--muted);
+  border-top:1px solid #222;
 }
-footer a {margin:0 10px;}
+
+footer a{
+  color:var(--main);
+  text-decoration:none;
+  margin:0 8px;
+}
 </style>
 </head>
 
 <body>
 
-<h2>تواصل معنا</h2>
+<div class="container">
 
-<p>إذا كان لديك استفسار أو طلب دعم، يمكنك مراسلتنا عبر البريد التالي:</p>
+<!-- ================= ABOUT ================= -->
+<div class="card">
+<h1>من نحن</h1>
 
-<p><strong>Email:</strong> support@temp-boxmail.org</p>
+<p>
+<strong>Temp-BoxMail</strong> هو موقع يقدم خدمة
+<strong>البريد الإلكتروني المؤقت</strong>
+لمساعدة المستخدمين على استقبال الرسائل دون الحاجة
+إلى استخدام بريدهم الشخصي.
+</p>
+
+<p>
+نهدف إلى:
+</p>
+
+<ul>
+  <li>حماية خصوصية المستخدمين على الإنترنت.</li>
+  <li>تقليل الرسائل المزعجة (Spam).</li>
+  <li>توفير تجربة سريعة وبسيطة دون تسجيل.</li>
+</ul>
+
+<p>
+بالإضافة إلى خدمة البريد المؤقت،
+يقدم الموقع محتوى تقني وتعليمي في مجالات:
+</p>
+
+<ul>
+  <li>الذكاء الاصطناعي</li>
+  <li>الأمن السيبراني</li>
+  <li>التقنية وتطوير الويب</li>
+</ul>
+
+<p>
+جميع الخدمات متاحة للاستخدام المجاني
+مع الالتزام بالاستخدام القانوني والأخلاقي.
+</p>
+</div>
 
 <hr>
 
-<h2>Contact Us (English)</h2>
+<!-- ================= CONTACT ================= -->
+<div class="card">
+<h1>اتصل بنا</h1>
 
-<p>If you have any questions or need support, feel free to contact us:</p>
+<p>
+إذا كان لديك أي استفسار، اقتراح، أو بلاغ،
+يمكنك التواصل معنا عبر النموذج التالي
+أو من خلال البريد الإلكتروني.
+</p>
 
-<p><strong>Email:</strong> support@temp-boxmail.org</p>
+<p>
+📧 البريد الإلكتروني:
+<strong>support@temp-boxmail.org</strong>
+</p>
+
+<form action="mailto:support@temp-boxmail.org" method="post" enctype="text/plain">
+  <input type="text" name="name" placeholder="الاسم (اختياري)">
+  <input type="email" name="email" placeholder="البريد الإلكتروني" required>
+  <textarea name="message" rows="5" placeholder="رسالتك..." required></textarea>
+  <button type="submit">إرسال الرسالة</button>
+</form>
+</div>
+
+<hr>
+
+<!-- ================= ENGLISH ================= -->
+<div class="card" dir="ltr">
+<div class="lang">About & Contact (English)</div>
+
+<p>
+<strong>Temp-BoxMail</strong> provides a
+temporary email service that helps users
+receive messages online without using their personal email address.
+</p>
+
+<p>
+Our goals include protecting user privacy,
+reducing spam, and offering a fast,
+registration-free experience.
+</p>
+
+<p>
+We also publish educational content related to
+technology, artificial intelligence,
+cybersecurity, and web development.
+</p>
+
+<h2>Contact Us</h2>
+
+<p>
+For any questions, suggestions, or reports,
+you can contact us via email:
+</p>
+
+<p>
+📧 <strong>support@temp-boxmail.org</strong>
+</p>
+</div>
+
+</div>
+
 <footer>
-<a href="../index.html">🏠 الرئيسية | Home </a> |
-<a href="privacy.html">🔒 الخصوصية | privacy </a> |
-<a href="terms.html">📄 الشروط والأحكام | Terms & Conditions </a>
+<div id="footer-text">جميع الحقوق محفوظه - © Temp-BoxMail</div>
+<a href="../index.html">🏠 الرئيسية</a> |
+<a href="privacy.html">🔒 الخصوصية</a> |
+<a href="terms.html">📄 الشروط</a>
 </footer>
-<script>
-// تحديث التاريخ تلقائيًا
-document.getElementById("date").innerText = new Date().toLocaleDateString();
-</script>
 
 </body>
 </html>
+
 
 
 
