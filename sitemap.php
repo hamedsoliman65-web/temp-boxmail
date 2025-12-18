@@ -1,22 +1,29 @@
 <?php
 header('Content-Type: application/xml; charset=utf-8');
 
-$base_url = "https://www.yoursite.com/"; // ضع رابط موقعك هنا
+// رابط موقعك
+$base_url = "https://www.hamedsoliman65-web.com/"; // غيّر إلى رابط موقعك الفعلي
+
 $urls = [];
 
-// صفحات الجذر
+// صفحة البداية
 $urls[] = 'index.html';
 
 // جميع صفحات HTML في مجلد pages
-foreach (glob("pages/*.html") as $file) {
-    $urls[] = "pages/" . basename($file);
+if (is_dir('pages')) {
+    foreach (glob("pages/*.html") as $file) {
+        $urls[] = "pages/" . basename($file);
+    }
 }
 
 // جميع صفحات HTML في مجلد blog
-foreach (glob("blog/*.html") as $file) {
-    $urls[] = "blog/" . basename($file);
+if (is_dir('blog')) {
+    foreach (glob("blog/*.html") as $file) {
+        $urls[] = "blog/" . basename($file);
+    }
 }
 
+// إنشاء ملف Sitemap بصيغة XML
 echo '<?xml version="1.0" encoding="UTF-8"?>';
 echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 
