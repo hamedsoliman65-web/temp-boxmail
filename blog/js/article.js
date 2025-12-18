@@ -1,3 +1,15 @@
+function activateTab(tabBtn){
+  const tabId = tabBtn.dataset.tab;
+  if(!tabId) return;
+
+  document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+  document.querySelectorAll(".tab-content").forEach(tab => tab.classList.remove("active"));
+
+  tabBtn.classList.add("active");
+  const target = document.getElementById(tabId);
+  if(target) target.classList.add("active");
+}
+
 // ================= SEO FUNCTIONS =================
 function applyArticleSEO(article, lang) {
   const title = article.title[lang];
@@ -119,3 +131,4 @@ document.addEventListener("touchstart", function(e){
   if(!btn) return;
   activateTab(btn);
 }, { passive: true });
+
