@@ -1,16 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-   <url>
-      <loc>https://www.temp-boxmail.org/</loc>
-      <priority>1.00</priority>
-   </url>
-   <url>
-      <loc>https://www.temp-boxmail.org/privacy</loc>
-   </url>
-   <url>
-      <loc>https://www.temp-boxmail.org/terms-conditions</loc>
-   </url>
-   <url>
-      <loc>https://www.temp-boxmail.org/contact</loc>
-   </url>
+
+  <url>
+    <loc>https://www.temp-boxmail.org/</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- صفحات pages -->
+  <url>
+    <loc>https://www.temp-boxmail.org/pages/contact.html</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <!-- أضف باقي صفحات pages هنا -->
+
+  <!-- صفحات blog -->
+  <url>
+    <loc>https://www.temp-boxmail.org/blog/indexblog.html</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.temp-boxmail.org/blog/article.html</loc>
+    <lastmod>2025-12-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+<url>
+  <loc>https://www.temp-boxmail.org/pages/privacy.html</loc>
+  <lastmod>2025-12-18</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.8</priority>
+</url>
+<url>
+  <loc>https://www.temp-boxmail.org/pages/terms.html</loc>
+  <lastmod>2025-12-18</lastmod>
+  <changefreq>weekly</changefreq>
+  <priority>0.8</priority>
+</url>
+
 </urlset>
