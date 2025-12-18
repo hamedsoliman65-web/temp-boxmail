@@ -6,22 +6,33 @@ $base_url = "https://www.hamedsoliman65-web.com/"; // غيّر إلى رابط �
 
 $urls = [];
 
-// صفحة البداية
+// دالة لإضافة جميع ملفات html/php من مجلد معين
+function addFilesFromDir($dir, &$urls) {
+    if (is_dir($dir)) {
+        $files = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($dir),
+            RecursiveIteratorIterator::LEAVES_ONLY
+        );
+        foreach ($files as $file) {
+            if ($file->isFile()) {
+                $ext = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+                if (in_array($ext, ['html','php'])) {
+                    // احصل على المسار بالنسبة للمجلد الرئيسي
+                    $relativePath = str_replace('\\','/', $file->getPathname());
+                    $relativePath = preg_replace('#^\.#', '', $relativePath); // إزالة نقطة البداية إذا موجودة
+                    $urls[] = ltrim($relativePath, '/');
+                }
+            }
+        }
+    }
+}
+
+// إضافة الصفحة الرئيسية
 $urls[] = 'index.html';
 
-// جميع صفحات HTML في مجلد pages
-if (is_dir('pages')) {
-    foreach (glob("pages/*.html") as $file) {
-        $urls[] = "pages/" . basename($file);
-    }
-}
-
-// جميع صفحات HTML في مجلد blog
-if (is_dir('blog')) {
-    foreach (glob("blog/*.html") as $file) {
-        $urls[] = "blog/" . basename($file);
-    }
-}
+// إضافة صفحات من مجلدات محددة
+addFilesFromDir('pages', $urls);
+addFilesFromDir('blog', $urls);
 
 // إنشاء ملف Sitemap بصيغة XML
 echo '<?xml version="1.0" encoding="UTF-8"?>';
