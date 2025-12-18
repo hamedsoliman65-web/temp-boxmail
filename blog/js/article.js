@@ -94,3 +94,35 @@ document.addEventListener("DOMContentLoaded", () => {
   updateTexts();
   loadArticle();
 });
+
+// ================= TABS FIX (DESKTOP + MOBILE) =================
+function activateTab(tabBtn){
+  const tabId = tabBtn.dataset.tab;
+
+  // إزالة التفعيل
+  document.querySelectorAll(".tab-btn")
+    .forEach(btn => btn.classList.remove("active"));
+
+  document.querySelectorAll(".tab-content")
+    .forEach(tab => tab.classList.remove("active"));
+
+  // تفعيل الحالي
+  tabBtn.classList.add("active");
+  const target = document.getElementById(tabId);
+  if (target) target.classList.add("active");
+}
+
+// يعمل مع click و touch
+document.addEventListener("click", function (e) {
+  const btn = e.target.closest(".tab-btn");
+  if (!btn) return;
+  activateTab(btn);
+});
+
+document.addEventListener("touchstart", function (e) {
+  const btn = e.target.closest(".tab-btn");
+  if (!btn) return;
+  activateTab(btn);
+}, { passive: true });
+
+
