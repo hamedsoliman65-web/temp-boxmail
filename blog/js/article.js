@@ -9,6 +9,18 @@ function activateTab(tabBtn){
   const target = document.getElementById(tabId);
   if(target) target.classList.add("active");
 }
+// يعمل على click + touch
+document.addEventListener("click", function(e){
+  const btn = e.target.closest(".tab-btn");
+  if(!btn) return;
+  activateTab(btn);
+});
+
+document.addEventListener("touchstart", function(e){
+  const btn = e.target.closest(".tab-btn");
+  if(!btn) return;
+  activateTab(btn);
+}, { passive: true });
 
 // ================= SEO FUNCTIONS =================
 function applyArticleSEO(article, lang) {
@@ -131,4 +143,5 @@ document.addEventListener("touchstart", function(e){
   if(!btn) return;
   activateTab(btn);
 }, { passive: true });
+
 
