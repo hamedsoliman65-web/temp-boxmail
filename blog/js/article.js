@@ -80,6 +80,11 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("articleMeta").textContent = article.meta[lang];
     document.getElementById("articleContent").innerHTML = article.content[lang];
 
+    // ← ** كود التفعيل الأول للتبويب**
+  const firstTab = document.querySelector(".tab-btn");
+  if (firstTab) activateTab(firstTab);
+
+
   // ← هذا السطر مهم لتطبيق الميتا تاجز على المقال
   applyArticleSEO(article, lang);
   }
@@ -124,5 +129,6 @@ document.addEventListener("touchstart", function (e) {
   if (!btn) return;
   activateTab(btn);
 }, { passive: true });
+
 
 
