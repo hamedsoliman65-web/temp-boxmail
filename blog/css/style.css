@@ -275,3 +275,20 @@ footer a{
   .cta{padding:6px 12px;font-size:13px}
   .container{margin:30px auto}
 }
+/* =====================
+   TABS (DESKTOP + MOBILE)
+===================== */
+.tab-btn{
+  cursor:pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tab-content{
+  display:none;
+}
+
+.tab-content.active{
+  display:block;
+}
+
