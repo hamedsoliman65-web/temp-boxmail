@@ -113,16 +113,20 @@ function loadAnalytics(){
 
 
 <!-- Favicon -->
-<link rel="icon" type="image/webp" sizes="32x32" href="og.webp">
-<link rel="icon" type="image/webp" sizes="16x16" href="og.webp">
-<link rel="apple-touch-icon" sizes="180x180" href="og.webp">
-<meta name="theme-color" content="#000000">
+<link rel="icon" type="image/webp" href="og.webp">
+<link rel="apple-touch-icon" href="og.webp">
+<meta name="theme-color" content="#000000" />
 
 <!-- SEO Description (Arabic & English) -->
 <meta name="description" content="خدمة بريد مؤقت مجانية لاستقبال رسائل التفعيل وOTP دون تسجيل | Temporary free email service to receive verification codes and OTP without creating an account. Fast secure temp inbox.">
+<link rel="canonical" href="https://temp-boxmail.org">
 
+<meta property="og:title" content="Temp-BoxMail">
+<meta property="og:description" content="خدمة بريد مؤقت آمنة وسريعة">
+<meta property="og:url" content="https://temp-boxmail.org">
+<meta property="og:type" content="website">
 <!-- Keywords -->
-<meta name="keywords" content="بريد مؤقت، أيميل مؤقت، رسائل التفعيل، انشاء بريد الكتروني مؤقت OTP ،مؤقت بريد، بريد مؤقت ،temp mail ،temp-boxmail ،tempboxmail ،tempmail ،Temporary mail ،best temp mail ،temp e mail  ،mail temp ،temp mail بريد إلكتروني مؤقت ،tempail">
+<meta name="keywords" content="بريد مؤقت، ايميل مؤقت، رسائل التفعيل، OTP, temp mail, temp-boxmail, tempmail, Temporary mail,best temp mail, ez temp mail, temp mail ninja,mail temp">
 
 <meta name="robots" content="index, follow">
 <meta name="author" content="Temp BoxMail">
@@ -515,12 +519,6 @@ footer{margin-top:26px;text-align:center;color:var(--muted);font-size:13px}
   .msg-body{min-height:200px}
   .article{padding:16px}
 }
-  h1 {
-  font-size: 2rem;
-  font-weight: bold;
-}
-
-
 </style>
 </head>
 <body>
@@ -637,7 +635,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <button id="prevArticle">‹ المقال السابق</button>
     <button id="nextArticle">المقال التالي ›</button>
   </div>
-<script src="articles.js"></script>
 
 </article>
 <!--المقالات السته -->
@@ -645,12 +642,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <main>
 <div id="articles" class="grid"></div>
 </main>
-
-
-<script src="articles-lang.js"></script>
-
-
-
 
 
 
@@ -664,8 +655,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 
-<!-- سكربت البانر -->
-<!-- JS -->
+
 <script src="mail.js" defer></script>
 <audio id="notifySound" src="notification.mp3" preload="auto"></audio>
 <!-- overlay يغطي الموقع -->
@@ -702,13 +692,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 </body>
 </html>
-
-
-
-
-
-
-
 
 
 
