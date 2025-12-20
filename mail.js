@@ -18,6 +18,7 @@ function createAccount() {
 // 3️⃣ إدارة البنر والتتبع
 document.addEventListener('DOMContentLoaded', () => {
     applyLanguage(currentLang());
+applySEO(currentArticleIndex + 1);
     if (!loadStored()) createAccount();
 
     const banner = document.getElementById('cookie-banner');
@@ -1119,6 +1120,73 @@ const ALL_ARTICLES = [];
 ALL_ARTICLES.push(ARTICLE_1, ARTICLE_2, ARTICLE_3, ARTICLE_4, ARTICLE_5, ARTICLE_6, ARTICLE_7, ARTICLE_8, ARTICLE_9, ARTICLE_10);
 let currentArticleIndex = 0;
 
+/* ======================
+   الدوال المساعدة (SEO)
+   ====================== */
+
+function applySEO(articleNumber) {
+    const lang = currentLang();
+    const article = ALL_ARTICLES[articleNumber - 1];
+    
+    if (article && article[lang]) {
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = article[lang]; 
+
+        // 1. استخراج العنوان
+        const articleTitle = tempDiv.querySelector('h1') ? tempDiv.querySelector('h1').innerText : "Temp-BoxMail";
+        document.title = articleTitle + " - Temp-BoxMail";
+
+        // 2. تحديث الوصف (كما فعلنا سابقاً)
+        const plainText = tempDiv.innerText.replace(/\s+/g, ' ').trim();
+        const descriptionText = plainText.substring(0, 150) + "...";
+        updateMetaTag('description', descriptionText);
+
+        // 3. ✨ توليد الكلمات المفتاحية تلقائياً من العنوان ✨
+        // نأخذ كلمات العنوان ونحول المسافات إلى فواصل
+        const keywordsFromTitle = articleTitle.split(' ').join(', ');
+        const finalKeywords = keywordsFromTitle + ", بريد مؤقت, ايميل وهمي, temp mail, disposable email";
+        
+        // تحديث وسم الكلمات المفتاحية في الهيد
+        updateMetaTag('keywords', finalKeywords);
+
+        // 4. تحديث باقي الوسوم (OG Tags)
+        updateMetaTag('og:title', articleTitle);
+        updateMetaTag('og:description', descriptionText);
+        
+        let canonical = document.querySelector('link[rel="canonical"]');
+        if (canonical) {
+            canonical.href = window.location.origin + window.location.pathname + "?article=" + articleNumber;
+        }
+    }
+}
+/* ============================================================
+   بعد ذلك يأتي كود الـ DOMContentLoaded الذي رتبناه في الرسالة السابقة
+   ============================================================ */
+function updateMetaTag(property, content) {
+    // البحث عن الوسم سواء كان يستخدم name أو property
+    let tag = document.querySelector(`meta[name="${property}"], meta[property="${property}"]`);
+    
+    if (!tag) {
+        tag = document.createElement('meta');
+        // إذا كان الوسم يبدأ بـ og: فهو وسم Open Graph يحتاج property
+        if (property.startsWith('og:')) {
+            tag.setAttribute('property', property);
+        } else {
+            // غير ذلك فهو وسم SEO عادي يحتاج name
+            tag.setAttribute('name', property);
+        }
+        document.head.appendChild(tag);
+    }
+    tag.content = content;
+}function getArticleIndexFromURL() {
+  const params = new URLSearchParams(window.location.search);
+  const index = parseInt(params.get("article"), 10);
+  if (isNaN(index) || index < 1 || index > ALL_ARTICLES.length) {
+    return 0; // أول مقال افتراضي
+  }
+  return index - 1; // لأن المصفوفة تبدأ من 0
+}
+
 /* ================
    Language Helpers
    ================ */
@@ -1341,16 +1409,27 @@ function onAccountReady(){
    ================ */
 document.addEventListener('DOMContentLoaded', () => {
 
-  // تطبيق اللغة الحالية
+  // 1️⃣ استخراج رقم المقال من الرابط (URL) أولاً
+  const urlParams = new URLSearchParams(window.location.search);
+  const articleParam = urlParams.get('article');
+  if (articleParam) {
+      const idx = parseInt(articleParam) - 1;
+      // التأكد أن الرقم صحيح وضمن حدود المصفوفة
+      if (idx >= 0 && idx < ALL_ARTICLES.length) {
+          currentArticleIndex = idx;
+      }
+  }
+
+  // 2️⃣ تطبيق اللغة (سيعرض المقال بناءً على الرقم المستخرج أعلاه)
   applyLanguage(currentLang());
 
-  // تحميل الحساب المخزن أو إنشاء حساب جديد
+  // 3️⃣ تحميل الحساب المخزن أو إنشاء حساب جديد
   const loaded = loadStored();
   if(!loaded){
     createAccount();
   }
 
-  // أزرار البريد
+  // ... باقي مستمعات الأحداث (EventListeners) الخاصة بالأزرار هنا ...  // أزرار البريد
   $('copyBtn').addEventListener('click', () => {
     if(!account?.address) return alert(currentLang() === 'ar' ? 'لا يوجد عنوان لنسخه' : 'No address to copy');
     navigator.clipboard.writeText(account.address).then(()=> alert(currentLang() === 'ar' ? 'تم النسخ' : 'Copied'));
@@ -1379,15 +1458,32 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // أزرار التنقل بين المقالات
-  $('prevArticle').addEventListener('click', () => {
-    if(currentArticleIndex > 0) currentArticleIndex--;
+$('prevArticle').addEventListener('click', () => {
+  if (currentArticleIndex > 0) {
+    currentArticleIndex--;
+    updateArticleURL(currentArticleIndex); // SEO + URL
     applyLanguage(currentLang());
-  });
+applySEO(currentArticleIndex + 1);
+  }
+});
 
-  $('nextArticle').addEventListener('click', () => {
-    if(currentArticleIndex < ALL_ARTICLES.length - 1) currentArticleIndex++;
+$('nextArticle').addEventListener('click', () => {
+  if (currentArticleIndex < ALL_ARTICLES.length - 1) {
+    currentArticleIndex++;
+    updateArticleURL(currentArticleIndex); // SEO + URL
     applyLanguage(currentLang());
-  });
+applySEO(currentArticleIndex + 1);
+  }
+});
+// أضفها في نهاية ملف mail.js
+function updateArticleURL(index) {
+    history.pushState({}, "", "?article=" + (index + 1));
+    
+    // استدعاء دالة الـ SEO إذا كانت موجودة لتحديث العنوان والوصف (Meta Tags)
+    if (typeof applySEO === "function") {
+        applySEO(index + 1);
+    }
+}
 
 }); // ← نهاية DOMContentLoaded
 
