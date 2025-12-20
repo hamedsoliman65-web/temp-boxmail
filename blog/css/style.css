@@ -45,11 +45,22 @@ header{
   gap:10px;
 }
 
-.logo{
-  font-weight:700;
-  color:var(--red);
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* مسافة بين الصورة والنص */
+  font-size: 18px;
+  font-weight: bold;
+}
+.logo-img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
 }
 
+.logo-text {
+  white-space: nowrap;
+}
 .menu{
   display:flex;
   flex-wrap:wrap;
@@ -292,4 +303,5 @@ footer a{
 .tab-content.active{
   display:block;
 }
+
 
