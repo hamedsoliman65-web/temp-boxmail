@@ -8,32 +8,36 @@
     <priority>1.0</priority>
   </url>
 
-  <url><loc>https://www.temp-boxmail.org/?article=1</loc><lastmod>2025-12-18</lastmod><priority>0.8</priority></url>
-  <url><loc>https://www.temp-boxmail.org/?article=2</loc><lastmod>2025-12-18</lastmod><priority>0.8</priority></url>
-  <url><loc>https://www.temp-boxmail.org/?article=3</loc><lastmod>2025-12-18</lastmod><priority>0.8</priority></url>
-  <url><loc>https://www.temp-boxmail.org/?article=4</loc><lastmod>2025-12-18</lastmod><priority>0.8</priority></url>
-  <url><loc>https://www.temp-boxmail.org/?article=5</loc><lastmod>2025-12-18</lastmod><priority>0.8</priority></url>
-  <url><loc>https://www.temp-boxmail.org/?article=6</loc><lastmod>2025-12-18</lastmod><priority>0.8</priority></url>
-  <url><loc>https://www.temp-boxmail.org/?article=7</loc><lastmod>2025-12-18</lastmod><priority>0.8</priority></url>
-  <url><loc>https://www.temp-boxmail.org/?article=8</loc><lastmod>2025-12-18</lastmod><priority>0.8</priority></url>
-  <url><loc>https://www.temp-boxmail.org/?article=9</loc><lastmod>2025-12-18</lastmod><priority>0.8</priority></url>
-  <url><loc>https://www.temp-boxmail.org/?article=10</loc><lastmod>2025-12-18</lastmod><priority>0.8</priority></url>
+  <url><loc>https://www.temp-boxmail.org/?article=1</loc><priority>0.8</priority></url>
+  <url><loc>https://www.temp-boxmail.org/?article=2</loc><priority>0.8</priority></url>
+  <url><loc>https://www.temp-boxmail.org/?article=3</loc><priority>0.8</priority></url>
+  <url><loc>https://www.temp-boxmail.org/?article=4</loc><priority>0.8</priority></url>
+  <url><loc>https://www.temp-boxmail.org/?article=5</loc><priority>0.8</priority></url>
+  <url><loc>https://www.temp-boxmail.org/?article=6</loc><priority>0.8</priority></url>
+  <url><loc>https://www.temp-boxmail.org/?article=7</loc><priority>0.8</priority></url>
+  <url><loc>https://www.temp-boxmail.org/?article=8</loc><priority>0.8</priority></url>
+  <url><loc>https://www.temp-boxmail.org/?article=9</loc><priority>0.8</priority></url>
+  <url><loc>https://www.temp-boxmail.org/?article=10</loc><priority>0.8</priority></url>
 
   <url>
-    <loc>https://www.temp-boxmail.org/pages/contact.html</loc>
+    <loc>https://www.temp-boxmail.org/blog/index.html</loc>
     <lastmod>2025-12-18</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
-  <url>
-    <loc>https://www.temp-boxmail.org/pages/privacy.html</loc>
-    <lastmod>2025-12-18</lastmod>
-    <priority>0.5</priority>
-  </url>
-  <url>
-    <loc>https://www.temp-boxmail.org/pages/terms.html</loc>
-    <lastmod>2025-12-18</lastmod>
-    <priority>0.5</priority>
-  </url>
+
+  <url><loc>https://www.temp-boxmail.org/blog/article.html?id=1</loc><priority>0.8</priority></url>
+  <url><loc>https://www.temp-boxmail.org/blog/article.html?id=2</loc><priority>0.8</priority></url>
+  <url><loc>https://www.temp-boxmail.org/blog/article.html?id=3</loc><priority>0.8</priority></url>
+  <url><loc>https://www.temp-boxmail.org/blog/article.html?id=4</loc><priority>0.8</priority></url>
+  <url><loc>https://www.temp-boxmail.org/blog/article.html?id=5</loc><priority>0.8</priority></url>
+  <url><loc>https://www.temp-boxmail.org/blog/article.html?id=6</loc><priority>0.8</priority></url>
+  <url><loc>https://www.temp-boxmail.org/blog/article.html?id=7</loc><priority>0.8</priority></url>
+  <url><loc>https://www.temp-boxmail.org/blog/article.html?id=8</loc><priority>0.8</priority></url>
+  <url><loc>https://www.temp-boxmail.org/blog/article.html?id=9</loc><priority>0.8</priority></url>
+
+  <url><loc>https://www.temp-boxmail.org/pages/contact.html</loc><priority>0.5</priority></url>
+  <url><loc>https://www.temp-boxmail.org/pages/privacy.html</loc><priority>0.5</priority></url>
+  <url><loc>https://www.temp-boxmail.org/pages/terms.html</loc><priority>0.5</priority></url>
 
 </urlset>
