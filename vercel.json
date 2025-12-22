@@ -12,21 +12,23 @@
       ]
     }
   ],
-"rewrites": [
-  {
-    "source": "/",
-    "destination": "/index.html"
-  },
-  {
-    "source": "/blog",
-    "destination": "/blog/index.html"
-  },
-  {
-    "source": "/blog/",
-    "destination": "/blog/index.html"
-  },
-  {
-    "source": "/blog/article(.*)",
-    "destination": "/blog/article.html"
-  }
-]
+],
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/blog",
+      "destination": "/blog/index.html"
+    },
+    {
+      "source": "/blog/",
+      "destination": "/blog/index.html"
+    },
+    {
+      "source": "/blog/article(.*)",
+      "destination": "/blog/article.html"
+    }
+  ]
+}
