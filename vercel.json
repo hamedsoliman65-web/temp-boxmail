@@ -17,6 +17,6 @@
     { "source": "/blog", "destination": "/blog/index.html" },
     { "source": "/blog/", "destination": "/blog/index.html" },
     { "source": "/blog/article(.*)", "destination": "/blog/article.html" }, 
-    { "source": "/article(.*)", "destination": "/blog/article.html" } // ⬅️ قاعدة الحل
+    { "source": "/article(.*)", "destination": "/blog/article.html" }  
   ]
 }
