@@ -30,7 +30,7 @@
     "destination": "/blog/article.html"
   },
   {
-    "source": "/article(.*)", // القاعدة الجديدة للمسار المختصر
+    "source": "/article(.*)", 
     "destination": "/blog/article.html"
   }
 ]
