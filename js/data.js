@@ -863,8 +863,7 @@ window.ARTICLES = [
       `
     }
   }
-
-  }
 ];
+
 
 
