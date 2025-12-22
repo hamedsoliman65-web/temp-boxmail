@@ -745,7 +745,7 @@ window.ARTICLES = [
 },
   {
     id: 10,
-    img: "https://images.pexels.com/photos/8386419/pexels-photo-8386419.jpeg?auto=compress&cs=tinysrgb&w=1260",
+    img: "https://images.pexels.com/photos/14000467/pexels-photo-14000467.jpeg?auto=compress&cs=tinysrgb&w=1260",
     title: {
       en: "AI in Data Defense: The Advanced Feature War Between Attackers and Defenders in 2025",
       ar: "الذكاء الاصطناعي في حماية البيانات: حرب الميزات المتقدمة بين المهاجمين والمدافعين في عام 2025"
@@ -776,7 +776,7 @@ window.ARTICLES = [
     <li>**Automated Reconnaissance and Exploitation:** AI-powered bots can map out a target network, identify zero-day vulnerabilities in complex codebases, and write exploitation code faster than human ethical hackers. This dramatically reduces the time-to-exploit.</li>
 </ul>
 <p class="citation">According to the <a href="https://www.gartner.com/en/articles/gartner-forecasts-worldwide-security-and-risk-management-spending-to-exceed-215-billion-in-2024" target="_blank">Gartner Hype Cycle (2024)</a>, AI-driven attacks are becoming the primary concern for Chief Information Security Officers (CISOs), driving expenditure toward autonomous defense solutions.</p>
-<img src="https://images.pexels.com/photos/8386419/pexels-photo-8386419.jpeg?auto=compress&cs=tinysrgb&w=1260" alt="AI in Data Defense">
+<img src="https://images.pexels.com/photos/5380665/pexels-photo-5380665.jpeg?auto=compress&cs=tinysrgb&w=1260" alt="AI in Data Defense">
 
 <h2>II. Defensive Countermeasures: Autonomous Security Stacks</h2>
 <p>Defenders are adopting holistic, AI-driven platforms to manage the massive volume of data (telemetry) generated across endpoints, cloud environments, and networks. The focus is on automated detection and rapid response—often measured in seconds, not hours.</p>
@@ -824,7 +824,7 @@ window.ARTICLES = [
     <li>**الاستطلاع والاستغلال الآلي:** يمكن للروبوتات المدعومة بالذكاء الاصطناعي رسم خريطة لشبكة الهدف، وتحديد نقاط الضعف ليوم الصفر (zero-day vulnerabilities) في قواعد الأكواد المعقدة، وكتابة كود الاستغلال بشكل أسرع من المتسللين الأخلاقيين البشريين. وهذا يقلل بشكل كبير من وقت الاستغلال.</li>
 </ul>
 <p class="citation">وفقًا لـ <a href="https://www.gartner.com/en/articles/gartner-forecasts-worldwide-security-and-risk-management-spending-to-exceed-215-billion-in-2024" target="_blank">Gartner Hype Cycle (2024)</a>، أصبحت الهجمات التي يقودها الذكاء الاصطناعي هي الشاغل الرئيسي لكبار مسؤولي أمن المعلومات (CISOs)، مما يدفع الإنفاق نحو حلول الدفاع الذاتية.</p>
-<img src="https://images.pexels.com/photos/8386419/pexels-photo-8386419.jpeg?auto=compress&cs=tinysrgb&w=1260" alt="الذكاء الاصطناعي في حماية البيانات">
+<img src="https://images.pexels.com/photos/5380665/pexels-photo-5380665.jpeg?auto=compress&cs=tinysrgb&w=1260" alt="الذكاء الاصطناعي في حماية البيانات">
 
 <h2>ثانياً. الإجراءات الدفاعية المضادة: أنظمة الأمن الذاتية</h2>
 <p>يعتمد المدافعون منصات شمولية ومدعومة بالذكاء الاصطناعي لإدارة الحجم الهائل من البيانات (القياس عن بعد) التي يتم إنشاؤها عبر نقاط النهاية والبيئات السحابية والشبكات. ينصب التركيز على الكشف المؤتمت والاستجابة السريعة - وغالبًا ما تُقاس بالثواني، وليس الساعات.</p>
@@ -864,6 +864,7 @@ window.ARTICLES = [
     }
   }
 ];
+
 
 
 
