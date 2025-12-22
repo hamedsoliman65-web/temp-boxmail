@@ -750,7 +750,14 @@ window.ARTICLES = [
       en: "AI in Data Defense: The Advanced Feature War Between Attackers and Defenders in 2025",
       ar: "الذكاء الاصطناعي في حماية البيانات: حرب الميزات المتقدمة بين المهاجمين والمدافعين في عام 2025"
     },
-    cat: { en: "AI & Cybersecurity", ar: "الذكاء الاصطناعي والأمن السيبراني" },
+    cat: {
+      en: "AI & Cybersecurity",
+      ar: "الذكاء الاصطناعي والأمن السيبراني"
+    },
+    tags: [
+      { en: "AI", ar: "الذكاء الاصطناعي" },
+      { en: "Cybersecurity", ar: "الأمن السيبراني" }
+    ],
     meta: { en: "Published 2025", ar: "نشر 2025" },
     seo: {
       en: {
@@ -864,6 +871,7 @@ window.ARTICLES = [
     }
   }
 ];
+
 
 
 
