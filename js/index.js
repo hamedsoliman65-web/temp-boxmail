@@ -50,8 +50,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
    data.forEach(a => {
   container.innerHTML += `
-    <a class="card" href="/article?id=${a.id}"> 
-      <img src="${a.img}" alt="${a.title[lang]}">
+<a class="card" href="/blog/article.html?id=${a.id}">
+<img src="${a.img}" alt="${a.title[lang]}">
       <div class="card-body">
         <div class="tag">${a.cat[lang]}</div>
         <h3>${a.title[lang]}</h3>
@@ -85,4 +85,5 @@ document.addEventListener("DOMContentLoaded", () => {
   updateTexts();
   renderArticles();
 });
+
 
