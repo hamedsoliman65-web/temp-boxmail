@@ -48,18 +48,18 @@ document.addEventListener("DOMContentLoaded", () => {
         ? ARTICLES
         : ARTICLES.filter(a => a.cat.en === category);
 
-    data.forEach(a => {
-      container.innerHTML += `
-        <a class="card" href="article.html?id=${a.id}">
-          <img src="${a.img}" alt="${a.title[lang]}">
-          <div class="card-body">
-            <div class="tag">${a.cat[lang]}</div>
-            <h3>${a.title[lang]}</h3>
-            <div class="meta">${a.meta[lang]}</div>
-          </div>
-        </a>
-      `;
-    });
+   data.forEach(a => {
+  container.innerHTML += `
+    <a class="card" href="/article?id=${a.id}"> 
+      <img src="${a.img}" alt="${a.title[lang]}">
+      <div class="card-body">
+        <div class="tag">${a.cat[lang]}</div>
+        <h3>${a.title[lang]}</h3>
+        <div class="meta">${a.meta[lang]}</div>
+      </div>
+    </a>
+  `;
+});
   }
 
 
@@ -85,3 +85,4 @@ document.addEventListener("DOMContentLoaded", () => {
   updateTexts();
   renderArticles();
 });
+
