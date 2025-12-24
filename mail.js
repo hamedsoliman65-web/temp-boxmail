@@ -1240,9 +1240,6 @@ prevArticle: '‹ Previous Article',
 /* ======================
    الدوال المساعدة (SEO)
    ====================== */
-
- @param {number} articleNum    
-
 function applySEO(articleNum) {
     // التأكد من أن رقم المقالة ضمن الحدود
     if (!ALL_ARTICLES || articleNum < 1 || articleNum > ALL_ARTICLES.length) {
@@ -1253,28 +1250,49 @@ function applySEO(articleNum) {
     const article = ALL_ARTICLES[index];
     const lang = currentLang();
     
-    // 1. استخراج البيانات باللغة المناسبة (يفترض وجود article.title[lang] و article.description[lang])
+    // 1. استخراج البيانات باللغة المناسبة
     const title = article.title[lang];
     const description = article.description[lang];
 
     // 2. تحديث عنوان الصفحة (<title>)
-    // نستخدم اسم المقال متبوعاً باسم الموقع
     document.title = title + " | Temp-BoxMail";
 
-    // 3. تحديث وسم الوصف (Meta Description)
-    // نبحث عن وسم meta باسم 'description'
-    let metaDescription = document.querySelector('meta[name="description"]');
-    if (!metaDescription) {
-        // إذا لم يكن موجوداً، نقوم بإنشائه
-        metaDescription = document.createElement('meta');
-        metaDescription.name = "description";
-        document.head.appendChild(metaDescription);
-    }
-    metaDescription.content = description;
+    // 3. تحديث وسم الوصف (Meta Description) باستخدام الدالة المساعدة
+    updateMetaTag('description', description); 
+
+    // 4. (اختياري، لكن محبب) تحديث وسوم Open Graph للمشاركة
+    updateMetaTag('og:title', title);
+    updateMetaTag('og:description', description);
 }
 /* ============================================================
-   بعد ذلك يأتي كود الـ DOMContentLoaded الذي رتبناه في الرسالة السابقة
+   الدالة المساعدة لتحديث وسوم الميتا (تستخدمها applySEO)
    ============================================================ */
+function updateMetaTag(property, content) {
+    // تحديث وسوم name (مثل description, keywords)
+    let metaTag = document.querySelector(`meta[name="${property}"]`);
+    
+    // تحديث وسوم property (مثل og:title, og:description)
+    if (!metaTag) {
+        metaTag = document.querySelector(`meta[property="${property}"]`);
+    }
+
+    if (!metaTag) {
+        // إذا لم يكن الوسم موجوداً، نقوم بإنشائه
+        metaTag = document.createElement('meta');
+        if (property.startsWith('og:')) {
+            metaTag.setAttribute('property', property);
+        } else {
+            metaTag.name = property;
+        }
+        document.head.appendChild(metaTag);
+    }
+    
+    metaTag.content = content;
+}
+
+/*/ ============================================================
+   بعد ذلك يأتي كود الـ DOMContentLoaded الذي رتبناه في الرسالة السابقة
+  // ============================================================ */
 function updateMetaTag(property, content) {
     // البحث عن الوسم سواء كان يستخدم name أو property
     let tag = document.querySelector(`meta[name="${property}"], meta[property="${property}"]`);
@@ -1701,6 +1719,17 @@ updateArticleCounter();
         history.pushState({}, "", "?article=" + (index + 1));
         // هنا لا يوجد استدعاء لـ applySEO
     }
+    });
+//* ============================================================
+ ///  كود بدء التشغيل ومستمعي الأحداث
+//   ============================================================ */
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. تحديد المقالة من الرابط
+    // 2. إنشاء الحساب أو تحميله (loadStored / createAccount)
+    // 3. تطبيق اللغة والمحتوى (applyLanguage)
+    // 4. تحديث العداد (updateArticleCounter)
+    
+    // 5. تعريف مستمعي الأحداث (مثل prevArticle و nextArticle)
     });
 // ... (بقية الكود) ...
 // ← نهاية DOMContentLoaded
