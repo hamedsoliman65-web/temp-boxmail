@@ -994,10 +994,7 @@ const ARTICLE_10 = {
 // 2. تهيئة المصفوفة (الآن يتم استخدام المتغيرات بعد تعريفها)
 // ===============================================
 
-const ALL_ARTICLES = [
-    ARTICLE_1, ARTICLE_2, ARTICLE_3, ARTICLE_4, ARTICLE_5, 
-    ARTICLE_6, ARTICLE_7, ARTICLE_8, ARTICLE_9, ARTICLE_10
-];
+const ALL_ARTICLES = [ARTICLE_1, ARTICLE_2, ARTICLE_3, ARTICLE_4, ARTICLE_5,ARTICLE_6, ARTICLE_7, ARTICLE_8, ARTICLE_9, ARTICLE_10];
 let currentArticleIndex = 0;
 
 function updateArticleCounter() {
