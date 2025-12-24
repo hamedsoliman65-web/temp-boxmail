@@ -719,18 +719,22 @@ updateArticleCounter();
         history.pushState({}, "", "?article=" + (index + 1));
         // هنا لا يوجد استدعاء لـ applySEO
     }
-    });
-//* ============================================================
- ///  كود بدء التشغيل ومستمعي الأحداث
-//   ============================================================ */
-document.addEventListener('DOMContentLoaded', () => {
-    // 1. تحديد المقالة من الرابط
-    // 2. إنشاء الحساب أو تحميله (loadStored / createAccount)
-    // 3. تطبيق اللغة والمحتوى (applyLanguage)
-    // 4. تحديث العداد (updateArticleCounter)
+document.addEventListener('DOMContentLoaded', function() {    // 1. تحديد المقالة من الرابط (إذا كان هناك دالة لهذا)
+
+    // 2. إنشاء الحساب أو تحميله
+    loadStoredAccount(); // على سبيل المثال
     
-    // 5. تعريف مستمعي الأحداث (مثل prevArticle و nextArticle)
-    });
+    // 3. تطبيق اللغة والمحتوى (هذه الدالة التي تسبب الخطأ 1254!)
+    applyLanguage(detectUserLanguage()); // استدعاء دالة applyLanguage هنا
+    
+    // 4. تحديث العداد
+    updateArticleCounter(); 
+    
+    // 5. تعريف مستمعي الأحداث
+    document.getElementById('prev-btn').addEventListener('click', prevArticle);
+    document.getElementById('next-btn').addEventListener('click', nextArticle);
+    // ... إلخ.
+});
 // ... (بقية الكود) ...
 // ← نهاية DOMContentLoaded
 /* ==============
