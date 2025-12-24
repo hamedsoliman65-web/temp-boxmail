@@ -85,9 +85,10 @@ function applyLanguage(lang) {
     const articleContentContainer = $('article'); 
     
     const article = ALL_ARTICLES[currentArticleIndex]; 
-    if (article && article[lang] && articleContentContainer) { ... }
 
+    // ✅ الشرط تم دمجه وإزالة التكرار
     if (article && article[lang] && articleContentContainer) {
+        
         // نستخدم DOMPurify (تأكد من تحميلها في HTML)
         const safeArticleHtml = DOMPurify.sanitize(article[lang]);
         
@@ -105,6 +106,7 @@ function applyLanguage(lang) {
             ${lang === 'ar' ? 'لا يمكن عرض محتوى المقالة.' : 'Could not display article content.'}
         </p>`;
     }
+    // ✅ يجب أن يكون هناك قوس إغلاق للدالة هنا!
 }
 
 // ===============================================
