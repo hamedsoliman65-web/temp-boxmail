@@ -8,13 +8,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
 })(window,document,'script','dataLayer','GTM-KK4VK3QN');</script>
 <!-- End Google Tag Manager -->
-
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4901985375072472"
      crossorigin="anonymous"></script>
   
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
 <!-- Title -->
 <title>Temp BoxMail - بريد مؤقت لإستقبال الرسائل و OTP | Temporary Email for OTP & Activation</title>
 
@@ -101,22 +100,6 @@ function loadAnalytics(){
 
 
 <style>/* الحاوية الرئيسية */
-/* الحاوية الرئيسية للمقال */
-.article-container {
-  max-width: 900px;
-  margin: 60px auto 40px auto;
-  padding: 25px;
-  background: #16222f;
-  border-radius: 12px;
-  box-shadow: 0 10px 28px rgba(0,0,0,0.12);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  line-height: 1.8;
-  transition: transform 0.4s ease, opacity 0.4s ease;
-  opacity: 1;
-  overflow-wrap: break-word; /* يكسر الكلمات الطويلة */
-  word-wrap: break-word;
-  box-sizing: border-box; /* يشمل البادينج داخل العرض */
-}
 
 /* محتوى المقال */
 .article-content {
@@ -445,12 +428,51 @@ body {
 .otp{display:inline-block;padding:6px 10px;border-radius:8px;font-weight:700;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#ffffff;}
 
 /* ---------- ARTICLE ---------- */
-.article{max-width:920px;margin:40px auto;padding:22px;border-radius:12px;background:var(--card);box-shadow:0 8px 24px rgba(0,0,0,0.08)}
-.article h2{color:var(--accent);margin-bottom:8px}
-.article p{color:var(--muted);line-height:1.7}
-.article ul{margin-left:18px;color:var(--muted);line-height:1.8}
+/* تنسيق العناوين داخل حاوية المقال (#article) */
+/* 1. تنسيق الحاوية الخارجية (المستندة إلى HTML الذي أرسلته) */
+.article-container {
+    max-width: 900px;
+    margin: 60px auto 40px auto; /* توسيط الحاوية */
+    padding: 25px;
+    background: #16222f; /* لون الخلفية الداكن الذي اخترته */
+    border-radius: 12px;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.12);
+    line-height: 1.8;
+    color: #ffffff; /* النص الأبيض */
+    box-sizing: border-box; 
+}
 
-/* ---------- FOOTER ---------- */
+/* 2. تنسيق محتوى المقال (الذي يحقنه JS) */
+/* يجب أن يكون هذا العنصر مرئياً بوضوح */
+#article.article-content {
+    /* لا نحتاج لتعريف لون هنا إذا كان الأب (article-container) يعرّفه */
+    max-width: 100%; 
+    min-height: 250px; /* لضمان ظهوره حتى لو كان المحتوى صغيراً جداً */
+}
+
+/* 3. تنسيق عناصر المحتوى الداخلي (H1, P, IMG) */
+#article h1 {
+    color: #e41e25; /* الأحمر الذي اخترته */
+    margin-bottom: 20px;
+}
+#article h2, #article h3, #article p, #article li {
+    color: #ffffff; /* الأبيض لجميع النصوص */
+}
+
+/* 4. تنسيق أزرار التنقل */
+.article-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+.article-nav button {
+    /* قواعد الزر التي اخترتها */
+    background: #11ac11;
+    color: #ffffff;
+    padding: 12px 20px;
+    border-radius: 8px;
+    /* ... الخ ... */
+}}/* ---------- FOOTER ---------- */
 footer{margin-top:26px;text-align:center;color:var(--muted);font-size:13px}
 
 /* ---------- RESPONSIVE ---------- */
@@ -467,58 +489,245 @@ footer{margin-top:26px;text-align:center;color:var(--muted);font-size:13px}
   .msg-body{min-height:200px}
   .article{padding:16px}
 }
-  /* ------------------------------------- */
-/*     قواعد التحكم في محتوى الرسالة الواردة  */
+
+/* ------------------------------------- */
+/*     قواعد التحكم في محتوى الرسالة (HTML)  */
 /* ------------------------------------- */
 
+/* التحكم في الصور لمنع تجاوز العرض */
 .msg-body img {
     max-width: 100% !important; 
     height: auto !important;
     display: block; 
-    margin: 10px auto;
-    border-radius: 8px;
+    margin: 10px auto; /* توسيط الصورة */
+    border-radius: 8px; /* لمسة جمالية */
 }
 
+/* تنسيق الجداول (شائعة في رسائل البريد الإلكتروني) */
 .msg-body table {
-    width: 100% !important;
+    width: 100% !important; /* ضمان ملء العرض */
     border-collapse: collapse; 
     margin: 15px 0;
     max-width: 100%;
+    /* يسمح بالتمرير داخل الرسالة إذا كان الجدول عريض جداً */
     overflow-x: auto; 
-    display: block; /* هام لعمل overflow-x */
+    display: block; /* لضمان عمل overflow-x */
 }
 
+/* تنسيق الخلايا والخطوط في الجداول */
 .msg-body td,
 .msg-body th {
     padding: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.15); 
-    color: var(--text) !important; 
+    border: 1px solid rgba(255, 255, 255, 0.15); /* خطوط خفيفة */
+    color: var(--text) !important; /* ضمان اللون الأبيض في الوضع الداكن */
     vertical-align: top;
 }
 
+/* تنسيق النصوص والفقرات داخل الرسالة */
 .msg-body p,
 .msg-body div,
 .msg-body span,
 .msg-body li {
-    color: var(--text) !important;
+    color: var(--text) !important; /* فرض لون النص الأساسي */
     line-height: 1.6 !important;
     word-wrap: break-word; 
     overflow-wrap: break-word;
 }
 
+/* تنسيق الروابط */
 .msg-body a {
-    color: var(--accent) !important;
+    color: var(--accent) !important; /* سيستخدم لون التمييز لديك (#ff005a) */
     text-decoration: underline;
-    word-break: break-all;
+    word-break: break-all; /* يكسر الروابط الطويلة جدًا */
 }
 
+/* تنسيق العناوين (لتجنب الألوان الغريبة التي قد تأتي من الرسالة) */
 .msg-body h1,
 .msg-body h2,
 .msg-body h3,
 .msg-body h4 {
-    color: var(--text) !important; 
+    color: var(--text) !important; /* نجعلها بيضاء أساسية */
     margin-top: 20px;
     margin-bottom: 10px;
+}
+
+/* داخل ملف الستايل الخاص بك (مثلاً style.css) */
+
+/* 1. التنسيق العام للمحتوى وضمان الخطوط */
+.msg-body {
+    line-height: 1.6; /* مسافة أسطر مريحة للقراءة */
+    padding: 10px 15px;
+    font-size: 15px;
+}
+
+/* 2. تنسيق الروابط (لتصبح بارزة وسهلة النقر) */
+.msg-body a {
+    color: var(--highlight-color, #4db8ff) !important; /* لون أزرق جذاب */
+    text-decoration: underline;
+    word-break: break-all; /* حل مشكلة الروابط الطويلة */
+}
+
+/* 3. الجداول (لضمان الاحتواء في الشاشات الصغيرة) */
+.msg-body table {
+    width: 100% !important; 
+    max-width: 100% !important;
+    border-collapse: collapse;
+    margin: 10px 0;
+    overflow-x: auto; /* مهم جداً للجداول الكبيرة */
+    display: block; /* لضمان عمل overflow-x */
+}
+
+/* 4. الصور (لضمان التجاوب والاحتواء) */
+.msg-body img {
+    max-width: 100% !important; 
+    height: auto !important;
+    display: block;
+}
+
+/* 5. العناوين (لتسهيل قراءة هيكل الرسالة) */
+.msg-body h1, .msg-body h2, .msg-body h3 {
+    color: var(--text-color); /* التأكد من أن اللون واضح */
+    border-bottom: 1px solid var(--border-color, #333);
+    padding-bottom: 5px;
+    margin-top: 20px;
+}
+/* ===============================================
+   التنسيق المُصحح للأزرار وحاويتها (لحل مشكلة التداخل)
+   =============================================== */
+
+/* 1. الحاوية: لترتيب الأزرار الأربعة بشكل أفقي */
+.main-actions {
+    display: flex; /* ⬅️ هذا هو السطر الأهم لحل التراكب */
+    gap: 10px; /* مسافة بين الأزرار */
+    margin: 20px 0;
+    flex-wrap: wrap; /* للسماح بكسر الأزرار إذا ضاقت الشاشة */
+}
+
+/* 2. الأزرار: لترتيب الأيقونة والنص داخل كل زر */
+.main-actions button {
+    display: flex; /* ⬅️ هذا هو السطر الأهم لترتيب الأيقونة والنص جنباً إلى جنب */
+    align-items: center; /* توسيط عمودي */
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    background-color: var(--button, #4a90e2); 
+    color: var(--button-text, white);
+    white-space: nowrap; /* لمنع كسر النص داخل الزر */
+    transition: filter 0.2s, transform 0.1s;
+}
+
+/* 3. الأيقونة: ضبط المسافة */
+.main-actions button svg {
+    width: 16px;
+    height: 16px;
+    margin-inline-end: 8px; /* مسافة بين الأيقونة والنص (يعمل مع RTL و LTR) */
+    fill: currentColor; /* لضمان أن الأيقونة تأخذ لون النص */
+}
+
+/* تخصيص لون زر الحذف */
+#deleteBtn {
+    background-color: var(--delete-bg, #e91e63); 
+}
+
+.main-actions button:hover {
+    filter: brightness(1.15); 
+}
+
+/* ===============================================
+   تنسيق التنقل والعداد للمقالات (article-nav)
+   =============================================== */
+.article-nav {
+    display: flex;
+    justify-content: space-between; /* ⬅️ يوزع الأزرار والعداد على الطرفين والمنتصف */
+    align-items: center; /* توسيط عمودي */
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color, #333); 
+}
+
+/* تنسيق عداد المقالات */
+#articleCounter {
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--primary-color, #4a90e2); /* لون مميز للعداد (يمكنك تغييره) */
+    padding: 0 15px;
+    white-space: nowrap; 
+    /* 🔑 إضافة خلفية خفيفة وتدوير الحواف لجعله بارزاً */
+    background-color: var(--background-highlight, rgba(255, 255, 255, 0.05));
+    border-radius: 4px;
+    padding: 5px 10px; /* زيادة التباعد الداخلي */
+}
+
+/* تنسيق أزرار التنقل (للتناسق) */
+.article-nav button {
+    padding: 8px 12px;
+    border-radius: 6px;
+    background-color: var(--button, #3f51b5); 
+    color: var(--button-text, white);
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+/* ===============================================
+   تنسيق الجزء السفلي (Footer)
+   =============================================== */
+
+footer {
+    /* الخلفية والحدود */
+    background-color: var(--secondary-bg, #1e2630); /* خلفية داكنة للفوتر */
+    color: var(--muted, #aaa); /* لون نص خافت */
+    padding: 25px 20px;
+    margin-top: 30px;
+    border-top: 1px solid var(--border-color, #333); 
+    
+    /* توسيط المحتوى داخله */
+    display: flex;
+    flex-direction: column; /* ترتيب العناصر عمودياً */
+    align-items: center; /* توسيط أفقي */
+    text-align: center;
+}
+
+#footer-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-color, #fff); /* لجعل النص الأساسي أكثر وضوحاً */
+    margin-bottom: 5px;
+}
+
+/* تنسيق الروابط (الخصوصية، الشروط، التواصل) */
+footer a {
+    color: var(--link-color, #4a90e2) !important; /* لون أزرق للروابط */
+    text-decoration: none; /* إزالة الخط تحت الروابط */
+    font-size: 13px;
+    transition: color 0.2s;
+    margin: 0 5px;
+}
+
+footer a:hover {
+    color: var(--primary-color, #a8c8ff) !important; /* تفتيح اللون عند التمرير */
+    text-decoration: underline; /* إضافة خط عند التمرير */
+}
+
+/* تنسيق الفواصل بين الروابط (نقطة •) */
+footer > div:last-child {
+    display: flex;
+    flex-wrap: wrap; /* للسماح بكسر الروابط في الشاشات الصغيرة */
+    justify-content: center;
+}
+footer > div:last-child a:after {
+    content: " • ";
+    color: var(--muted, #aaa);
+    margin-inline-start: 10px;
+}
+
+/* إزالة الفاصلة بعد الرابط الأخير */
+footer > div:last-child a:last-child:after {
+    content: "";
+    margin-inline-start: 0;
 }
 /* ------------------------------------- */
 </style>
@@ -591,15 +800,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </div>
     </div>
 
-    <div style="display:flex;gap:8px;flex-wrap:wrap">
-      <button type="button" id="copyBtn" class="btn">نسخ</button>
-      <button type="button" id="refreshBtn" class="btn ghost">تحديث</button>
-      <button type="button" id="newBtn" class="btn ghost">إنشاء بريد جديد</button>
-      <button type="button" id="deleteBtn" class="btn warn">حذف</button>
-
-    </div>
-  </div>
-
+    <div class="main-actions">
+    <button id="deleteBtn">delete</button>
+    <button id="refreshBtn">refresh</button>
+    <button id="newBtn">new Email</button>
+    <button id="copyBtn">copy</button>
+</div>
+</div>
   <!-- MAIN (inbox + viewer) -->
   <section class="main" role="main">
     <aside class="panel" aria-label="inbox panel">
@@ -625,19 +832,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </section>
 
  
-  <!-- ARTICLE (fully translatable) -->
-<article class="article-container" aria-label="article content">
-   <!-- هنا المحتوى الديناميكي للمقال -->
-  <div id="article" class="article-content"></div>
-  <!-- أزرار التنقل -->
-  <div class="article-nav">
-    <button id="prevArticle">‹ المقال السابق</button>
-    <button id="nextArticle">المقال التالي ›</button>
-  </div>
-
+ <article class="article-container" aria-label="article content">
+    <div id="article" class="article-content"></div>
+    <div class="article-nav">
+        <button id="prevArticle">‹ المقال السابق</button>
+        <span id="articleCounter"></span>
+        <button id="nextArticle">المقال التالي ›</button>
+    </div>  
 </article>
-<!--المقالات السته -->
-
 <main>
 <div id="articles" class="grid"></div>
 </main>
@@ -691,7 +893,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
 </body>
 </html>
-
 
 
 
