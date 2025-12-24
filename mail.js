@@ -1,5 +1,115 @@
 
 // mail.js - GA + AdSense + Consent Banner
+// ===============================================
+// 1. الدوال المساعدة الأساسية (Utility/Core Functions)
+// ===============================================
+
+// الدوال التي كانت لديك سابقًا (مع استكمال محتواها)
+function currentLang() { 
+    // تفترض تخزين اللغة في localStorage، والافتراضي هو العربية 'ar'
+    return localStorage.getItem('lang') || 'ar'; 
+}
+function loadStored() { 
+    // تفترض أنك تتحقق من وجود بيانات 'userData'
+    return localStorage.getItem('userData') ? true : false;
+}
+function createAccount() { 
+    console.log('تم إنشاء الحساب تلقائيًا'); 
+    // ضع منطق إنشاء الحساب الفعلي هنا (مثل استدعاء API)
+}
+
+/* دالة لتحديث ترقيم المقالات: المقال X من Y */
+function updateArticleCounter(){
+    const total = ALL_ARTICLES.length;
+    // currentArticleIndex هو رقم يبدأ من 0، لذا نضيف 1 للرقم الظاهر
+    const current = currentArticleIndex + 1; 
+
+    const lang = currentLang();
+    let text = `${current} / ${total}`;
+
+    if (lang === 'ar') {
+        text = `المقال ${current} من ${total}`;
+    }
+    
+    // تأكد من وجود دالة $ = id => document.getElementById(id); في بداية الملف
+    const counterElement = $('articleCounter');
+    if (counterElement) {
+        counterElement.textContent = text;
+    }
+}
+// الدوال الجديدة للغة والتبديل والتنقل (حل مشكلة عدم ظهور المقالات)
+
+// 1. دالة تحديث نص زر اللغة
+function updateLangButton(lang) {
+    const btn = $('langToggle');
+    if (btn) {
+        btn.textContent = lang === 'ar' ? 'English 🇺🇸' : 'العربية 🇸🇦';
+    }
+}
+
+// 2. دالة تحديث الرابط في المتصفح
+function updateArticleURL(index) {
+    history.pushState({}, "", "?article=" + (index + 1));
+}
+
+// 3. دالة تحديث العنوان والوصف (SEO)
+function applySEO(articleNumber) {
+    const index = articleNumber - 1;
+    const article = ALL_ARTICLES[index];
+    const lang = currentLang();
+    
+    if (article && article[lang]) {
+        const title = article.title || (lang === 'ar' ? 'صندوق البريد المؤقت' : 'Temporary Mailbox');
+        document.title = title;
+        const metaDescription = document.querySelector('meta[name="description"]');
+        if (metaDescription) {
+            metaDescription.setAttribute('content', article.description || title);
+        }
+    }
+}
+
+// 4. دالة تبديل اللغة
+function toggleLanguage() {
+    const current = currentLang();
+    const newLang = current === 'ar' ? 'en' : 'ar';
+    localStorage.setItem('lang', newLang);
+    updateLangButton(newLang);
+    applyLanguage(newLang); 
+    applySEO(currentArticleIndex + 1);
+}
+
+
+// 5. دالة عرض المقالة (التصحيح النهائي لـ ID الحاوية)
+function applyLanguage(lang) {
+    // ⭐ هذا هو السطر المصحح الذي يستهدف ID="article" في HTML ⭐
+    const articleContentContainer = $('article'); 
+    
+    const article = ALL_ARTICLES[currentArticleIndex]; 
+
+    if (article && article[lang] && articleContentContainer) {
+        // نستخدم DOMPurify (تأكد من تحميلها في HTML)
+        const safeArticleHtml = DOMPurify.sanitize(article[lang]);
+        
+        // حقن المحتوى
+        articleContentContainer.innerHTML = safeArticleHtml;
+        
+        // تطبيق الـ SEO
+        if (typeof applySEO === "function") {
+            applySEO(currentArticleIndex + 1);
+        }
+
+    } else if (articleContentContainer) {
+        // رسالة في حالة عدم توفر المقالة
+        articleContentContainer.innerHTML = `<p style="color:var(--muted)">
+            ${lang === 'ar' ? 'لا يمكن عرض محتوى المقالة.' : 'Could not display article content.'}
+        </p>`;
+    }
+}
+
+// ===============================================
+// هنا تبدأ الدوال الرئيسية الأخرى (مثل showMessage و fetchMessages)
+// ===============================================
+
 // 1️⃣ دالة currentLang لتجنب خطأ الكونسول
 function currentLang() {
     return localStorage.getItem('lang') || 'ar';
@@ -84,54 +194,23 @@ applySEO(currentArticleIndex + 1);
 /* ======================
    Configuration & State
    ====================== */
-const API_BASE = 'https://api.mail.tm'; // mail.tm public API
+const API_BASE = 'https://api.mail.tm'; 
 const $ = id => document.getElementById(id);
 
 let account = null;
 let token = null;
 let messages = [];
 let pollInterval = null;
-
-/* ==============
-   Translations
-   ============== */
-const UI = {
-  ar:{
-    title:"Temp-BoxMail",
-    subtitle:"استقبل رسائل التفعيل وOTP فورًا",
-    inboxTitle:"البريد الوارد",
-    inboxDesc:"يتم جلب الرسائل تلقائيًا",
-    copy:"نسخ",
-    refresh:"تحديث",
-    newMail:"إنشاء بريد جديد",
-    delete:"حذف",
-prevArticle: '‹ المقال السابق',
-    nextArticle: 'المقال التالي ›',
-    noMessages:"لا توجد رسائل بعد — اضغط \"إنشاء بريد جديد\" ثم استقبل الرسائل هنا.",
-    footer:"جميع الحقوق محفوظه - © Temp-BoxMail"
-  },
-  en:{
-    title:"Temp-BoxMail",
-    subtitle:"Receive OTP & verification emails instantly",
-    inboxTitle:"Inbox",
-    inboxDesc:"Messages are fetched automatically",
-    copy:"Copy",
-    refresh:"Refresh",
-    newMail:"Create New Email",
-    delete:"Delete",
-prevArticle: '‹ Previous Article',
-    nextArticle: 'Next Article ›',
-    noMessages:"No messages yet — click \"Create New Email\" to start receiving emails.",
-    footer:"All rights reserved - © Temp-BoxMail"
-  }
-};
+// ===============================================
+// 1. تعاريف المقالات (يجب أن تكون هنا الآن)
+// ===============================================
 
 const ARTICLE_1 = {
   ar: `
 <h1>البريد المؤقت: دليل شامل لحماية الخصوصية وتجربة الإنترنت بأمان</h1>
 <p>في عصر تتزايد فيه التهديدات الرقمية والاختراقات الإلكترونية، أصبح الحفاظ على الخصوصية وحماية البريد الإلكتروني أمرًا حيويًا. البريد المؤقت هو أداة أساسية لكل مستخدم يريد تجربة الإنترنت بأمان دون تعريض بريده الشخصي للمخاطر. في هذا الدليل المفصل، سنغطي جميع الجوانب المتعلقة بالبريد المؤقت، استخداماته، فوائده، والمصادر الموثوقة للحصول عليه.</p>
 
-<img src="https://ec.europa.eu/newsroom/repository/picture/2022-12/hackerga63d7088a_1280_sTAj6Ra0Q1b9XskayE1dMF72jo_91126.jpg" alt="Privacy and Security" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://ec.europa.eu/newsroom/repository/picture/2022-12/hackerga63d7088a_1280_sTAj6Ra0Q1b9XskayE1dMF72jo_91126.jpg" alt="Privacy and Security"/>
 
 <h2>ما هو البريد المؤقت؟</h2>
 <p>البريد المؤقت هو عنوان بريد إلكتروني يُستخدم لفترة زمنية محددة، ويتيح للمستخدم استقبال الرسائل، الرموز المؤقتة OTP، ورسائل التفعيل دون الحاجة لاستخدام البريد الرئيسي. بعد انتهاء الصلاحية، يُحذف البريد بالكامل تلقائيًا، مما يحمي الهوية الرقمية.</p>
@@ -173,7 +252,7 @@ const ARTICLE_1 = {
 <li>استخدم خدمات موثوقة تضمن حذف البريد بعد انتهاء الصلاحية.</li>
 </ul>
 
-<img src="https://www.globalgovernmentforum.com/wp-content/uploads/2025-11-19_Canadian-cyber-defence_common-threats-webinar-writeup_padlock-laptop_CREDIT-AI-generated-image-by-Brian-Penny-via-Pixabay-620x414.jpg" alt="Digital Security" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://www.globalgovernmentforum.com/wp-content/uploads/2025-11-19_Canadian-cyber-defence_common-threats-webinar-writeup_padlock-laptop_CREDIT-AI-generated-image-by-Brian-Penny-via-Pixabay-620x414.jpg" alt="Digital Security"/>
 
 <h2>البريد المؤقت والتجارة الإلكترونية</h2>
 <p>يمكن استخدام البريد المؤقت عند التسوق عبر الإنترنت لتجنب الرسائل الدعائية وحماية بيانات البطاقات من الاختراق أو التسريب، خاصة عند تجربة مواقع جديدة غير معروفة.</p>
@@ -189,7 +268,7 @@ const ARTICLE_1 = {
 <li>البقاء على اطلاع على آخر تحديثات الأمان للخدمات المستخدمة.</li>
 </ul>
 
-<img src="https://cache.getarchive.net/Prod/thumb/cdn12/L3Bob3RvLzIwMTYvMTIvMzEvY3liZXItc2VjdXJpdHktaW50ZXJuZXQtc2VjdXJpdHktY29tcHV0ZXItc2VjdXJpdHktY29tcHV0ZXItY29tbXVuaWNhdGlvbi02MTIzMjEtMTAyNC5wbmc%3D/320/232/jpg" alt="Cyber Security" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://cache.getarchive.net/Prod/thumb/cdn12/L3Bob3RvLzIwMTYvMTIvMzEvY3liZXItc2VjdXJpdHktaW50ZXJuZXQtc2VjdXJpdHktY29tcHV0ZXItc2VjdXJpdHktY29tcHV0ZXItY29tbXVuaWNhdGlvbi02MTIzMjEtMTAyNC5wbmc%3D/320/232/jpg" alt="Cyber Security"/>
 
 <h2>خلاصة</h2>
 <p>البريد المؤقت أداة قوية لحماية الخصوصية الرقمية وتجربة الإنترنت بأمان. باستخدام البريد المؤقت بشكل صحيح، يمكنك الاستمتاع بخدمات الإنترنت وتجربة التطبيقات والمواقع دون المخاطرة بالبريد الشخصي أو الهوية الرقمية.</p>
@@ -198,7 +277,7 @@ const ARTICLE_1 = {
 <h1>Temporary Email: Comprehensive Guide for Privacy and Safe Internet Experience</h1>
 <p>In the digital age, where threats and online scams are constantly increasing, protecting personal email and privacy has become essential. Temporary email is a key tool for safe internet browsing without risking your main email address. In this comprehensive guide, we cover everything you need to know about temporary email, its uses, benefits, and trusted sources to obtain it.</p>
 
-<img src="https://ec.europa.eu/newsroom/repository/picture/2022-12/hackerga63d7088a_1280_sTAj6Ra0Q1b9XskayE1dMF72jo_91126.jpg" alt="Privacy and Security" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://ec.europa.eu/newsroom/repository/picture/2022-12/hackerga63d7088a_1280_sTAj6Ra0Q1b9XskayE1dMF72jo_91126.jpg" alt="Privacy and Security"/>
 
 
 <h2>What is Temporary Email?</h2>
@@ -239,7 +318,7 @@ const ARTICLE_1 = {
 <li>Use reputable services that guarantee deletion after expiration</li>
 </ul>
 
-<img src="https://www.globalgovernmentforum.com/wp-content/uploads/2025-11-19_Canadian-cyber-defence_common-threats-webinar-writeup_padlock-laptop_CREDIT-AI-generated-image-by-Brian-Penny-via-Pixabay-620x414.jpg" alt="Digital Security" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://www.globalgovernmentforum.com/wp-content/uploads/2025-11-19_Canadian-cyber-defence_common-threats-webinar-writeup_padlock-laptop_CREDIT-AI-generated-image-by-Brian-Penny-via-Pixabay-620x414.jpg" alt="Digital Security"/>
 
 
 <h2>Temporary Email and E-commerce</h2>
@@ -255,7 +334,7 @@ const ARTICLE_1 = {
 <li>Check the privacy policy of websites before entering temporary emails.</li>
 <li>Keep updated on security measures for the services you use.</li>
 </ul>
-<img src="https://cache.getarchive.net/Prod/thumb/cdn12/L3Bob3RvLzIwMTYvMTIvMzEvY3liZXItc2VjdXJpdHktaW50ZXJuZXQtc2VjdXJpdHktY29tcHV0ZXItc2VjdXJpdHktY29tcHV0ZXItY29tbXVuaWNhdGlvbi02MTIzMjEtMTAyNC5wbmc%3D/320/232/jpg" alt="Cyber Security" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://cache.getarchive.net/Prod/thumb/cdn12/L3Bob3RvLzIwMTYvMTIvMzEvY3liZXItc2VjdXJpdHktaW50ZXJuZXQtc2VjdXJpdHktY29tcHV0ZXItc2VjdXJpdHktY29tcHV0ZXItY29tbXVuaWNhdGlvbi02MTIzMjEtMTAyNC5wbmc%3D/320/232/jpg" alt="Cyber Security"/>
 
 <h2>Conclusion</h2>
 <p>Temporary email is a powerful tool for privacy protection and safe internet browsing. Using it correctly allows you to test applications, websites, and services without compromising your main email or digital identity.</p>
@@ -267,7 +346,7 @@ const ARTICLE_2 = {
 <h1>أفضل الممارسات عند استخدام البريد المؤقت</h1>
 <p>حتى مع قوة البريد المؤقت، هناك ممارسات يجب اتباعها لضمان استخدام آمن وفعّال. في هذا المقال، سنغطي نصائح عملية لحماية البيانات الرقمية، الحفاظ على الخصوصية، وضمان تجربة إنترنت آمنة.</p>
 
-<img src="https://www.mailstore.com/en/wp-content/uploads/sites/3/2019/10/gmail-inbox.jpg" alt="Digital Practices" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://www.mailstore.com/en/wp-content/uploads/sites/3/2019/10/gmail-inbox.jpg" alt="Digital Practices"/>
 
 <h2>اختيار خدمة موثوقة</h2>
 <p>أول خطوة لضمان أمان البريد المؤقت هي اختيار خدمة موثوقة ومرموقة. يجب أن توفر الخدمة:</p>
@@ -286,7 +365,7 @@ const ARTICLE_2 = {
 <li>مشاركة كلمات المرور أو معلومات الهوية.</li>
 </ul>
 
-<img src="https://thumbs.wbm.im/pw/medium/a1af225cc9b61ba8bbe6af1a9b946ea7.jpg" alt="Security Caution" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://thumbs.wbm.im/pw/medium/a1af225cc9b61ba8bbe6af1a9b946ea7.jpg" alt="Security Caution"/>
 
 <h2>التحكم في الوصول</h2>
 <p>لتجنب أي تسريب للبيانات:</p>
@@ -312,7 +391,7 @@ const ARTICLE_2 = {
 <li>تجربة التطبيقات الجديدة دون المخاطرة بالبريد الرئيسي.</li>
 </ul>
 
-<img src="https://masterbundles.com/wp-content/uploads/2023/08/email-newsletter_madterbundles-2-166.jpg" alt="Quick Registration" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://masterbundles.com/wp-content/uploads/2023/08/email-newsletter_madterbundles-2-166.jpg" alt="Quick Registration"/>
 
 <h2>أفضل الممارسات المتقدمة</h2>
 <ul>
@@ -329,7 +408,7 @@ const ARTICLE_2 = {
 <h1>Best Practices for Using Temporary Email</h1>
 <p>Even with the power of temporary email, following best practices ensures safe and effective usage. This article provides practical tips to protect digital data, maintain privacy, and ensure a secure internet experience.</p>
 
-<img src="https://www.mailstore.com/en/wp-content/uploads/sites/3/2019/10/gmail-inbox.jpg" alt="Digital Practices" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://www.mailstore.com/en/wp-content/uploads/sites/3/2019/10/gmail-inbox.jpg" alt="Digital Practices"/>
 
 <h2>Choosing a Reliable Service</h2>
 <p>The first step in safe temporary email usage is selecting a trusted, reputable service. The service should:</p>
@@ -348,7 +427,7 @@ const ARTICLE_2 = {
 <li>Sharing passwords or identity information</li>
 </ul>
 
-<img src="https://thumbs.wbm.im/pw/medium/a1af225cc9b61ba8bbe6af1a9b946ea7.jpg" alt="Security Caution" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://thumbs.wbm.im/pw/medium/a1af225cc9b61ba8bbe6af1a9b946ea7.jpg" alt="Security Caution"/>
 
 
 <h2>Control Access</h2>
@@ -375,7 +454,7 @@ const ARTICLE_2 = {
 <li>Testing new apps without risking your main email</li>
 </ul>
 
-<img src="https://masterbundles.com/wp-content/uploads/2023/08/email-newsletter_madterbundles-2-166.jpg" alt="Quick Registration" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://masterbundles.com/wp-content/uploads/2023/08/email-newsletter_madterbundles-2-166.jpg" alt="Quick Registration"/>
 
 
 <h2>Advanced Best Practices</h2>
@@ -396,7 +475,7 @@ const ARTICLE_3 = {
 <h1>البريد المؤقت وحماية الهوية الرقمية</h1>
 <p>في عصرنا الرقمي الحالي، أصبحت الهوية الرقمية جزءًا مهمًا من حياتنا اليومية. الهجمات الإلكترونية، الرسائل المزعجة، وتسريبات البيانات أصبحت تهدد المستخدمين باستمرار. البريد المؤقت يعتبر أداة قوية لحماية الهوية الرقمية وتقليل المخاطر عند التسجيل في المواقع والتطبيقات المختلفة.</p>
 
-<img src="https://cdn3.vectorstock.com/i/1000x1000/60/12/email-cybersecurity-icon-vector-44676012.jpg" alt="Digital Identity Protection" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://cdn3.vectorstock.com/i/1000x1000/60/12/email-cybersecurity-icon-vector-44676012.jpg" alt="Digital Identity Protection"/>
 
 <h2>فوائد حماية الهوية الرقمية باستخدام البريد المؤقت</h2>
 <p>استخدام البريد المؤقت يقدم مجموعة من الفوائد المهمة للحفاظ على هويتك الرقمية:</p>
@@ -416,7 +495,7 @@ const ARTICLE_3 = {
 <li>التحقق من مصداقية المواقع قبل تقديم البيانات الشخصية.</li>
 </ul>
 
-<img src="https://unblast.com/wp-content/uploads/2022/11/Email-Marketing-Illustration.jpg" alt="Fast Registration" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://unblast.com/wp-content/uploads/2022/11/Email-Marketing-Illustration.jpg" alt="Fast Registration"/>
 <h2>الاستخدامات العملية للبريد المؤقت</h2>
 <p>البريد المؤقت ليس فقط للأمان، بل له استخدامات عملية واسعة تشمل:</p>
 <ul>
@@ -434,7 +513,7 @@ const ARTICLE_3 = {
 <li>تأكد من أن أي روابط أو مرفقات تتلقاها عبر البريد المؤقت آمنة قبل النقر عليها.</li>
 </ul>
 
-<img src="https://npr.brightspotcdn.com/dims4/default/694be01/2147483647/strip/true/crop/1277x787+0+0/resize/1760x1084!/quality/90/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2F9d%2F2f%2F9ad55a334f799c6c31ed4ff5d331%2Ftechnology-6692943-1280.png" alt="Digital Security Tips" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://npr.brightspotcdn.com/dims4/default/694be01/2147483647/strip/true/crop/1277x787+0+0/resize/1760x1084!/quality/90/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2F9d%2F2f%2F9ad55a334f799c6c31ed4ff5d331%2Ftechnology-6692943-1280.png" alt="Digital Security Tips"/>
 
 <h2>البريد المؤقت والأمان على المدى الطويل</h2>
 <p>البريد المؤقت يمكن أن يكون جزءًا من استراتيجية أوسع لحماية هويتك الرقمية:</p>
@@ -452,7 +531,7 @@ const ARTICLE_3 = {
 <h1>Temporary Email and Digital Identity Protection</h1>
 <p>In today's digital era, digital identity is an essential part of daily life. Cyber attacks, spam messages, and data leaks continuously threaten users. Temporary email is a powerful tool to safeguard digital identity and reduce risks when registering on websites and apps.</p>
 
-<img src="https://cdn3.vectorstock.com/i/1000x1000/60/12/email-cybersecurity-icon-vector-44676012.jpg" alt="Digital Identity Protection" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://cdn3.vectorstock.com/i/1000x1000/60/12/email-cybersecurity-icon-vector-44676012.jpg" alt="Digital Identity Protection"/>
 
 
 <h2>Benefits of Protecting Digital Identity with Temporary Email</h2>
@@ -473,7 +552,7 @@ const ARTICLE_3 = {
 <li>Verifying website credibility before providing personal data.</li>
 </ul>
 
-<img src="https://unblast.com/wp-content/uploads/2022/11/Email-Marketing-Illustration.jpg" alt="Fast Registration" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://unblast.com/wp-content/uploads/2022/11/Email-Marketing-Illustration.jpg" alt="Fast Registration"/>
 
 
 <h2>Practical Uses of Temporary Email</h2>
@@ -493,7 +572,7 @@ const ARTICLE_3 = {
 <li>Ensure any links or attachments received via temporary email are safe before clicking.</li>
 </ul>
 
-<img src="https://npr.brightspotcdn.com/dims4/default/694be01/2147483647/strip/true/crop/1277x787+0+0/resize/1760x1084!/quality/90/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2F9d%2F2f%2F9ad55a334f799c6c31ed4ff5d331%2Ftechnology-6692943-1280.png" alt="Digital Security Tips" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://npr.brightspotcdn.com/dims4/default/694be01/2147483647/strip/true/crop/1277x787+0+0/resize/1760x1084!/quality/90/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2F9d%2F2f%2F9ad55a334f799c6c31ed4ff5d331%2Ftechnology-6692943-1280.png" alt="Digital Security Tips"/>
 
 
 <h2>Temporary Email and Long-Term Security</h2>
@@ -516,7 +595,7 @@ const ARTICLE_4 = {
 <h1>البريد المؤقت واختبار الخدمات الرقمية بأمان</h1>
 <p>قبل استخدام أي خدمة أو موقع جديد، يُنصح دائمًا بتجربة الحسابات بشكل مؤقت لتجنب المخاطر المحتملة. البريد المؤقت يوفر للمستخدمين وسيلة آمنة لاختبار الخدمات الرقمية دون الحاجة إلى استخدام البريد الشخصي، مما يحافظ على الخصوصية ويقلل من التعرض للبريد المزعج أو الرسائل الاحتيالية.</p>
 
-<img src="https://guardiandigital.com/images/resized/Spam_Filter_Diagram_Blocking_Email_Threats_500x333-esm-w600.webp" alt="Digital Service Testing" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://guardiandigital.com/images/resized/Spam_Filter_Diagram_Blocking_Email_Threats_500x333-esm-w600.webp" alt="Digital Service Testing"/>
 
 <h2>فوائد استخدام البريد المؤقت لاختبار الخدمات</h2>
 <ul>
@@ -530,7 +609,7 @@ const ARTICLE_4 = {
 <h2>البريد المؤقت والتعليم الرقمي</h2>
 <p>يمكن للطلاب والمعلمين استخدام البريد المؤقت لتجربة خدمات التعليم عبر الإنترنت، تنزيل الملفات التعليمية، أو الاشتراك في الدورات التجريبية دون الحاجة لتسجيل بريدهم الشخصي، مما يحافظ على أمان البيانات الشخصية ويتيح تجربة آمنة ومريحة.</p>
 
-<img src="https://img.freepik.com/free-vector/boy-with-laptop-design_1196-195.jpg" alt="Digital Education" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://img.freepik.com/free-vector/boy-with-laptop-design_1196-195.jpg" alt="Digital Education"/>
 
 <h2>نصائح الأمان عند تجربة الخدمات الرقمية</h2>
 <ul>
@@ -550,7 +629,7 @@ const ARTICLE_4 = {
 <li>توفير وقت وجهد المستخدمين عند تجربة الخدمات الرقمية الجديدة.</li>
 </ul>
 
-<img src="https://www.safetymails.com/blog/wp-content/uploads/2024/07/how-temporary-email-works-1024x550.jpg" alt="User Experience Testing" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://www.safetymails.com/blog/wp-content/uploads/2024/07/how-temporary-email-works-1024x550.jpg" alt="User Experience Testing"/>
 
 <h2>خلاصة</h2>
 <p>البريد المؤقت أداة فعالة لتجربة الخدمات الرقمية بأمان، حماية الخصوصية، وتجنب المخاطر المرتبطة باستخدام البريد الشخصي. عند الاستخدام الصحيح، يتيح للمستخدمين والطلاب تجربة سريعة وآمنة، مع الحفاظ على أمان بياناتهم. تذكر دائمًا اختيار خدمات موثوقة، اتباع أفضل ممارسات الأمان، وحذف البريد المؤقت بعد انتهاء الغرض منه لضمان أقصى استفادة وأمان.</p>
@@ -559,7 +638,7 @@ const ARTICLE_4 = {
 <h1>Temporary Email and Safe Digital Service Testing</h1>
 <p>Before using any new service or website, it is always recommended to test accounts temporarily to avoid potential risks. Temporary email provides users with a secure way to test digital services without using their personal email, preserving privacy and minimizing exposure to spam or phishing messages.</p>
 
-<img src="https://guardiandigital.com/images/resized/Spam_Filter_Diagram_Blocking_Email_Threats_500x333-esm-w600.webp" alt="Digital Service Testing" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://guardiandigital.com/images/resized/Spam_Filter_Diagram_Blocking_Email_Threats_500x333-esm-w600.webp" alt="Digital Service Testing"/>
 
 <h2>Benefits of Using Temporary Email for Testing Services</h2>
 <ul>
@@ -573,7 +652,7 @@ const ARTICLE_4 = {
 <h2>Temporary Email in Digital Education</h2>
 <p>Students and educators can use temporary email to explore online learning services, download educational resources, or enroll in trial courses without registering their personal email, ensuring data safety and a secure experience.</p>
 
-<img src="https://img.freepik.com/free-vector/boy-with-laptop-design_1196-195.jpg" alt="Digital Education" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://img.freepik.com/free-vector/boy-with-laptop-design_1196-195.jpg" alt="Digital Education"/>
 
 <h2>Safety Tips for Testing Digital Services</h2>
 <ul>
@@ -593,7 +672,7 @@ const ARTICLE_4 = {
 <li>Saving time and effort when exploring new digital services.</li>
 </ul>
 
-<img src="https://www.safetymails.com/blog/wp-content/uploads/2024/07/how-temporary-email-works-1024x550.jpg" alt="User Experience Testing" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://www.safetymails.com/blog/wp-content/uploads/2024/07/how-temporary-email-works-1024x550.jpg" alt="User Experience Testing"/>
 
 <h2>Conclusion</h2>
 <p>Temporary email is an effective tool for safely testing digital services, protecting privacy, and avoiding risks associated with using personal email. When used correctly, it allows users and students to test quickly and securely while keeping their data safe. Always choose trusted services, follow best security practices, and delete temporary emails after use to ensure maximum benefit and safety.</p>
@@ -605,7 +684,7 @@ const ARTICLE_5 = {
 <h1>البريد المؤقت والتعامل مع الرسائل المزعجة</h1>
 <p>في عصر الإنترنت الحديث، أصبح البريد المزعج جزءًا من الحياة اليومية، ويستهدف البريد الشخصي لمستخدمي الخدمات المختلفة. هذه الرسائل قد تتضمن إعلانات غير مرغوب فيها، روابط خبيثة، أو محاولات احتيال. البريد المؤقت يقدم حلًا فعالًا لتجنب هذه المشكلة وحماية البريد الشخصي بشكل كامل.</p>
 
-<img src="https://assets.mimecast.com/api/public/content/what-is-email-spam-filtering?v=5d0ded05" alt="Spam Emails" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://assets.mimecast.com/api/public/content/what-is-email-spam-filtering?v=5d0ded05" alt="Spam Emails"/>
 
 <h2>كيف يقلل البريد المؤقت من الرسائل المزعجة</h2>
 <ul>
@@ -618,7 +697,7 @@ const ARTICLE_5 = {
 <h2>البريد المؤقت وحماية الهوية الرقمية</h2>
 <p>عند استخدام البريد المؤقت، تقل احتمالية تتبع بريدك الشخصي أو اختراق حساباتك، مما يعزز الأمان الرقمي. كما يتيح لك البريد المؤقت إنشاء حسابات مؤقتة على المواقع والخدمات المختلفة لتجربة الميزات دون المساس بالخصوصية.</p>
 
-<img src="https://cdn.iplocation.net/assets/images/blog/2025/articles/temp-email-1.jpg" alt="Digital Identity Protection" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://cdn.iplocation.net/assets/images/blog/2025/articles/temp-email-1.jpg" alt="Digital Identity Protection"/>
 
 <h2>أفضل ممارسات التعامل مع البريد المزعج</h2>
 <ul>
@@ -638,7 +717,7 @@ const ARTICLE_5 = {
 <li>تسهيل الاشتراك في النشرات الإخبارية أو العروض الترويجية دون التأثير على البريد الشخصي.</li>
 </ul>
 
-<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/23/posts/21001/image/how-to-create-a-disposable-email-address.jpg" alt="Email Management" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/23/posts/21001/image/how-to-create-a-disposable-email-address.jpg" alt="Email Management"/>
 
 <h2>خلاصة</h2>
 <p>البريد المؤقت هو وسيلة ممتازة للتحكم في الرسائل المزعجة وحماية البريد الرئيسي، مع الحفاظ على تجربة استخدام سلسة وآمنة على الإنترنت. باتباع أفضل الممارسات، يمكن للمستخدمين الاستفادة من البريد المؤقت بأمان وفعالية، مع تقليل المخاطر المحتملة وحماية الهوية الرقمية.</p>
@@ -647,7 +726,7 @@ const ARTICLE_5 = {
 <h1>Temporary Email and Managing Spam Messages</h1>
 <p>In the modern internet era, spam has become a daily nuisance, targeting personal emails of users across various services. These messages may include unwanted advertisements, malicious links, or phishing attempts. Temporary email provides an effective solution to avoid this problem and protect your personal inbox entirely.</p>
 
-<img src="https://assets.mimecast.com/api/public/content/what-is-email-spam-filtering?v=5d0ded05" alt="Spam Emails" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://assets.mimecast.com/api/public/content/what-is-email-spam-filtering?v=5d0ded05" alt="Spam Emails"/>
 
 <h2>How Temporary Email Reduces Spam</h2>
 <ul>
@@ -660,7 +739,7 @@ const ARTICLE_5 = {
 <h2>Temporary Email and Digital Identity Protection</h2>
 <p>Using temporary email minimizes the chances of tracking your real email or hacking accounts, enhancing digital security. Temporary email also allows creating disposable accounts on various services to test features without compromising privacy.</p>
 
-<img src="https://cdn.iplocation.net/assets/images/blog/2025/articles/temp-email-1.jpg" alt="Digital Identity Protection" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://cdn.iplocation.net/assets/images/blog/2025/articles/temp-email-1.jpg" alt="Digital Identity Protection"/>
 
 <h2>Best Practices for Handling Spam</h2>
 <ul>
@@ -680,7 +759,7 @@ const ARTICLE_5 = {
 <li>Facilitate subscriptions to newsletters or promotions without affecting personal email.</li>
 </ul>
 
-<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/23/posts/21001/image/how-to-create-a-disposable-email-address.jpg" alt="Email Management" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://cms-assets.tutsplus.com/cdn-cgi/image/width=850/uploads/users/23/posts/21001/image/how-to-create-a-disposable-email-address.jpg" alt="Email Management"/>
 
 <h2>Conclusion</h2>
 <p>Temporary email is an excellent way to control spam and protect the main inbox while maintaining a smooth and safe online experience. By following best practices, users can benefit from temporary email securely and effectively, reducing potential risks and protecting their digital identity.</p>
@@ -692,7 +771,7 @@ const ARTICLE_6 = {
 <h1>البريد المؤقت والتسويق الرقمي</h1>
 <p>يستخدم المسوقون البريد الإلكتروني بشكل مكثف للترويج للمنتجات والخدمات، لكن هذا قد يسبب إزعاجًا للمستخدمين ويؤثر على تجربة الاستخدام. البريد المؤقت يوفر حلاً فعالًا لإدارة الرسائل الإعلانية وحماية البريد الشخصي.</p>
 
-<img src="https://img.graphicsurf.com/2020/06/Investment-Online-Courses-vector-design.jpg" alt="Digital Marketing Email" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://img.graphicsurf.com/2020/06/Investment-Online-Courses-vector-design.jpg" alt="Digital Marketing Email"/>
 
 <h2>فوائد البريد المؤقت في التسويق الرقمي</h2>
 <ul>
@@ -706,7 +785,7 @@ const ARTICLE_6 = {
 <h2>البريد المؤقت وتحليل الحملات الإعلانية</h2>
 <p>يمكن للشركات استخدام البريد المؤقت لاختبار فعالية الحملات الإعلانية دون التأثير على البريد الشخصي للعملاء. هذا يشمل اختبار الرسائل الترويجية، مراقبة معدل الفتح والنقر، والتأكد من توافق الرسائل مع تجربة المستخدم.</p>
 
-<img src="https://static.coupler.io/templates/klaviyo-analytics-dashboard.png" alt="Email Campaign Analysis" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://static.coupler.io/templates/klaviyo-analytics-dashboard.png" alt="Email Campaign Analysis"/>
 
 <h2>أفضل ممارسات استخدام البريد المؤقت في التسويق</h2>
 <ul>
@@ -726,7 +805,7 @@ const ARTICLE_6 = {
 <li>زيادة الأمان والخصوصية عند التعامل مع الحملات الرقمية.</li>
 </ul>
 
-<img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d" alt="User Experience Digital Marketing" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d" alt="User Experience Digital Marketing"/>
 
 <h2>خلاصة</h2>
 <p>البريد المؤقت أداة فعالة للتحكم في البريد الإلكتروني، حماية الخصوصية، وتحسين تجربة المستخدم أثناء التعامل مع التسويق الرقمي. باستخدام البريد المؤقت بشكل صحيح، يمكن للمستخدمين والشركات على حد سواء الاستفادة من الحملات الإعلانية بأمان وفعالية.</p>
@@ -735,7 +814,7 @@ const ARTICLE_6 = {
 <h1>Temporary Email and Digital Marketing</h1>
 <p>Marketers heavily use email to promote products and services, which may annoy users and negatively affect their experience. Temporary email provides an effective solution for managing promotional messages and protecting personal inboxes.</p>
 
-<img src="https://img.graphicsurf.com/2020/06/Investment-Online-Courses-vector-design.jpg" alt="Digital Marketing Email" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://img.graphicsurf.com/2020/06/Investment-Online-Courses-vector-design.jpg" alt="Digital Marketing Email"/>
 
 <h2>Benefits of Temporary Email in Digital Marketing</h2>
 <ul>
@@ -749,7 +828,7 @@ const ARTICLE_6 = {
 <h2>Temporary Email and Campaign Analysis</h2>
 <p>Companies can use temporary email to test campaign effectiveness without impacting customers’ personal inboxes. This includes testing promotional messages, monitoring open and click rates, and ensuring messages align with user experience.</p>
 
-<img src="https://static.coupler.io/templates/klaviyo-analytics-dashboard.png" alt="Email Campaign Analysis" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://static.coupler.io/templates/klaviyo-analytics-dashboard.png" alt="Email Campaign Analysis" />
 <p><em>Image source: <a href="https://unsplash.com/photos/5a14a9d9e11b" target="_blank">Unsplash</a></em></p>
 
 <h2>Best Practices for Using Temporary Email in Marketing</h2>
@@ -770,7 +849,7 @@ const ARTICLE_6 = {
 <li>Increasing security and privacy when dealing with digital campaigns.</li>
 </ul>
 
-<img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d" alt="User Experience Digital Marketing" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d" alt="User Experience Digital Marketing"/>
 
 <h2>Conclusion</h2>
 <p>Temporary email is an effective tool for managing email, protecting privacy, and improving user experience when handling digital marketing. Proper use of temporary email allows both users and companies to benefit from campaigns safely and efficiently.</p>
@@ -782,7 +861,7 @@ const ARTICLE_7 = {
 <h1>البريد المؤقت والأمان على الشبكات الاجتماعية</h1>
 <p>مع تزايد استخدام الشبكات الاجتماعية، أصبح حماية البريد الشخصي من التسريب أو الاختراق أمرًا بالغ الأهمية. البريد المؤقت يوفر طريقة آمنة لتسجيل الحسابات أو تجربة الميزات الجديدة دون المخاطرة بالبريد الرئيسي.</p>
 
-<img src="https://cdn.iplocation.net/assets/images/blog/2025/articles/temp-email-3.jpg" alt="Social Media Security" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://cdn.iplocation.net/assets/images/blog/2025/articles/temp-email-3.jpg" alt="Social Media Security"/>
 
 <h2>فوائد البريد المؤقت على الشبكات الاجتماعية</h2>
 <ul>
@@ -802,7 +881,7 @@ const ARTICLE_7 = {
 <li>تجنب مشاركة أي معلومات حساسة أثناء استخدام البريد المؤقت.</li>
 </ul>
 
-<img src="https://gen.boomlify.com/socialfeature.png" alt="Temporary Email Social Media" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://gen.boomlify.com/socialfeature.png" alt="Temporary Email Social Media"/>
 
 <h2>البريد المؤقت وتحسين تجربة المستخدم</h2>
 <p>استخدام البريد المؤقت على الشبكات الاجتماعية يحسن تجربة المستخدم بعدة طرق:</p>
@@ -814,7 +893,7 @@ const ARTICLE_7 = {
 <li>تمكين السيطرة الكاملة على الحسابات المؤقتة وإدارتها بسهولة.</li>
 </ul>
 
-<img src="https://www.pushwoosh.com/content/images/2024/09/Spam-filtering.svg" alt="User Experience Social Media" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://www.pushwoosh.com/content/images/2024/09/Spam-filtering.svg" alt="User Experience Social Media"/>
 
 <h2>خلاصة</h2>
 <p>البريد المؤقت على الشبكات الاجتماعية أداة قوية لضمان تجربة آمنة وفعّالة دون المساس بالخصوصية. عند الاستخدام الصحيح، يمكن للمستخدمين الاستمتاع بالخدمات الرقمية، تجربة الميزات الجديدة، وحماية البريد الشخصي من التسريبات أو الاختراق.</p>
@@ -824,7 +903,7 @@ const ARTICLE_7 = {
 <h1>Temporary Email and Social Media Security</h1>
 <p>With the increasing use of social media, protecting personal email from leaks or hacks is critical. Temporary email offers a safe way to register accounts or test new features without risking the main email.</p>
 
-<img src="https://cdn.iplocation.net/assets/images/blog/2025/articles/temp-email-3.jpg" alt="Social Media Security" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://cdn.iplocation.net/assets/images/blog/2025/articles/temp-email-3.jpg" alt="Social Media Security"/>
 
 <h2>Benefits of Temporary Email on Social Media</h2>
 <ul>
@@ -844,7 +923,7 @@ const ARTICLE_7 = {
 <li>Avoid sharing any sensitive information while using temporary email.</li>
 </ul>
 
-<img src="https://gen.boomlify.com/socialfeature.png" alt="Temporary Email Social Media" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://gen.boomlify.com/socialfeature.png" alt="Temporary Email Social Media"/>
 
 <h2>Temporary Email and User Experience</h2>
 <p>Using temporary email on social media improves user experience in multiple ways:</p>
@@ -856,7 +935,7 @@ const ARTICLE_7 = {
 <li>Enables complete control over temporary accounts and easy management.</li>
 </ul>
 
-<img src="https://www.pushwoosh.com/content/images/2024/09/Spam-filtering.svg" alt="User Experience Social Media" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://www.pushwoosh.com/content/images/2024/09/Spam-filtering.svg" alt="User Experience Social Media"/>
 
 <h2>Conclusion</h2>
 <p>Temporary email on social media is a powerful tool to ensure a safe and effective experience without compromising privacy. When used correctly, it allows users to enjoy digital services, explore new features, and protect personal email from leaks or hacks.</p>
@@ -868,7 +947,7 @@ const ARTICLE_8 = {
 <h1>البريد المؤقت والتسجيل في المنتديات والمواقع العامة</h1>
 <p>عند المشاركة في المنتديات أو المواقع التي تتطلب بريدًا إلكترونيًا، قد تتعرض للرسائل المزعجة أو تسريب البريد الشخصي. البريد المؤقت يقدم حلًا فعالًا لهذه المشكلة، مما يضمن تجربة استخدام آمنة وسلسة.</p>
 
-<img src="https://geekflare.com/wp-content/uploads/2022/12/Why-should-we-use-disposable-email-addresses.png" alt="Online Forums" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://geekflare.com/wp-content/uploads/2022/12/Why-should-we-use-disposable-email-addresses.png" alt="Online Forums"/>
 
 <h2>فوائد البريد المؤقت في المنتديات والمواقع العامة</h2>
 <ul>
@@ -888,7 +967,7 @@ const ARTICLE_8 = {
 <li>تجنب الاعتماد على البريد المؤقت للخدمات المهمة أو الحساسة.</li>
 </ul>
 
-<img src="https://images.unsplash.com/photo-1588702547923-7093a6c3ba33" alt="Web Registration" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://images.unsplash.com/photo-1588702547923-7093a6c3ba33" alt="Web Registration"/>
 
 <h2>البريد المؤقت وتحسين تجربة المستخدم</h2>
 <p>استخدام البريد المؤقت يساهم في تحسين تجربة المستخدم على المنتديات والمواقع العامة من خلال:</p>
@@ -900,7 +979,7 @@ const ARTICLE_8 = {
 <li>تجربة المنصات الجديدة أو المشاركة في المناقشات بشكل آمن.</li>
 </ul>
 
-<img src="https://images.unsplash.com/photo-1593642532973-d31b6557fa68" alt="Digital Privacy" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://images.unsplash.com/photo-1593642532973-d31b6557fa68" alt="Digital Privacy"/>
 
 <h2>خلاصة</h2>
 <p>البريد المؤقت أداة مثالية للحفاظ على الخصوصية عند التفاعل مع المنتديات والمواقع العامة، مع ضمان تجربة آمنة وسلسة. استخدام البريد المؤقت يتيح للمستخدمين المشاركة بحرية وتجربة الخدمات دون القلق بشأن تسريب البريد الشخصي أو التعرض للرسائل المزعجة.</p>
@@ -930,7 +1009,7 @@ const ARTICLE_8 = {
 <li>Avoid relying on temporary email for important or sensitive services.</li>
 </ul>
 
-<img src="https://images.unsplash.com/photo-1588702547923-7093a6c3ba33" alt="Web Registration" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://images.unsplash.com/photo-1588702547923-7093a6c3ba33" alt="Web Registration"/>
 
 <h2>Temporary Email and User Experience</h2>
 <p>Using temporary email enhances the user experience on forums and public websites by:</p>
@@ -942,7 +1021,7 @@ const ARTICLE_8 = {
 <li>Safely testing new platforms or participating in discussions.</li>
 </ul>
 
-<img src="https://images.unsplash.com/photo-1593642532973-d31b6557fa68" alt="Digital Privacy" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://images.unsplash.com/photo-1593642532973-d31b6557fa68" alt="Digital Privacy"/>
 
 <h2>Conclusion</h2>
 <p>Temporary email is ideal for maintaining privacy when engaging with forums and public websites, ensuring a safe and smooth experience. Using temporary email allows users to participate freely and test services without worrying about personal email leaks or unwanted spam.</p>
@@ -953,7 +1032,7 @@ const ARTICLE_9 = {
 <h1>البريد المؤقت وحماية الهوية الرقمية</h1>
 <p>في عالم رقمي مليء بالتهديدات المتزايدة، أصبح حماية البريد الإلكتروني الشخصي أمرًا ضروريًا. البريد المؤقت يساهم في حماية الهوية الرقمية وتقليل التعرض للمخاطر، كما يوفر تجربة آمنة عند استخدام الإنترنت والخدمات المختلفة.</p>
 
-<img src="https://tempmailto.com/uploads/content/OvwYC3BPuwQeSwv_1745031367.webp" alt="Digital Security" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://tempmailto.com/uploads/content/OvwYC3BPuwQeSwv_1745031367.webp" alt="Digital Security"/>
 
 <h2>أهمية البريد المؤقت</h2>
 <p>البريد المؤقت أداة فعالة لحماية الهوية الرقمية للعديد من الأسباب:</p>
@@ -965,7 +1044,7 @@ const ARTICLE_9 = {
 <li>تجنب الرسائل المزعجة والإعلانات غير المرغوب فيها.</li>
 </ul>
 
-<img src="https://testmetry.com/wp-content/uploads/2025/01/Generate-a-Temporary-Email-Address.png" alt="Email Protection" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://testmetry.com/wp-content/uploads/2025/01/Generate-a-Temporary-Email-Address.png" alt="Email Protection"/>
 
 <h2>نصائح للحفاظ على الهوية الرقمية باستخدام البريد المؤقت</h2>
 <ul>
@@ -986,7 +1065,7 @@ const ARTICLE_9 = {
 <li>اختبار الميزات الجديدة على المنتديات أو منصات التواصل الاجتماعي.</li>
 </ul>
 
-<img src="https://j.top4top.io/p_36311xibq1.png" alt="Safe Internet" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://j.top4top.io/p_36311xibq1.png" alt="Safe Internet"/>
 
 <h2>خلاصة</h2>
 <p>البريد المؤقت هو أداة قوية لحماية الهوية الرقمية وتقليل المخاطر أثناء استخدام الإنترنت. من خلال اتباع الممارسات الآمنة، يمكن للمستخدمين تجربة الخدمات الرقمية بثقة وراحة، مع الحفاظ على البريد الشخصي خاليًا من المخاطر والرسائل المزعجة.</p>
@@ -996,7 +1075,7 @@ const ARTICLE_9 = {
 <h1>Temporary Email and Digital Identity Protection</h1>
 <p>In a digital world full of increasing threats, protecting personal email is essential. Temporary email helps safeguard digital identity and reduces exposure to risks while providing a safe experience when using online services.</p>
 
-<img src="https://tempmailto.com/uploads/content/OvwYC3BPuwQeSwv_1745031367.webp" alt="Digital Security" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://tempmailto.com/uploads/content/OvwYC3BPuwQeSwv_1745031367.webp" alt="Digital Security"/>
 
 <h2>Importance of Temporary Email</h2>
 <p>Temporary email is an effective tool for digital identity protection for several reasons:</p>
@@ -1008,7 +1087,7 @@ const ARTICLE_9 = {
 <li>Minimizes unwanted spam and promotional messages.</li>
 </ul>
 
-<img src="https://testmetry.com/wp-content/uploads/2025/01/Generate-a-Temporary-Email-Address.png" alt="Email Protection" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://testmetry.com/wp-content/uploads/2025/01/Generate-a-Temporary-Email-Address.png" alt="Email Protection"/>
 
 <h2>Tips for Maintaining Digital Identity Using Temporary Email</h2>
 <ul>
@@ -1029,7 +1108,7 @@ const ARTICLE_9 = {
 <li>Testing new features on forums or social media platforms.</li>
 </ul>
 
-<img src="https://j.top4top.io/p_36311xibq1.png" alt="Safe Internet" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://j.top4top.io/p_36311xibq1.png" alt="Safe Internet"/>
 
 <h2>Conclusion</h2>
 <p>Temporary email is a powerful tool for protecting digital identity and minimizing risks while using the internet. By following safe practices, users can explore digital services with confidence while keeping their personal email free from threats and spam.</p>
@@ -1040,7 +1119,7 @@ const ARTICLE_10 = {
 <h1>البريد المؤقت وتجربة الإنترنت بأمان</h1>
 <p>في عصر تتزايد فيه التهديدات الرقمية والبرمجيات الخبيثة، أصبح من الضروري تجربة الإنترنت والخدمات الرقمية بأمان دون المخاطرة بالبريد الشخصي. البريد المؤقت يوفر الحل الأمثل لتجربة المواقع والخدمات بشكل آمن وفعال، مع الحفاظ على الخصوصية الرقمية.</p>
 
-<img src="https://www.safetymails.com/blog/wp-content/uploads/2024/07/how-temporary-email-works-1024x550.jpg" alt="Safe Browsing" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://www.safetymails.com/blog/wp-content/uploads/2024/07/how-temporary-email-works-1024x550.jpg" alt="Safe Browsing"/>
 
 <h2>فوائد البريد المؤقت لتجربة الإنترنت</h2>
 <ul>
@@ -1051,7 +1130,7 @@ const ARTICLE_10 = {
 <li>إمكانية حذف البريد المؤقت بعد انتهاء الاستخدام، مما يحافظ على الخصوصية.</li>
 </ul>
 
-<img src="https://sp-ao.shortpixel.ai/client/to_auto%2Cq_lossy%2Cret_img/https%3A//www.inboxally.com/wp-content/uploads/2025/02/spam-gateway.png" alt="Digital Safety" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://sp-ao.shortpixel.ai/client/to_auto%2Cq_lossy%2Cret_img/https%3A//www.inboxally.com/wp-content/uploads/2025/02/spam-gateway.png" alt="Digital Safety"/>
 
 <h2>كيفية استخدام البريد المؤقت بأمان</h2>
 <ul>
@@ -1079,7 +1158,7 @@ const ARTICLE_10 = {
 <h1>Temporary Email and Safe Internet Experience</h1>
 <p>In an era of increasing digital threats and malware, it is crucial to explore the internet and digital services safely without risking your personal email. Temporary email provides the perfect solution for safely testing websites and services while maintaining digital privacy.</p>
 
-<img src="https://www.safetymails.com/blog/wp-content/uploads/2024/07/how-temporary-email-works-1024x550.jpg" alt="Safe Browsing" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://www.safetymails.com/blog/wp-content/uploads/2024/07/how-temporary-email-works-1024x550.jpg" alt="Safe Browsing"/>
 
 <h2>Benefits of Temporary Email for Internet Testing</h2>
 <ul>
@@ -1090,7 +1169,7 @@ const ARTICLE_10 = {
 <li>Temporary email can be deleted after use, ensuring privacy protection.</li>
 </ul>
 
-<img src="https://sp-ao.shortpixel.ai/client/to_auto%2Cq_lossy%2Cret_img/https%3A//www.inboxally.com/wp-content/uploads/2025/02/spam-gateway.png" alt="Digital Safety" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://sp-ao.shortpixel.ai/client/to_auto%2Cq_lossy%2Cret_img/https%3A//www.inboxally.com/wp-content/uploads/2025/02/spam-gateway.png" alt="Digital Safety"/>
 
 <h2>How to Use Temporary Email Safely</h2>
 <ul>
@@ -1105,7 +1184,7 @@ const ARTICLE_10 = {
 <h2>Temporary Email and Digital Education</h2>
 <p>Students can use temporary email to explore educational tools, register for free courses, or download educational resources without providing personal email. This ensures data protection and reduces the risk of email misuse.</p>
 
-<img src="https://i.top4top.io/p_3631veq3s1.jpg" alt="Online Learning" style="width:100%;max-width:700px;margin:20px 0;" />
+<img src="https://i.top4top.io/p_3631veq3s1.jpg" alt="Online Learning"/>
 
 <h2>Temporary Email and Digital Marketing</h2>
 <p>Temporary email helps manage promotional messages effectively, allowing users to try offers or services without affecting their main inbox and safely analyze advertising campaigns.</p>
@@ -1114,11 +1193,49 @@ const ARTICLE_10 = {
 <p>Temporary email is a powerful tool for safely exploring the internet and digital services, protecting personal email, and maintaining digital privacy. When used correctly, users can enjoy all the advantages of digital services without exposure to risks or spam.</p>
 `
 };
+// ===============================================
+// 2. تهيئة المصفوفة (الآن يتم استخدام المتغيرات بعد تعريفها)
+// ===============================================
 
-// إضافة المقالات الثلاثة الأخيرة للمصفوفة
-const ALL_ARTICLES = [];
-ALL_ARTICLES.push(ARTICLE_1, ARTICLE_2, ARTICLE_3, ARTICLE_4, ARTICLE_5, ARTICLE_6, ARTICLE_7, ARTICLE_8, ARTICLE_9, ARTICLE_10);
+const ALL_ARTICLES = [
+    ARTICLE_1, ARTICLE_2, ARTICLE_3, ARTICLE_4, ARTICLE_5, 
+    ARTICLE_6, ARTICLE_7, ARTICLE_8, ARTICLE_9, ARTICLE_10
+];
 let currentArticleIndex = 0;
+/* ==============
+   Translations
+   ============== */
+const UI = {
+  ar:{
+    title:"Temp-BoxMail",
+    subtitle:"استقبل رسائل التفعيل وOTP فورًا",
+    inboxTitle:"البريد الوارد",
+    inboxDesc:"يتم جلب الرسائل تلقائيًا",
+    copy:"نسخ",
+    refresh:"تحديث",
+    newMail:"إنشاء بريد جديد",
+    delete:"حذف",
+prevArticle: '‹ المقال السابق',
+    nextArticle: 'المقال التالي ›',
+    noMessages:"لا توجد رسائل بعد — اضغط \"إنشاء بريد جديد\" ثم استقبل الرسائل هنا.",
+    footer:"جميع الحقوق محفوظه - © Temp-BoxMail"
+  },
+  en:{
+    title:"Temp-BoxMail",
+    subtitle:"Receive OTP & verification emails instantly",
+    inboxTitle:"Inbox",
+    inboxDesc:"Messages are fetched automatically",
+    copy:"Copy",
+    refresh:"Refresh",
+    newMail:"Create New Email",
+    delete:"Delete",
+prevArticle: '‹ Previous Article',
+    nextArticle: 'Next Article ›',
+    noMessages:"No messages yet — click \"Create New Email\" to start receiving emails.",
+    footer:"All rights reserved - © Temp-BoxMail"
+  }
+};
+
 
 /* ======================
    الدوال المساعدة (SEO)
@@ -1156,6 +1273,8 @@ function applySEO(articleNumber) {
         let canonical = document.querySelector('link[rel="canonical"]');
         if (canonical) {
             canonical.href = window.location.origin + window.location.pathname + "?article=" + articleNumber;
+
+
         }
     }
 }
@@ -1346,49 +1465,103 @@ function renderInbox(){
   });
 }
 
-/* Show message content */
+/* Show message content - الإصدار النهائي (أمان، OTP، صور، روابط) */
 async function showMessage(m){
-  if(!token) return console.warn('لا يوجد توكن صالح لعرض الرسالة');
-  try{
-    const res = await fetch(`${API_BASE}/messages/${m.id}`, { headers: { Authorization: 'Bearer ' + token } });
-    if(!res.ok) throw new Error('فشل جلب محتوى الرسالة');
+    // **ملاحظة هامة:** يجب التأكد من تحميل مكتبة DOMPurify في ملف HTML قبل هذا الكود.
 
-    const full = await res.json();
-    console.log('Message content:', full); // تحقق من المحتوى في console
+    if(!token) return console.warn('لا يوجد توكن صالح لعرض الرسالة');
+    try{
+        const res = await fetch(`${API_BASE}/messages/${m.id}`, { headers: { Authorization: 'Bearer ' + token } });
+        if(!res.ok) throw new Error('فشل جلب محتوى الرسالة');
 
-    // عنوان الرسالة و المرسل
-    $('msg-sub').textContent = full.subject || (currentLang() === 'ar' ? '(بدون عنوان)' : '(No subject)');
-    $('msg-from').textContent = (full.from?.address || '') + ' · ' + new Date(full.createdAt).toLocaleString();
+        const full = await res.json();
+        console.log('Message content:', full);
 
-    // محتوى الرسالة: HTML أولًا، ثم نص، ثم fallback
-    let content = '';
-    if(full.html && typeof full.html === 'string' && full.html.length){
-  // sanitize minimal: we won't allow script tags
-  const safe = full.html.replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, '');
-  $('msg-body').innerHTML = safe;
-} else if(full.text && typeof full.text === 'string' && full.text.length){
-  $('msg-body').innerHTML = `<pre style="white-space:pre-wrap;color:var(--muted)">${escapeHtml(full.text)}</pre>`;
-} else {
-  $('msg-body').innerHTML = `<p style="color:var(--muted)">لا يوجد محتوى للرسالة</p>`;
-}
-    // استخراج OTP (4-8 أرقام)
-    const combined = (full.text || '') + ' ' + (full.html || '');
-    const found = combined.match(/\b\d{4,8}\b/);
-    if(found){
-      $('extractedOtp').style.display = 'inline-block';
-      $('extractedOtp').textContent = found[0];
-    } else {
-      $('extractedOtp').style.display = 'none';
+        // عنوان الرسالة و المرسل (نحتفظ بهذا الجزء كما هو)
+        $('msg-sub').textContent = full.subject || (currentLang() === 'ar' ? '(بدون عنوان)' : '(No subject)');
+        $('msg-from').textContent = (full.from?.address || '') + ' · ' + new Date(full.createdAt).toLocaleString();
+
+        const msgBodyElement = $('msg-body');
+        const extractedOtpElement = $('extractedOtp');
+        
+        let rawContent = '';
+        let isPlainText = false;
+
+        // 1. تحديد المحتوى الخام
+        if(full.html && typeof full.html === 'string' && full.html.length){
+            rawContent = full.html;
+        } else if(full.text && typeof full.text === 'string' && full.text.length){
+            rawContent = `<pre style="white-space:pre-wrap;color:var(--muted)">${escapeHtml(full.text)}</pre>`;
+            isPlainText = true;
+        } else {
+            msgBodyElement.innerHTML = `<p style="color:var(--muted)">لا يوجد محتوى للرسالة</p>`;
+            extractedOtpElement.style.display = 'none';
+            return;
+        }
+        
+        // 2. 🧹 التطهير الأمني باستخدام DOMPurify (تصحيح خيارات الصور)
+        const safeHtml = DOMPurify.sanitize(rawContent, {
+            // نُعيد 'img' لـ ALLOWED_TAGS (بدلاً من CUSTOM_ELEMENTS) لضمان القدرة على تعديل خصائصها
+            ALLOWED_TAGS: ['a', 'img', 'p', 'div', 'span', 'table', 'tr', 'td', 'th', 'h1', 'h2', 'h3', 'pre', 'br', 'style'], 
+            ALLOWED_ATTR: ['href', 'src', 'alt', 'title', 'class', 'style'], 
+        });
+        
+        let finalHtml = safeHtml;
+        
+        // 3. 🔑 استخلاص OTP المحسّن وتغليفه
+        const otpRegex = /(?:رمز|كود|OTP|Code)[\s:]*([0-9]{4,8}|[A-Za-z0-9]{5,10})|(\b\d{4,8}\b)/i;
+        let otpMatch = finalHtml.match(otpRegex);
+        let otpValue = null;
+        
+        if (otpMatch) {
+            otpValue = otpMatch[1] || otpMatch[2]; 
+        }
+
+        if(otpValue){
+            extractedOtpElement.textContent = otpValue;
+            extractedOtpElement.style.display = 'inline-block';
+            
+            const escapedOtp = otpValue.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+            const wrapRegex = new RegExp(`\\b${escapedOtp}\\b`, 'i');
+
+            finalHtml = finalHtml.replace(wrapRegex, `<span class="otp">${otpValue}</span>`);
+
+        } else {
+            extractedOtpElement.style.display = 'none';
+        }
+        
+        // *********************************************************
+// 4. 🔗 التعديل الأخير للمحتوى (الروابط والصور)
+        // ننشئ عنصر DIV مؤقت لتحليل محتوى HTML النظيف والآمن
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = finalHtml; 
+
+        // أ. معالجة الصور (تجاوز حظر الـ Referrer)
+        // هذا يحول الروابط النصية إلى عناصر <img> قابلة للعرض
+        tempDiv.querySelectorAll('img').forEach(img => {
+            img.setAttribute('referrerpolicy', 'no-referrer');
+        });
+        
+        // ب. معالجة الروابط (الأمان وتفعيل الزيارة)
+        // هذا يحول الروابط النصية إلى عناصر <a> قابلة للنقر بأمان
+        tempDiv.querySelectorAll('a').forEach(link => {
+            link.setAttribute('target', '_blank'); // فتح في نافذة جديدة
+            link.setAttribute('rel', 'noopener noreferrer nofollow'); // أمان الروابط
+        });
+
+        // 5. حقن المحتوى المعالج والآمن في DOM (الخطوة النهائية)
+        msgBodyElement.innerHTML = tempDiv.innerHTML;
+        // *********************************************************
+
+    } catch(e){
+        console.error('showMessage error:', e);
+        // رسالة خطأ أوضح في حالة الفشل
+        $('msg-body').innerHTML = `<p style="color:red">
+            خطأ في عرض المحتوى. الأسباب: (1) عدم تحميل DOMPurify CDN. (2) فشل اتصال API.
+        </p>`;
+        $('extractedOtp').style.display = 'none';
     }
-
-  } catch(e){
-    console.error('showMessage error:', e);
-    $('msg-body').innerHTML = `<p style="color:var(--muted)">فشل عرض محتوى الرسالة</p>`;
-  }
-}
-
-
-/* Polling */
+}/* Polling */
 function startPolling(){
   if(pollInterval) clearInterval(pollInterval);
   pollInterval = setInterval(fetchMessages, 7000);
@@ -1401,92 +1574,161 @@ function onAccountReady(){
   $('expiry').textContent = currentLang() === 'ar' ? 'العنوان مُدار بواسطة temp-boxmail.org' : 'Address managed by temp-boxmail.org';
   startPolling();
   fetchMessages();
-  alert((currentLang() === 'ar' ? 'تم إنشاء البريد: ' : 'Created email: ') + account.address);
 }
 
-/* ================
-   Buttons binding
-   ================ */
+// ===============================================
+// دالة عرض المقالة الرئيسية وتطبيق اللغة (مُعدَّلة)
+// ===============================================
+
+function applyLanguage(lang) {
+    // ⭐⭐ تم التعديل ليناسب الـ ID الموجود في كود HTML وهو 'article' ⭐⭐
+    const articleContentContainer = $('article'); 
+    
+    // المقالة الحالية (article)
+    const article = ALL_ARTICLES[currentArticleIndex]; 
+
+    if (article && article[lang] && articleContentContainer) {
+        // نستخدم DOMPurify لتطهير محتوى المقالة للأمان
+        const safeArticleHtml = DOMPurify.sanitize(article[lang]);
+        
+        // حقن المحتوى في الـ DOM
+        articleContentContainer.innerHTML = safeArticleHtml;
+        
+        // تطبيق الـ SEO
+        if (typeof applySEO === "function") {
+            applySEO(currentArticleIndex + 1);
+        }
+
+    } else if (articleContentContainer) {
+        // رسالة في حالة عدم توفر المقالة أو اللغة
+        articleContentContainer.innerHTML = `<p style="color:var(--muted)">
+            ${lang === 'ar' ? 'لا يمكن عرض محتوى المقالة.' : 'Could not display article content.'}
+        </p>`;
+    }
+    
+    // ...
+}
+
+  /* ======================
+   Buttons binding
+   ====================== */
 document.addEventListener('DOMContentLoaded', () => {
 
-  // 1️⃣ استخراج رقم المقال من الرابط (URL) أولاً
-  const urlParams = new URLSearchParams(window.location.search);
-  const articleParam = urlParams.get('article');
-  if (articleParam) {
-      const idx = parseInt(articleParam) - 1;
-      // التأكد أن الرقم صحيح وضمن حدود المصفوفة
-      if (idx >= 0 && idx < ALL_ARTICLES.length) {
-          currentArticleIndex = idx;
-      }
-  }
-
-  // 2️⃣ تطبيق اللغة (سيعرض المقال بناءً على الرقم المستخرج أعلاه)
-  applyLanguage(currentLang());
-
-  // 3️⃣ تحميل الحساب المخزن أو إنشاء حساب جديد
-  const loaded = loadStored();
-  if(!loaded){
-    createAccount();
-  }
-
-  // ... باقي مستمعات الأحداث (EventListeners) الخاصة بالأزرار هنا ...  // أزرار البريد
-  $('copyBtn').addEventListener('click', () => {
-    if(!account?.address) return alert(currentLang() === 'ar' ? 'لا يوجد عنوان لنسخه' : 'No address to copy');
-    navigator.clipboard.writeText(account.address).then(()=> alert(currentLang() === 'ar' ? 'تم النسخ' : 'Copied'));
-  });
-
-  $('newBtn').addEventListener('click', () => {
-    if(confirm(currentLang() === 'ar' ? 'إنشاء بريد جديد سيحذف الحالي. موافق؟' : 'Creating a new email will replace the current one. Continue?')){
-      createAccount();
+    // 1️⃣ استخراج رقم المقال من الرابط (URL) أولاً
+    const urlParams = new URLSearchParams(window.location.search);
+    const articleParam = urlParams.get('article');
+    if (articleParam) {
+        const idx = parseInt(articleParam) - 1;
+        // التأكد أن الرقم صحيح وضمن حدود المصفوفة
+        if (idx >= 0 && idx < ALL_ARTICLES.length) {
+            currentArticleIndex = idx;
+        }
     }
-  });
 
-  $('refreshBtn').addEventListener('click', () => {
-    fetchMessages().then(() => alert(currentLang() === 'ar' ? 'تم التحديث' : 'Refreshed'));
-  });
-
-  $('deleteBtn').addEventListener('click', () => {
-    if(confirm(currentLang() === 'ar' ? 'حذف الحساب نهائيًا؟' : 'Delete account permanently?')){
-      deleteAccount();
+    // 2️⃣ تطبيق اللغة وضبط زر التبديل
+    const currentL = currentLang();
+    document.documentElement.setAttribute('dir', currentL === 'ar' ? 'rtl' : 'ltr');
+    applyLanguage(currentL);
+    // ⭐⭐ التعديل الأول: ضبط نص زر اللغة عند التحميل
+    // (يجب أن تكون دالة updateLangButton مُعرَّفة)
+    if (typeof updateLangButton === "function") {
+        updateLangButton(currentL);
     }
-  });
 
-  // زر تغيير اللغة
-  $('langToggle').addEventListener('click', () => {
-    const next = currentLang() === 'ar' ? 'en' : 'ar';
-    applyLanguage(next);
-  });
+    // 3️⃣ تحميل الحساب المخزن أو إنشاء حساب جديد
+    const loaded = loadStored();
+    if(!loaded){
+        createAccount();
+    }
+updateArticleCounter();
+    // ===============================================
+    // 4️⃣ ربط مستمعات الأحداث (EventListeners)
+    // ===============================================
 
-  // أزرار التنقل بين المقالات
-$('prevArticle').addEventListener('click', () => {
-  if (currentArticleIndex > 0) {
-    currentArticleIndex--;
-    updateArticleURL(currentArticleIndex); // SEO + URL
-    applyLanguage(currentLang());
-applySEO(currentArticleIndex + 1);
-  }
+    // أزرار البريد
+    $('copyBtn').addEventListener('click', () => {
+        if(!account?.address) return alert(currentLang() === 'ar' ? 'لا يوجد عنوان لنسخه' : 'No address to copy');
+        navigator.clipboard.writeText(account.address).then(()=> alert(currentLang() === 'ar' ? 'تم النسخ' : 'Copied'));
+    });
+
+    $('newBtn').addEventListener('click', () => {
+        if(confirm(currentLang() === 'ar' ? 'إنشاء بريد جديد سيحذف الحالي. موافق؟' : 'Creating a new email will replace the current one. Continue?')){
+            createAccount();
+        }
+    });
+
+    $('refreshBtn').addEventListener('click', () => {
+        fetchMessages().then(() => alert(currentLang() === 'ar' ? 'تم التحديث' : 'Refreshed'));
+    });
+
+    $('deleteBtn').addEventListener('click', () => {
+        if(confirm(currentLang() === 'ar' ? 'حذف الحساب نهائيًا؟' : 'Delete account permanently?')){
+            deleteAccount();
+        }
+    });
+
+    // ⭐⭐ التعديل الثاني: ربط زر تغيير اللغة بالدالة toggleLanguage
+    // (يجب أن تكون دالة toggleLanguage مُعرَّفة)
+    $('langToggle').addEventListener('click', () => {
+        if (typeof toggleLanguage === "function") {
+            toggleLanguage();
+        } else {
+            console.error('الدالة toggleLanguage غير معرفة!');
+        }
+    });
+
+    // أزرار التنقل بين المقالات
+    $('prevArticle').addEventListener('click', () => {
+        if (currentArticleIndex > 0) {
+            currentArticleIndex--;
+            updateArticleURL(currentArticleIndex); // SEO + URL
+            applyLanguage(currentLang());
+            applySEO(currentArticleIndex + 1);
+        }
+    });
+
+    $('nextArticle').addEventListener('click', () => {
+        if (currentArticleIndex < ALL_ARTICLES.length - 1) {
+            currentArticleIndex++;
+            updateArticleURL(currentArticleIndex); // SEO + URL
+            applyLanguage(currentLang());
+            applySEO(currentArticleIndex + 1);
+        }
+    });
+
+    // 5️⃣ دالة مساعدة لتحديث رابط المقال (إذا لم تكن معرفة خارج هذه الكتلة)
+    function updateArticleURL(index) {
+        history.pushState({}, "", "?article=" + (index + 1));
+        
+        // استدعاء دالة الـ SEO إذا كانت موجودة لتحديث العنوان والوصف (Meta Tags)
+        if (typeof applySEO === "function") {
+            applySEO(index + 1);
+        }
+    }
+
+
 });
+       $('prevArticle').addEventListener('click', () => {
+        if (currentArticleIndex > 0) {
+            currentArticleIndex--;
+            updateArticleURL(currentArticleIndex);
+            applyLanguage(currentLang());
+            applySEO(currentArticleIndex + 1);
+            updateArticleCounter(); // 🔑 أضف هذا السطر
+        }
+    });
 
-$('nextArticle').addEventListener('click', () => {
-  if (currentArticleIndex < ALL_ARTICLES.length - 1) {
-    currentArticleIndex++;
-    updateArticleURL(currentArticleIndex); // SEO + URL
-    applyLanguage(currentLang());
-applySEO(currentArticleIndex + 1);
-  }
-});
-// أضفها في نهاية ملف mail.js
-function updateArticleURL(index) {
-    history.pushState({}, "", "?article=" + (index + 1));
-    
-    // استدعاء دالة الـ SEO إذا كانت موجودة لتحديث العنوان والوصف (Meta Tags)
-    if (typeof applySEO === "function") {
-        applySEO(index + 1);
-    }
-}
-
-}); // ← نهاية DOMContentLoaded
-
+    $('nextArticle').addEventListener('click', () => {
+        if (currentArticleIndex < ALL_ARTICLES.length - 1) {
+            currentArticleIndex++;
+            updateArticleURL(currentArticleIndex);
+            applyLanguage(currentLang());
+            applySEO(currentArticleIndex + 1);
+            updateArticleCounter();
+ // 🔑 أضف هذا السطر
+        } 
+  });
+// ← نهاية DOMContentLoaded
 /* ==============
    END OF SCRIPT
    ============== */
