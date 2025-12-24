@@ -85,6 +85,7 @@ function applyLanguage(lang) {
     const articleContentContainer = $('article'); 
     
     const article = ALL_ARTICLES[currentArticleIndex]; 
+    if (article && article[lang] && articleContentContainer) { ... }
 
     if (article && article[lang] && articleContentContainer) {
         // نستخدم DOMPurify (تأكد من تحميلها في HTML)
@@ -719,21 +720,27 @@ updateArticleCounter();
         history.pushState({}, "", "?article=" + (index + 1));
         // هنا لا يوجد استدعاء لـ applySEO
     }
-document.addEventListener('DOMContentLoaded', function() {    // 1. تحديد المقالة من الرابط (إذا كان هناك دالة لهذا)
+document.addEventListener('DOMContentLoaded', function() {
+    // ضع هنا كل الأكواد التي أرسلتها لي الآن:
 
-    // 2. إنشاء الحساب أو تحميله
-    loadStoredAccount(); // على سبيل المثال
+    // 2️⃣ تطبيق اللغة وضبط زر التبديل
+    const currentL = currentLang();
+    document.documentElement.setAttribute('dir', currentL === 'ar' ? 'rtl' : 'ltr');
+    applyLanguage(currentL);
     
-    // 3. تطبيق اللغة والمحتوى (هذه الدالة التي تسبب الخطأ 1254!)
-    applyLanguage(detectUserLanguage()); // استدعاء دالة applyLanguage هنا
-    
-    // 4. تحديث العداد
+    // ⭐⭐ التعديل الأول: ضبط نص زر اللغة عند التحميل
+    if (typeof updateLangButton === "function") {
+        updateLangButton(currentL);
+    }
+
+    // 3️⃣ تحميل الحساب المخزن أو إنشاء حساب جديد
+    const loaded = loadStored();
+    if(!loaded){
+        createAccount();
+    }
     updateArticleCounter(); 
-    
-    // 5. تعريف مستمعي الأحداث
-    document.getElementById('prev-btn').addEventListener('click', prevArticle);
-    document.getElementById('next-btn').addEventListener('click', nextArticle);
-    // ... إلخ.
+
+    // + ضع هنا أي مستمعات أحداث أخرى (مثل prevArticle و nextArticle)
 });
 // ... (بقية الكود) ...
 // ← نهاية DOMContentLoaded
