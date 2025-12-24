@@ -1240,11 +1240,9 @@ prevArticle: '‹ Previous Article',
 /* ======================
    الدوال المساعدة (SEO)
    ====================== */
-/**
- * دالة لتحديث عنوان الصفحة وأوصاف SEO بناءً على رقم المقالة.
- * تتطلب مصفوفة ALL_ARTICLES المُعرّفة عالمياً.
- * @param {number} articleNum - رقم المقالة (يبدأ من 1)
- */
+
+ @param {number} articleNum    
+
 function applySEO(articleNum) {
     // التأكد من أن رقم المقالة ضمن الحدود
     if (!ALL_ARTICLES || articleNum < 1 || articleNum > ALL_ARTICLES.length) {
