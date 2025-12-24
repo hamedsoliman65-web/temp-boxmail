@@ -1240,43 +1240,39 @@ prevArticle: '‹ Previous Article',
 /* ======================
    الدوال المساعدة (SEO)
    ====================== */
-
-function applySEO(articleNumber) {
-    const lang = currentLang();
-    const article = ALL_ARTICLES[articleNumber - 1];
-    
-    if (article && article[lang]) {
-        const tempDiv = document.createElement('div');
-        tempDiv.innerHTML = article[lang]; 
-
-        // 1. استخراج العنوان
-        const articleTitle = tempDiv.querySelector('h1') ? tempDiv.querySelector('h1').innerText : "Temp-BoxMail";
-        document.title = articleTitle + " - Temp-BoxMail";
-
-        // 2. تحديث الوصف (كما فعلنا سابقاً)
-        const plainText = tempDiv.innerText.replace(/\s+/g, ' ').trim();
-        const descriptionText = plainText.substring(0, 150) + "...";
-        updateMetaTag('description', descriptionText);
-
-        // 3. ✨ توليد الكلمات المفتاحية تلقائياً من العنوان ✨
-        // نأخذ كلمات العنوان ونحول المسافات إلى فواصل
-        const keywordsFromTitle = articleTitle.split(' ').join(', ');
-        const finalKeywords = keywordsFromTitle + ", بريد مؤقت, ايميل وهمي, temp mail, disposable email";
-        
-        // تحديث وسم الكلمات المفتاحية في الهيد
-        updateMetaTag('keywords', finalKeywords);
-
-        // 4. تحديث باقي الوسوم (OG Tags)
-        updateMetaTag('og:title', articleTitle);
-        updateMetaTag('og:description', descriptionText);
-        
-        let canonical = document.querySelector('link[rel="canonical"]');
-        if (canonical) {
-            canonical.href = window.location.origin + window.location.pathname + "?article=" + articleNumber;
-
-
-        }
+/**
+ * دالة لتحديث عنوان الصفحة وأوصاف SEO بناءً على رقم المقالة.
+ * تتطلب مصفوفة ALL_ARTICLES المُعرّفة عالمياً.
+ * @param {number} articleNum - رقم المقالة (يبدأ من 1)
+ */
+function applySEO(articleNum) {
+    // التأكد من أن رقم المقالة ضمن الحدود
+    if (!ALL_ARTICLES || articleNum < 1 || articleNum > ALL_ARTICLES.length) {
+        return;
     }
+
+    const index = articleNum - 1;
+    const article = ALL_ARTICLES[index];
+    const lang = currentLang();
+    
+    // 1. استخراج البيانات باللغة المناسبة (يفترض وجود article.title[lang] و article.description[lang])
+    const title = article.title[lang];
+    const description = article.description[lang];
+
+    // 2. تحديث عنوان الصفحة (<title>)
+    // نستخدم اسم المقال متبوعاً باسم الموقع
+    document.title = title + " | Temp-BoxMail";
+
+    // 3. تحديث وسم الوصف (Meta Description)
+    // نبحث عن وسم meta باسم 'description'
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (!metaDescription) {
+        // إذا لم يكن موجوداً، نقوم بإنشائه
+        metaDescription = document.createElement('meta');
+        metaDescription.name = "description";
+        document.head.appendChild(metaDescription);
+    }
+    metaDescription.content = description;
 }
 /* ============================================================
    بعد ذلك يأتي كود الـ DOMContentLoaded الذي رتبناه في الرسالة السابقة
