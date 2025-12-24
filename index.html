@@ -467,6 +467,60 @@ footer{margin-top:26px;text-align:center;color:var(--muted);font-size:13px}
   .msg-body{min-height:200px}
   .article{padding:16px}
 }
+  /* ------------------------------------- */
+/*     قواعد التحكم في محتوى الرسالة الواردة  */
+/* ------------------------------------- */
+
+.msg-body img {
+    max-width: 100% !important; 
+    height: auto !important;
+    display: block; 
+    margin: 10px auto;
+    border-radius: 8px;
+}
+
+.msg-body table {
+    width: 100% !important;
+    border-collapse: collapse; 
+    margin: 15px 0;
+    max-width: 100%;
+    overflow-x: auto; 
+    display: block; /* هام لعمل overflow-x */
+}
+
+.msg-body td,
+.msg-body th {
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.15); 
+    color: var(--text) !important; 
+    vertical-align: top;
+}
+
+.msg-body p,
+.msg-body div,
+.msg-body span,
+.msg-body li {
+    color: var(--text) !important;
+    line-height: 1.6 !important;
+    word-wrap: break-word; 
+    overflow-wrap: break-word;
+}
+
+.msg-body a {
+    color: var(--accent) !important;
+    text-decoration: underline;
+    word-break: break-all;
+}
+
+.msg-body h1,
+.msg-body h2,
+.msg-body h3,
+.msg-body h4 {
+    color: var(--text) !important; 
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+/* ------------------------------------- */
 </style>
 </head>
 <body>
@@ -637,6 +691,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 </body>
 </html>
+
 
 
 
