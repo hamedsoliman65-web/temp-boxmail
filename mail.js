@@ -1677,44 +1677,17 @@ updateArticleCounter();
         }
     });
 
-    // أزرار التنقل بين المقالات
-    $('prevArticle').addEventListener('click', () => {
-        if (currentArticleIndex > 0) {
-            currentArticleIndex--;
-            updateArticleURL(currentArticleIndex); // SEO + URL
-            applyLanguage(currentLang());
-            applySEO(currentArticleIndex + 1);
-        }
-    });
+   // ... (داخل document.addEventListener('DOMContentLoaded', ...) ) ...
 
-    $('nextArticle').addEventListener('click', () => {
-        if (currentArticleIndex < ALL_ARTICLES.length - 1) {
-            currentArticleIndex++;
-            updateArticleURL(currentArticleIndex); // SEO + URL
-            applyLanguage(currentLang());
-            applySEO(currentArticleIndex + 1);
-        }
-    });
-
-    // 5️⃣ دالة مساعدة لتحديث رابط المقال (إذا لم تكن معرفة خارج هذه الكتلة)
-    function updateArticleURL(index) {
-        history.pushState({}, "", "?article=" + (index + 1));
-        
-        // استدعاء دالة الـ SEO إذا كانت موجودة لتحديث العنوان والوصف (Meta Tags)
-        if (typeof applySEO === "function") {
-            applySEO(index + 1);
-        }
-    }
-
-
-});
-       $('prevArticle').addEventListener('click', () => {
+    // أزرار التنقل بين المقالات
+    $('prevArticle').addEventListener('click', () => {
         if (currentArticleIndex > 0) {
             currentArticleIndex--;
             updateArticleURL(currentArticleIndex);
             applyLanguage(currentLang());
             applySEO(currentArticleIndex + 1);
-            updateArticleCounter(); // 🔑 أضف هذا السطر
+            // 🔑 إضافة العداد المفقود
+            if (typeof updateArticleCounter === 'function') updateArticleCounter(); 
         }
     });
 
@@ -1724,10 +1697,18 @@ updateArticleCounter();
             updateArticleURL(currentArticleIndex);
             applyLanguage(currentLang());
             applySEO(currentArticleIndex + 1);
-            updateArticleCounter();
- // 🔑 أضف هذا السطر
-        } 
-  });
+            // 🔑 إضافة العداد المفقود
+            if (typeof updateArticleCounter === 'function') updateArticleCounter();
+        }
+    });
+
+    // 5️⃣ دالة مساعدة لتحديث رابط المقال 
+    function updateArticleURL(index) {
+        history.pushState({}, "", "?article=" + (index + 1));
+        // هنا لا يوجد استدعاء لـ applySEO
+    }
+    });
+// ... (بقية الكود) ...
 // ← نهاية DOMContentLoaded
 /* ==============
    END OF SCRIPT
