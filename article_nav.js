@@ -1,10 +1,6 @@
 // ===============================================
 // 1. تعاريف المقالات (يجب أن تكون هنا الآن)
 // ===============================================
-// 2. تهيئة المصفوفة (الآن يتم استخدام المتغيرات بعد تعريفها)
-
-const ALL_ARTICLES = [ARTICLE_1, ARTICLE_2, ARTICLE_3, ARTICLE_4, ARTICLE_5,ARTICLE_6, ARTICLE_7, ARTICLE_8, ARTICLE_9, ARTICLE_10];
-let currentArticleIndex = 0;
 
 const ARTICLE_1 = {
   ar: `
@@ -994,6 +990,12 @@ const ARTICLE_10 = {
 <p>Temporary email is a powerful tool for safely exploring the internet and digital services, protecting personal email, and maintaining digital privacy. When used correctly, users can enjoy all the advantages of digital services without exposure to risks or spam.</p>
 `
 };
+
+// 2. تهيئة المصفوفة (الآن يتم استخدام المتغيرات بعد تعريفها)
+
+const ALL_ARTICLES = [ARTICLE_1, ARTICLE_2, ARTICLE_3, ARTICLE_4, ARTICLE_5,ARTICLE_6, ARTICLE_7, ARTICLE_8, ARTICLE_9, ARTICLE_10];
+let currentArticleIndex = 0;
+
 function updateArticleCounter() {
     if (typeof ALL_ARTICLES === 'undefined' || typeof currentArticleIndex === 'undefined') {
         return;
