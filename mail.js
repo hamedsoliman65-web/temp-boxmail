@@ -10,8 +10,8 @@ let account = null;
 let token = null;
 let messages = [];
 let pollInterval = null;
-// ملاحظة: يتم تعريف ALL_ARTICLES في ملف articles_data.js الذي يتم تحميله قبله
-let currentArticleIndex = 0; // يتم تحديثه عند التحميل من الرابط
+// ملاحظة: يتم تعريف ALL_ARTICLES في ملف article_nav.js الذي يتم تحميله قبله
+////let currentArticleIndex = 0; // يتم تحديثه عند التحميل من الرابط
 
 /* ==============
   Translations UI Texts
