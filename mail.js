@@ -621,7 +621,7 @@ function applyLanguage(lang) {
         </p>`;
     }
     
-    // ...
+    
 }
 
   /* ======================
@@ -692,7 +692,7 @@ updateArticleCounter();
         }
     });
 
-   // ... (داخل document.addEventListener('DOMContentLoaded', ...) ) ...
+   //  (داخل document.addEventListener('DOMContentLoaded', ...) ) 
 
     // أزرار التنقل بين المقالات
     $('prevArticle').addEventListener('click', () => {
