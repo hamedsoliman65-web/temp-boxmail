@@ -1,5 +1,7 @@
-
-"headers": [
+{
+  "version": 2,
+  "cleanUrls": true,
+  "headers": [
     {
       "source": "/(.*)",
       "headers": [
@@ -21,8 +23,7 @@
         }
       ]
     }
-  ]
-}
+ ], // <--- قوس إغلاق قسم headers
   "rewrites": [
     {
       "source": "/",
