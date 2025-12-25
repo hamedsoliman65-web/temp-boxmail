@@ -19,11 +19,12 @@
         },
         {
           "key": "Content-Security-Policy",
+          // تم جمع كل التوجيهات في سلسلة واحدة لتجنب أخطاء التنسيق في JSON 
           "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://pagead2.googlesyndication.com https://cdn.ampproject.org https://www.gstatic.com https://ep2.adtrafficquality.google https://ep1.adtrafficquality.google https://googleads.g.doubleclick.net https://googletagservices.com https://www.google.com https://www.google-analytics.com; connect-src 'self' https://temp-boxmail.online https://api.mail.tm https://cdn.ampproject.org https://www.google-analytics.com https://stats.g.doubleclick.net https://csi.gstatic.com https://fundingchoicesmessages.google.com https://ep2.adtrafficquality.google https://ep1.adtrafficquality.google https://adfrr.adtrafficquality.google; img-src 'self' data: blob: https://* https://images.pexels.com https://pagead2.googlesyndication.com https://www.google.com https://tpc.googlesyndication.com https://images.p-n.net https://cache.getarchive.net https://www.google-analytics.com https://i.top4top.io; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://www.gstatic.com; font-src 'self' https://fonts.gstatic.com; frame-src 'self' https://googleads.g.doubleclick.net https://www.google.com https://fundingchoicesmessages.google.com https://tpc.googlesyndication.com https://pagead2.googlesyndication.com https://adfrr.adtrafficquality.google https://ep2.adtrafficquality.google; worker-src 'self' blob:;"
         }
       ]
     }
- ],
+  ],
   "rewrites": [
     {
       "source": "/",
