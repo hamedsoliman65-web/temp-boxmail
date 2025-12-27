@@ -870,7 +870,7 @@ window.ARTICLES = [
       en: "Deep Dive into Google Gemini: Architecture, Security, and Advanced Integration",
       ar: "غوص عمق في جوجل جيميناي: البنية التحتية، الأمن، والتكامل المتقدم"
     },
-    cat: { en: "AI Technology", ar: "تقنية الذكاء الاصطناعي" },
+     cat: { en: "AI", ar: "الذكاء الاصطناعي" },
     meta: { en: "Published 2025", ar: "نشر 2025" },
     seo: {
       en: {
@@ -1043,6 +1043,7 @@ window.ARTICLES = [
   }
 
 ];
+
 
 
 
