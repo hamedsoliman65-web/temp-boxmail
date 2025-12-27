@@ -862,8 +862,188 @@ window.ARTICLES = [
 </ul>
       `
     }
+  },
+  {
+    id: 11,
+    img: "https://images.unsplash.com/photo-1678483789470-8fa5c40c4e9d?q=80&w=1828&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D?auto=compress&cs=tinysrgb&w=1200",
+    title: {
+      en: "Deep Dive into Google Gemini: Architecture, Security, and Advanced Integration",
+      ar: "غوص عمق في جوجل جيميناي: البنية التحتية، الأمن، والتكامل المتقدم"
+    },
+    cat: { en: "AI Technology", ar: "تقنية الذكاء الاصطناعي" },
+    meta: { en: "Published 2025", ar: "نشر 2025" },
+    seo: {
+      en: {
+        title: "Deep Dive into Google Gemini: Architecture & Security | Temp Box Blog",
+        desc: "Explore the technical architecture of Google Gemini, its security features, developer API capabilities, and integration with Android devices for on-device AI.",
+        keywords: "Google Gemini architecture, Mixture of Experts, Gemini API, on-device AI, Android Gemini, AI security"
+      },
+      ar: {
+        title: "غوص عمق في جوجل جيميناي: البنية التحتية والأمان | مدونة تمب بوكس",
+        desc: "اكتشف البنية التحتية التقنية لجوجل جيميناي، ميزات الأمان، قدرات واجهة برمجة التطبيقات للمطورين، والتكامل مع أجهزة أندرويد للذكاء الاصطناعي على الجهاز.",
+        keywords: "بنية جيميناي, خليط الخبراء, واجهة برمجة جيميناي, ذكاء اصطناعي محلي, جيميناي أندرويد, أمن الذكاء الاصطناعي"
+      }
+    },
+    content: {
+      en: `
+<p>In the first part, we explored the evolution and major features of Google Gemini AI. In this second part, we will dive deeper into the <strong>technical architecture</strong> that powers these models, how developers can leverage them through advanced APIs, and the critical aspects of <strong>security and privacy</strong> that make Gemini enterprise-ready.</p>
+
+<img src="https://images.pexels.com/photos/5473957/pexels-photo-5473957.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="Futuristic technology network background">
+
+<h2>1. The Technical Architecture: Mixture of Experts (MoE)</h2>
+<p>One of the reasons behind Gemini's exceptional performance, especially in version 2.5 and beyond, is its use of a <strong>Mixture of Experts (MoE)</strong> architecture. Unlike traditional dense models where every part of the neural network activates for every query, MoE models are comprised of many specialized "expert" sub-models. For any given input, a "router" network dynamically selects which experts are most relevant to processing that specific data. :contentReference[oaicite:0]{index=0}</p>
+<p>This architecture allows Gemini to have a massive total parameter count (giving it high intelligence) while being computationally efficient during inference (since only a fraction of parameters activate per token). This results in faster responses and lower operational costs without sacrificing capability. :contentReference[oaicite:1]{index=1}</p>
+
+<h3>Context Window and Long-Form Understanding</h3>
+<p>Another breakthrough in Gemini's technical design is its <strong>massive context window</strong>. Gemini 1.5 Pro and 2.5 can handle up to 1 million tokens of context (and even more in specific research environments). This means the model can read and analyze entire codebases, lengthy books, or hours of video in a single interaction. :contentReference[oaicite:2]{index=2} This capability revolutionizes fields like legal analysis and scientific research where data volume is massive.</p>
+
+<h2>2. Advanced Development: Gemini API and Code Assist</h2>
+<p>For developers, Google has moved beyond simple chat interfaces to provide robust tools for building AI-native applications.</p>
+
+<h3>Gemini API: Multimodal Capabilities</h3>
+<p>The Gemini API is designed to be inherently multimodal. Developers don't need separate endpoints for text, images, or video. A single API call can accept a mix of text, code, images, audio, and PDFs. This simplifies the development of complex applications like:
+<ul>
+  <li><strong>Visual QA:</strong> Apps that answer questions about uploaded photos.</li>
+  <li><strong>Document Analysis:</strong> Tools that extract structured data from scanned invoices or contracts.</li>
+  <li><strong>Generative Media:</strong> Platforms that create captions or edit images based on user prompts. :contentReference[oaicite:3]{index=3}</li>
+</ul>
+</p>
+
+<h3>Gemini Code Assist: Transforming Coding Workflows</h3>
+<p>Gemini Code Assist, now powered by the Gemini 2.5 models, offers context-aware coding assistance. Unlike basic autocomplete tools, Code Assist understands the entire repository structure. It can:
+<ul>
+  <li>Generate new functions that adhere to existing code styles.</li>
+  <li>Suggest tests for specific code blocks.</li>
+  <li>Explain complex legacy code to new developers.</li>
+  <li>Refactor code to improve performance or security. :contentReference[oaicite:4]{index=4}</li>
+</ul>
+</p>
+
+<h2>3. On-Device AI: Gemini on Android</h2>
+<p>One of the most significant differentiators for Google is its ability to bring Gemini capabilities directly to hardware. Through <strong>Gemini Nano</strong>, a smaller, optimized version of the model, Google enables on-device AI on flagship smartphones like the Pixel 9 series. :contentReference[oaicite:5]{index=5}</p>
+
+<h3>Benefits of On-Device AI</h3>
+<ul>
+  <li><strong>Privacy:</strong> Sensitive data never leaves the phone because processing happens locally.</li>
+  <li><strong>Latency:</strong> Responses are instant as they don't rely on server round-trips.</li>
+  <li><strong>Offline Capability:</strong> Features like "Summarize" or "Smart Reply" work even without an internet connection.</li>
+</ul>
+<p>Features like <strong>Circle to Search</strong> use a hybrid approach, combining the speed of on-device models with the vast knowledge of cloud-based models to provide instant, contextual information without switching apps. :contentReference[oaicite:6]{index=6}</p>
+
+<h2>4. Security, Privacy, and Responsible AI</h2>
+<p>As AI models become more powerful, the risks associated with them grow. Google has implemented a comprehensive security framework for Gemini.</p>
+
+<h3>Enterprise-Grade Data Governance</h3>
+<p>For business customers using Gemini Enterprise or Gemini for Workspace, Google guarantees that customer data is <strong>not used to train public models</strong>. This is a critical compliance requirement for banks, healthcare providers, and government agencies. Data is isolated and encrypted, ensuring strict confidentiality. :contentReference[oaicite:7]{index=7}</p>
+
+<h3>Safety Filters and Red Teaming</h3>
+<p>Google employs "Red Teams"—groups of ethical hackers and security experts whose job is to try to break or mislead the model. Through this process, they identify vulnerabilities (such as prompt injection attacks or generating harmful content) and build filters and safeguards to prevent them. :contentReference[oaicite:8]{index=8}</p>
+
+<h3>Watermarking and Synthetic Media</h3>
+<p>To address the challenge of deepfakes and synthetic content, Google has developed <strong>SynthID</strong>. This technology imperceptibly watermarks AI-generated images and audio, allowing platforms and users to identify if a piece of content was created by an AI. :contentReference[oaicite:9]{index=9}</p>
+
+<h2>5. Advanced Prompt Engineering for Gemini</h2>
+<p>To get the best results out of Gemini, users should employ advanced prompting strategies:</p>
+<ul>
+  <li><strong>Chain of Thought (CoT):</strong> Asking the model to "think step-by-step" significantly improves its performance on logic and math problems.</li>
+  <li><strong>Few-Shot Prompting:</strong> Providing a few examples of input and desired output helps the model understand the specific format or style required.</li>
+  <li><strong>Role Playing:</strong> Assigning a persona (e.g., "Act as a senior Python engineer") guides the tone and technical depth of the response.</li>
+  <li><strong>Context Caching:</strong> For developers, using context caching APIs can reduce costs and latency by storing large parts of the context (like a large document) that don't change across multiple requests. :contentReference[oaicite:10]{index=10}</li>
+</ul>
+
+<h2>Conclusion: The Future is Agentic</h2>
+<p>We are moving from "Chatbots" to "Agents". Gemini is evolving from a passive responder to an active agent capable of planning and executing multi-step tasks. With the introduction of <strong>Gemini 2.5 Computer Use</strong> capabilities, the AI can soon interact with software interfaces just like a human—moving a mouse, clicking buttons, and filling forms to complete tasks autonomously. This marks the next frontier in the AI revolution. :contentReference[oaicite:11]{index=11}</p>
+
+<p><strong>Sources:</strong></p>
+<ul>
+  <li><a href="https://deepmind.google/technologies/gemini/" target="_blank">Google DeepMind: Gemini Technology</a></li>
+  <li><a href="https://ai.google.dev/gemini-api/docs" target="_blank">Google AI Developers: Gemini API Documentation</a></li>
+  <li><a href="https://blog.google/products/android/android-15-gemini" target="_blank">Android Blog: Gemini integration details</a></li>
+  <li><a href="https://cloud.google.com/security/generative-ai" target="_blank">Google Cloud: Security and Generative AI</a></li>
+</ul>
+      `,
+      ar: `
+<p>في الجزء الأول، استعرضنا التطور والميزات الرئيسية لـ جوجل جيميناي. في هذا الجزء الثاني، سنغوص في <strong>البنية التقنية</strong> التي تقود هذه النماذج، وكيف يمكن للمطورين استغلالها عبر واجهات برمجة التطبيقات المتقدمة، والجوانب الحاسمة لـ <strong>الأمان والخصوصية</strong> التي تجعل جيميناي جاهزاً للمؤسسات.</p>
+
+<img src="https://images.pexels.com/photos/5473957/pexels-photo-5473957.jpeg?auto=compress&cs=tinysrgb&w=1200" alt="خلفية تقنية مستقبلية">
+
+<h2>1. البنية التحتية التقنية: خليط الخبراء (Mixture of Experts)</h2>
+<p>واحدة من الأسباب الرئيسة وراء الأداء الاستثنائي لـ جيميناي، لا سيما في الإصدار 2.5 وما بعده، هي استخدامه لبنية <strong>خليط الخبراء (Mixture of Experts - MoE)</strong>. على عكس النماذج الكثيفة التقليدية التي يعمل فيها جزء الشبكة العصبية بالكامل لكل استفسار، تتكون نماذج MoE من العديد من النماذج الفرعية المتخصصة ("خبراء"). لأي مدخل معين، تقوم شبكة "التوجيه" (Router) باختيار الخبراء الأكثر صلة بمعالجة تلك البيانات المحددة ديناميكياً. :contentReference[oaicite:12]{index=12}</p>
+<p>تتيح هذه البنية لـ جيميناي امتلاك عدد ضخم من المعاملات الكلية (مما يمنحه ذكاءً عالياً) مع كونه فعالاً حسابياً أثناء الاستنتاج (Inference)، لأن جزءاً صغيراً فقط من المعاملات يتم تفعيله لكل رمز (Token). يؤدي هذا إلى استجابات أسرع وتكاليف تشغيلية أقل دون التضحية بالقدرة. :contentReference[oaicite:13]{index=13}</p>
+
+<h3>نافذة السياق وفهم النصوص الطويلة</h3>
+<p>إن الإنجاز الآخر في التصميم التقني لجيميناي يكمن في <strong>نافذة السياق (Context Window)</strong> الضخمة. يمكن لنموذج Gemini 1.5 Pro و2.5 التعامل مع ما يصل إلى 1 مليون رمز من السياق (وحتى أكثر في بيئات البحث المحددة). هذا يعني أن النموذج يمكنه قراءة وتحليل قواعد الأكواد البرمجية بالكامل، أو كتب طويلة، أو ساعات من الفيديو في تفاعل واحد. :contentReference[oaicite:14]{index=14} تغير هذه القدرة مجالات مثل التحليل القانوني والبحث العلمي حيث حجم البيانات ضخم.</p>
+
+<h2>2. التطوير المتقدم: واجهة برمجة التطبيقات (API) ومساعد الكود</h2>
+<p>بالنسبة للمطورين، تجاوزت جوجل واجهات المحادثة البسيطة لتوفر أدوات قوية لبناء تطبيقات تعتمد على الذكاء الاصطناعي بشكل أصلي.</p>
+
+<h3>Gemini API: قدرات متعددة الوسائط</h3>
+<p>صُمم Gemini API ليكون متعدد الوسائط بطبيعته. لا يحتاج المطورون إلى نقاط نهاية (Endpoints) منفصلة للنصوص أو الصور أو الفيديو. يمكن لاستدعاء API واحد قبول مزيج من النصوص، والأكواد، والصور، والصوت، وملفات PDF. هذا يبسط تطوير التطبيقات المعقدة مثل:
+<ul>
+  <li><strong>الأسئلة المرئية:</strong> تطبيقات تجيب على أسئلة حول الصور المرفوعة.</li>
+  <li><strong>تحليل المستندات:</strong> أدوات تستخرج البيانات المهيكلة من الفواتير الممسوحة ضوئياً أو العقود.</li>
+  <li><strong>الإعلام التوليدي:</strong> منصات تنشؤ التسميات التوضيحية أو تعدل الصور بناءً على مطالبات المستخدم. :contentReference[oaicite:15]{index=15}</li>
+</ul>
+</p>
+
+<h3>Gemini Code Assist: تحويل سير عمل البرمجة</h3>
+<p>يعمل Gemini Code Assist، والمدعوم الآن بنماذج Gemini 2.5، على تقديم مساعدة برمجية واعية للسياق. على عكس أدوات الإكمال التلقائي الأساسية، يفهم Code Assist هيكل المستودع بالكامل. يمكنه:
+<ul>
+  <li>إنشاء دوال جديدة تلتزم بأسلوب الكود القائم.</li>
+  <li>اقتراح اختبارات (Tests) لكتل الأكواد المحددة.</li>
+  <li>شرح الأكواد القديمة المعقدة للمطورين الجدد.</li>
+  <li>إعادة هيكلة الكود (Refactoring) لتحسين الأداء أو الأمان. :contentReference[oaicite:16]{index=16}</li>
+</ul>
+</p>
+
+<h2>3. الذكاء الاصطناعي على الجهاز: جيميناي على أندرويد</h2>
+<p>واحدة من أهم نقاط التميز لجوجل هي قدرتها على جلب قدرات جيميناي مباشرة إلى الأجهزة. من خلال <strong>Gemini Nano</strong>، وهو نسخة أصغر ومحسّنة من النموذج، تتيح جوجل الذكاء الاصطناعي على الجهاز (On-Device AI) في الهواتف الذكية الرائدة مثل سلسلة Pixel 9. :contentReference[oaicite:17]{index=17}</p>
+
+<h3>فوائد الذكاء الاصطناعي على الجهاز</h3>
+<ul>
+  <li><strong>الخصوصية:</strong> لا تغادر البيانات الحساسة الهاتف أبداً لأن المعالجة تتم محلياً.</li>
+  <li><strong>زمن الاستجابة (Latency):</strong> الاستجابات فورية لأنها لا تعتمد على رحلات ذهاب وإياب للخوادم.</li>
+  <li><strong>القدرة دون اتصال:</strong> تعمل ميزات مثل "تلخيص" أو "الردود الذكية" حتى بدون اتصال بالإنترنت.</li>
+</ul>
+<p>تستخدم ميزات مثل <strong>Circle to Search</strong> نهجاً هجيناً، تجمع بين سرعة النماذج المحلية وبالمعرفة الواسعة للنماذج السحابية لتوفير معلومات سياقية فورية دون التبديل بين التطبيقات. :contentReference[oaicite:18]{index=18}</p>
+
+<h2>4. الأمان، الخصوصية، والذكاء الاصطناعي المسؤول</h2>
+<p>مع تصاعد قوة نماذج الذكاء الاصطناعي، تزداد المخاطر المرتبطة بها. نفذت جوجل إطار أمان شامل لجيميناي.</p>
+
+<h3>حوكمة البيانات على مستوى المؤسسات</h3>
+<p>لعملاء الأعمال الذين يستخدمون Gemini Enterprise أو Gemini for Workspace، تضمن جوجل أن <strong>بيانات العملاء لا تُستخدم لتدريب النماذج العامة</strong>. هذا شرط امتثال حاسم للبنوك، ومقدمي الرعاية الصحية، والوكالات الحكومية. يتم عزل البيانات وتشفيرها لضمان السرية الصارمة. :contentReference[oaicite:19]{index=19}</p>
+
+<h3>فلاتر السلامة والفرق الحمراء (Red Teaming)</h3>
+<p>توظف جوجل "الفرق الحمراء" (Red Teams)—مجموعات من المخترقين الأخلاقيين وخبراء الأمان تتمثل مهمتهم في محاولة كسر النموذج أو تضليله. من خلال هذه العملية، يحددون نقاط الضعف (مثل هجمات حقن الأوامر أو توليد محتوى ضار) ويبنون فلاتر وضمانات لمنعها. :contentReference[oaicite:20]{index=20}</p>
+
+<h3>العلامة المائية والإعلام الاصطناعي</h3>
+<p>لمعالجة تحدي الدييب فيكس (Deepfakes) والمحتوى الاصطناعي، طورت جوجل تقنية <strong>SynthID</strong>. تضع هذه التقنية علامة مائية غير محسوسة على الصور والصوت المُنشأة بالذكاء الاصطناعي، مما يسمح للمنصات والمستخدمين بتحديد ما إذا كان جزء من المحتوى قد تم إنشاؤه بواسطة الذكاء الاصطناعي. :contentReference[oaicite:21]{index=21}</p>
+
+<h2>5. كتابة الأوامر المتقدمة (Prompt Engineering) لجيميناي</h2>
+<p>للحصول على أفضل النتائج من جيميناي، يجب على المستخدمين توظيف استراتيجيات مطالبة متقدمة:</p>
+<ul>
+  <li><strong>سلسلة التفكير (Chain of Thought):</strong> طلب من النموذج "التفكير خطوة بخطوة" يحسن الأداء بشكل كبير في مشاكل المنطق والرياضيات.</li>
+  <li><strong>المطالبة بأمثلة قليلة (Few-Shot Prompting):</strong> توفير بعض الأمثلة للمدخل والمخرج المطلوب يساعد النموذج على فهم التنسيق أو الأسلوب المحدد المطلوب.</li>
+  <li><strong>تمثيل الأدوار (Role Playing):</strong> تعيين شخصية (مثلاً: "تصرف كمهندس بايثون أول") يوجه نبرة العمق التقني للاستجابة.</li>
+  <li><strong>تخزين السياق (Context Caching):</strong> بالنسبة للمطورين، فإن استخدام واجهات برمجة التطبيقات لتخزين السياق يمكن أن يقلل التكاليف وزمن الاستجابة عن طريق تخزين أجزاء كبيرة من السياق (مثل مستند كبير) لا تتغير عبر طلبات متعددة. :contentReference[oaicite:22]{index=22}</li>
+</ul>
+
+<h2>الخاتمة: المستقبل "وكيلي" (Agentic)</h2>
+<p>ننتقل من "روبوتات المحادثة" (Chatbots) إلى "الوكلاء" (Agents). يتطور جيميناي من مجرد مستجيب سلبي إلى وكيل نشط قادر على التخطيط وتنفيذ المهام متعددة الخطوات. مع تقديم قدرات <strong>Gemini 2.5 Computer Use</strong>، سيتمكن الذكاء الاصطناعي قريباً من التفاعل مع واجهات البرامج تماماً مثل البشر—تحريك الماوس، النقر على الأزرار، وملء النماذج لإكمال المهام بشكل مستقل. هذا يحدد الحدود الجديدة في ثورة الذكاء الاصطناعي. :contentReference[oaicite:23]{index=23}</p>
+
+<p><strong>المصادر:</strong></p>
+<ul>
+  <li><a href="https://deepmind.google/technologies/gemini/" target="_blank">Google DeepMind: تقنية Gemini</a></li>
+  <li><a href="https://ai.google.dev/gemini-api/docs" target="_blank">مطورو Google AI: وثائق Gemini API</a></li>
+  <li><a href="https://blog.google/products/android/android-15-gemini" target="_blank">مدونة Android: تفاصيل تكامل Gemini</a></li>
+  <li><a href="https://cloud.google.com/security/generative-ai" target="_blank">Google Cloud: الأمان والذكاء الاصطناعي التوليدي</a></li>
+</ul>
+      `
+    }
   }
+
 ];
+
 
 
 
