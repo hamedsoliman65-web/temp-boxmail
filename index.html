@@ -694,12 +694,14 @@ footer > div:last-child a:last-child:after {
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
- <div id="cookie-banner" style="position:fixed; top:0; left:0; width:100%; background:#222; color:#ffffff; padding:15px; display:flex; justify-content:space-between; align-items:center; z-index:9999;">
-  <span>نستخدم ملفات تعريف الارتباط لتحسين تجربتك وعرض الإعلانات. هل توافق على استخدامها؟</span>
-  <div>
-    <button id="accept-btn" style="background:#4caf50; color:#ffffff; border:none; padding:6px 12px; margin-left:8px; cursor:pointer;">أوافق</button>
-    <button id="reject-btn" style="background:#f44336; color:#ffffff; border:none; padding:6px 12px; margin-left:8px; cursor:pointer;">أرفض</button>
-  </div>
+ <div id="consent-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.3); z-index:9998;"></div>
+
+<div id="cookie-banner" style="position:fixed; top:0; left:0; width:100%; background:#222; color:#ffffff; padding:15px; display:none; justify-content:space-between; align-items:center; z-index:9999;">
+    <span id="cookie-message"></span>
+    <div>
+        <button id="accept-btn" style="background:#4caf50; color:#ffffff; border:none; padding:6px 12px; margin-left:8px; cursor:pointer;"></button>
+        <button id="reject-btn" style="background:#f44336; color:#ffffff; border:none; padding:6px 12px; margin-left:8px; cursor:pointer;"></button>
+    </div>
 </div>
    
   <!-- نسخة SEO مخفية باللغتين -->
@@ -814,32 +816,79 @@ NewTemp<br>
 <div id="consent-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.3); z-index:9998;"></div>
 <script>
 document.addEventListener("DOMContentLoaded", function() {
-  const banner = document.getElementById("cookie-banner");
-  const overlay = document.getElementById("consent-overlay");
+    const banner = document.getElementById("cookie-banner");
+    const overlay = document.getElementById("consent-overlay");
+    const acceptBtn = document.getElementById("accept-btn");
+    const rejectBtn = document.getElementById("reject-btn");
 
-  // عرض البانر والغلاف دائماً
-  banner.style.display = "flex";
-  overlay.style.display = "block";
+    // 1. تحديد النصوص لكل لغة
+    const translations = {
+        'ar': {
+            message: 'نستخدم ملفات تعريف الارتباط لتحسين تجربتك وعرض الإعلانات. هل توافق على استخدامها؟',
+            accept: 'أوافق',
+            reject: 'أرفض',
+            direction: 'rtl',
+        },
+        'en': {
+            message: 'We use cookies to enhance your experience and display ads. Do you agree to their use?',
+            accept: 'Accept',
+            reject: 'Reject',
+            direction: 'ltr',
+        }
+    };
 
-  // دالة لإزالة البانر والغلاف
-  function enableSite() {
-    banner.style.display = "none";
-    overlay.style.display = "none";
-  }
+    // 2. دالة تطبيق اللغة والتنسيق
+    function applyLanguage(lang) {
+        // اكتشاف اللغة (يأخذ 'ar' إذا كانت اللغة تبدأ بـ ar، وإلا يأخذ 'en')
+        const userLang = (navigator.language || navigator.userLanguage).startsWith('ar') ? 'ar' : 'en';
+        const t = translations[userLang];
 
-  document.getElementById("accept-btn").onclick = () => {
-    setConsent("granted");
-    enableSite();
-  };
+        // تحديث النصوص
+        document.getElementById('cookie-message').textContent = t.message;
+        acceptBtn.textContent = t.accept;
+        rejectBtn.textContent = t.reject;
+        
+        // تحديث اتجاه النص (مهم للغة العربية)
+        banner.style.direction = t.direction; 
+        overlay.style.direction = t.direction;
+        
+        // قد تحتاج إلى تعديل الهوامش هنا إذا كان تصميم CSS لديك يعتمد على margin-left في LTR
+    }
+    
+    // 3. دالة إزالة البانر والخلفية العائمة والسماح بالتفاعل مع الموقع
+    function enableSite() {
+        banner.style.display = "none";
+        overlay.style.display = "none";
+    }
 
-  document.getElementById("reject-btn").onclick = () => {
-    setConsent("denied");
-    enableSite();
-  };
+    // 4. تهيئة شريط الإشعارات (تظهر دائماً)
+    function initializeConsentBanner() {
+        // تطبيق التعريب بناءً على لغة المتصفح
+        applyLanguage();
+
+        // عرض البانر والغلاف لتعطيل تفاعل المستخدم (Blocking)
+        banner.style.display = "flex";
+        overlay.style.display = "block";
+    }
+    
+    // 5. إضافة مستمعي الأحداث للأزرار
+    acceptBtn.onclick = () => {
+        setConsent("granted"); // استخدم دالة setConsent الخاصة بك
+        enableSite();
+    };
+
+    rejectBtn.onclick = () => {
+        setConsent("denied"); // استخدم دالة setConsent الخاصة بك
+        enableSite();
+    };
+    
+    // تشغيل التهيئة عند تحميل الصفحة
+    initializeConsentBanner();
 });
 </script>
 </body>
 </html>
+
 
 
 
