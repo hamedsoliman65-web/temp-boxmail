@@ -1042,13 +1042,13 @@ window.ARTICLES = [
     }
   },
    {
-    id: 2,
+    id: 12,
     img: "https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=1200",
     title: {
       en: "Top 10 AI Tools in 2025: Your Guide to Trying Them Safely Without Spam",
       ar: "أفضل 10 أدوات ذكاء اصطناعي في 2025: دليلك لتجربتها بأمان دون 'سبام'"
     },
-    cat: { en: "Tech", ar: "التكنولوجيا" },
+    cat: { en: "Technology", ar: "التكنولوجيا" },
     meta: { en: "Updated 2025", ar: "تحديث 2025" },
     seo: {
       en: {
@@ -1127,6 +1127,7 @@ window.ARTICLES = [
     }
   }
 ];
+
 
 
 
