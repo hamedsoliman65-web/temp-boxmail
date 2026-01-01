@@ -30,6 +30,10 @@
       "destination": "/ads.txt"
     },
     {
+    "source": "/og.webp",
+    "destination": "/og.webp"
+  },
+    {
       "source": "/",
       "destination": "/index.html"
     },
