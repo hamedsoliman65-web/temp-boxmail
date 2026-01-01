@@ -5,7 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ================== النصوص ==================
   const TEXTS = {
     en: { logo:"📧 Temp Box Blog", home:"Home", ai:"AI", cyber:"Cybersecurity", tech:"Technology", getTempMail:"Get Temp Mail", footerTitle:"Temp Box Mail Blog", footerDesc:"Your source for the latest insights on AI, cybersecurity, and technology.", footerConnect:"Email: support@temp-boxmail.org", footerCopy:"© 2025 Temp Box Mail. All rights reserved." },
-    ar: { logo:"📧 مدونة تمب بوكس", home:"الرئيسية", ai:"الذكاء الاصطناعي", cyber:"الأمن السيبراني", tech:"التقنية", getTempMail:"احصل على بريد مؤقت", footerTitle:"مدونة تمب بوكس", footerDesc:"مصدر معلوماتك لأحدث التحليلات عن الذكاء الاصطناعي والأمن السيبراني والتقنية.", footerConnect:"X · GitHub · البريد الإلكتروني", footerCopy:"© 2025 تمب بوكس. جميع الحقوق محفوظة." }
+    ar: { logo:"📧 مدونة تمب بوكس", home:"الرئيسية", ai:"الذكاء الاصطناعي", cyber:"الأمن السيبراني", tech:"التقنية", getTempMail:"احصل على بريد مؤقت", footerTitle:"مدونة تمب بوكس", footerDesc:"مصدر معلوماتك لأحدث التحليلات عن الذكاء الاصطناعي والأمن السيبراني والتقنية.", footerConnect:" ·  Email: support@temp-boxmail.org · البريد الإلكتروني", footerCopy:"© 2025 تمب بوكس. جميع الحقوق محفوظة." }
   };
 
   function updateTexts() {
@@ -85,5 +85,6 @@ document.addEventListener("DOMContentLoaded", () => {
   updateTexts();
   renderArticles();
 });
+
 
 
