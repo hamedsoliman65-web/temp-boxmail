@@ -29,6 +29,7 @@ const UI = {
     prevArticle: '‹ المقال السابق',
     nextArticle: 'المقال التالي ›',
     noMessages:"لا توجد رسائل بعد — اضغط \"إنشاء بريد جديد\" ثم استقبل الرسائل هنا.",
+    msgSub: "أضغط تحديث وأختر الرسالة", // 👈 أضف هذا السطر هنا
     footer:"جميع الحقوق محفوظه - © Temp-BoxMail"
   },
   en:{
@@ -43,10 +44,10 @@ const UI = {
     prevArticle: '‹ Previous Article',
     nextArticle: 'Next Article ›',
     noMessages:"No messages yet — click \"Create New Email\" to start receiving emails.",
+    msgSub: "Press refresh and select the message", // 👈 أضف هذا السطر هنا
     footer:"All rights reserved - © Temp-BoxMail"
   }
 };
-
 
 /* ============================================================
   Mail.TM API Functions (منطق البريد المؤقت)
@@ -306,96 +307,93 @@ function updateMetaTag(property, content) {
   }
   tag.content = content;
 }
-/**
- * وظيفة تطبيق الـ SEO (العناوين، الوصف، والـ Canonical)
- */
+
 function applySEO(articleNum) {
-    if (!window.ALL_ARTICLES || articleNum < 1 || articleNum > ALL_ARTICLES.length) {
-        return;
-    }
-    const index = articleNum - 1;
-    const article = ALL_ARTICLES[index];
-    const lang = currentLang();
+  if (!window.ALL_ARTICLES || articleNum < 1 || articleNum > ALL_ARTICLES.length) {
+    return;
+  }
+  const index = articleNum - 1;
+  const article = ALL_ARTICLES[index];
+  const lang = currentLang();
 
-    // 1. تحديث النصوص (العنوان والوصف)
-    const title = article.title?.[lang] || UI[lang].title;
-    const description = article.description?.[lang] || UI[lang].subtitle;
+  // استخدام نصوص UI الافتراضية إذا لم يتم تعريف العنوان والوصف في بيانات المقالة
+  const title = article.title?.[lang] || UI[lang].title;
+  const description = article.description?.[lang] || UI[lang].subtitle;
 
-    document.title = title + " | Temp-BoxMail";
-    updateMetaTag('description', description);
-    updateMetaTag('og:title', title);
-    updateMetaTag('og:description', description);
-
-    // 2. تحديث الرابط الأساسي (Canonical) 
-    // تم وضعه هنا لكي يقرأ المتغير articleNum بشكل صحيح
-    const canonicalURL = "https://www.temp-boxmail.org/?article=" + articleNum;
-    let link = document.querySelector('link[rel="canonical"]');
-
-    if (!link) {
-        link = document.createElement('link');
-        link.setAttribute('rel', 'canonical');
-        document.head.appendChild(link);
-    }
-    link.setAttribute('href', canonicalURL);
+  document.title = title + " | Temp-BoxMail";
+  updateMetaTag('description', description);
+  updateMetaTag('og:title', title);
+  updateMetaTag('og:description', description);
 }
 
 function updateLangButton(lang) {
-    const btn = $('langToggle');
-    if (btn) {
-        btn.textContent = lang === 'ar' ? 'English 🇺🇸' : 'العربية 🇸🇦';
-    }
+  const btn = $('langToggle');
+  if (btn) {
+    btn.textContent = lang === 'ar' ? 'English 🇺🇸' : 'العربية 🇸🇦';
+  }
 }
 
 function toggleLanguage() {
-    const current = currentLang();
-    const newLang = current === 'ar' ? 'en' : 'ar';
-    localStorage.setItem('lang', newLang);
-    updateLangButton(newLang);
-    applyLanguage(newLang);
-    applySEO(currentArticleIndex + 1);
+  const current = currentLang();
+  const newLang = current === 'ar' ? 'en' : 'ar';
+  localStorage.setItem('lang', newLang);
+  updateLangButton(newLang);
+  applyLanguage(newLang);
+  applySEO(currentArticleIndex + 1);
 }
+
 function applyLanguage(lang) {
+  // تطبيق الاتجاه واللغة في HTML
   document.documentElement.lang = lang;
   document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
 
+  // تحديث نصوص الواجهة (UI)
   const t = UI[lang];
-  
-  // التحقق من وجود العنصر قبل محاولة تحديثه (Safety Checks)
-  if($('t-title')) $('t-title').textContent = t.title;
-  if($('t-sub')) $('t-sub').textContent = t.subtitle;
-  if($('inbox-title')) $('inbox-title').textContent = t.inboxTitle;
-  if($('inbox-desc')) $('inbox-desc').textContent = t.inboxDesc;
-  if($('copyBtn')) $('copyBtn').textContent = t.copy;
-  if($('refreshBtn')) $('refreshBtn').textContent = t.refresh;
-  if($('newBtn')) $('newBtn').textContent = t.newMail;
-  if($('deleteBtn')) $('deleteBtn').textContent = t.delete;
-  if($('footer-text')) $('footer-text').textContent = t.footer;
+// تحديث نصوص الأزرار (نستهدف الـ span الداخلي للحفاظ على الأيقونة)
+ if ($('btn-text-copy')) $('btn-text-copy').textContent = t.copy;
+ if ($('btn-text-refresh')) $('btn-text-refresh').textContent = t.refresh;
+ if ($('btn-text-new')) $('btn-text-new').textContent = t.newMail;
+ if ($('btn-text-delete')) $('btn-text-delete').textContent = t.delete;
+  if ($('t-title')) $('t-title').textContent = t.title;
+ if ($('t-sub')) $('t-sub').textContent = t.subtitle;
+ if ($('inbox-title')) $('inbox-title').textContent = t.inboxTitle;
+ if ($('inbox-desc')) $('inbox-desc').textContent = t.inboxDesc;
+ if ($('footer-text')) $('footer-text').textContent = t.footer;
+ if ($('msg-sub')) $('msg-sub').textContent = t.msgSub;
 
-  // تحديث الزر
-  const langToggle = $('langToggle');
-  if(langToggle) langToggle.textContent = (lang === 'ar') ? 'English 🇺🇸' : 'العربية 🇸🇦';
+  // 3. تحديث زر تبديل اللغة
+  if ($('langToggle')) {
+    $('langToggle').textContent = (lang === 'ar') ? 'English 🇺🇸' : 'العربية 🇸🇦';
+  }
+  // أزرار التنقل بين المقالات
+  const prevBtn = $('prevArticle');
+  const nextBtn = $('nextArticle');
+  if (prevBtn) prevBtn.textContent = t.prevArticle;
+  if (nextBtn) nextBtn.textContent = t.nextArticle;
 
-  // أزرار التنقل
- const prevBtn = $('prevArticle');
-    const nextBtn = $('nextArticle');
-    if (prevBtn) prevBtn.textContent = t.prevArticle;
-    if (nextBtn) nextBtn.textContent = t.nextArticle;
+  // ----------------------------------------------------------------
+  // عرض محتوى المقالة
+  // ----------------------------------------------------------------
+  const articleContentContainer = $('article');
+  const article = ALL_ARTICLES[currentArticleIndex];
 
-    // --- عرض محتوى المقالة داخل الدالة ---
-    const articleContentContainer = $('article');
-    const article = ALL_ARTICLES[currentArticleIndex];
+  if (article && article[lang] && articleContentContainer) {
+    // يجب تحميل DOMPurify في HTML لكي يعمل هذا السطر
+    const safeArticleHtml = DOMPurify.sanitize(article[lang]); 
+    articleContentContainer.innerHTML = safeArticleHtml;
+    applySEO(currentArticleIndex + 1);
+  } else if (articleContentContainer) {
+    articleContentContainer.innerHTML = `<p style="color:var(--muted)">
+      ${lang === 'ar' ? 'لا يمكن عرض محتوى المقالة.' : 'Could not display article content.'}
+    </p>`;
+  }
 
-    if (article && article[lang] && articleContentContainer) {
-        articleContentContainer.innerHTML = DOMPurify.sanitize(article[lang]);
-        applySEO(currentArticleIndex + 1);
-    } else if (articleContentContainer) {
-        articleContentContainer.innerHTML = `<p style="color:var(--muted)">${lang === 'ar' ? 'لا يمكن عرض المحتوى.' : 'Could not display content.'}</p>`;
-    }
+  // تحديث حالة الرسائل الفارغة
+  if(!messages.length){
+    $('msg-body').innerHTML = `<p style="color:var(--muted)">${t.noMessages}</p>`;
+  }
+}
 
-    if(window.messages && !messages.length && $('msg-body')){
-        $('msg-body').innerHTML = `<p style="color:var(--muted)">${t.noMessages}</p>`;
-    }
-} // <--- 
 
 /* ============================================================
   DOM Content Loaded (المنفذ الرئيسي عند تحميل الصفحة)
