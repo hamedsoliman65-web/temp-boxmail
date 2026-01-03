@@ -1,825 +1,441 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-10997329046"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4901985375072472" crossorigin="anonymous"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-10997329046"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'AW-10997329046');
+        
+        // Consent Mode Initialization
+        gtag('consent','default',{
+            'ad_storage':'denied',
+            'analytics_storage':'denied'
+        });
 
-  gtag('config', 'AW-10997329046');
-</script>
+        function setConsent(status){
+            if(status==='granted'){
+                gtag('consent','update',{
+                    'ad_storage':'granted',
+                    'analytics_storage':'granted'
+                });
+                loadAnalytics();
+            } else {
+                gtag('consent','update',{
+                    'ad_storage':'denied',
+                    'analytics_storage':'denied'
+                });
+            }
+        }
 
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4901985375072472"
-     crossorigin="anonymous"></script>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <link rel="icon" type="image/webp" href="/og.webp">
-<!-- Title -->
-<title>Temp BoxMail - بريد مؤقت لإستقبال الرسائل و OTP | Temporary Email for OTP & Activation</title>
+        function loadAnalytics(){
+            if(window.analyticsLoaded) return;
+            window.analyticsLoaded=true;
+            const s=document.createElement('script');
+            s.async=true;
+            s.src="https://www.googletagmanager.com/gtag/js?id=G-NR4CFG9TFJ";
+            document.head.appendChild(s);
+            s.onload=()=>{ gtag('js',new Date()); gtag('config','G-NR4CFG9TFJ'); };
+        }
+    </script>
 
-  <!-- Consent Mode & Analytics -->
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){ dataLayer.push(arguments);}
+    <title>Temp BoxMail - بريد مؤقت لإستقبال الرسائل و OTP | Temporary Email for OTP & Activation</title>
+    <meta name="description" content="خدمة بريد مؤقت مجانية لاستقبال رسائل التفعيل وOTP دون تسجيل | Temporary free email service to receive verification codes and OTP without creating an account.">
+    <meta name="keywords" content="بريد مؤقت، ايميل مؤقت، رسائل التفعيل، OTP, temp mail, temp-boxmail, Temporary mail">
+    <link rel="canonical" href="https://www.temp-boxmail.org/">
 
-gtag('consent','default',{
-  ad_storage:'denied',
-  analytics_storage:'denied'
-});
+    <link rel="alternate" hreflang="ar" href="https://www.temp-boxmail.org/">
+    <link rel="alternate" hreflang="en" href="https://www.temp-boxmail.org/">
+    <link rel="alternate" hreflang="x-default" href="https://www.temp-boxmail.org/">
 
-function setConsent(status){
-  if(status==='granted'){
-    gtag('consent','update',{
-      ad_storage:'granted',
-      analytics_storage:'granted'
-    });
-    loadAnalytics();
-  } else {
-    gtag('consent','update',{
-      ad_storage:'denied',
-      analytics_storage:'denied'
-    });
-  }
+    <link rel="icon" type="image/webp" href="/og.webp">
+    <link rel="apple-touch-icon" href="/og.webp">
+    <meta name="theme-color" content="#000000"/>
+
+    <meta property="og:title" content="Temp BoxMail - Temporary Email for OTP">
+    <meta property="og:description" content="A free temporary email service to receive OTP and activation messages without registration.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.temp-boxmail.org/">
+    <meta property="og:image" content="https://www.temp-boxmail.org/logo.webp">
+
+    <meta name="google-adsense-account" content="ca-pub-4901985375072472">
+    <meta name="google-site-verification" content="Igt9IOF5K-I8OTkqQjDf9cAl4_J7wKwt0MUBlyHNQaQ"/>
+    <style>
+        /* التنسيقات مع الحفاظ على هوية الموقع */
+        :root {
+            --bg: #050d15;
+            --card: #0b1720;
+            --text: #ffffff;
+            --accent: #14ee08;
+            --accent-pink: #ff005a;
+            --danger: #ef4444;
+            --warning: #f1c40f;
+            --orange: #e67e22;
+            --success: #2ecc71;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Inter, system-ui, sans-serif; }
+        body { background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 15px; }
+
+        /* Header */
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05); flex-wrap: wrap; gap: 10px; }
+        .brand { display: flex; align-items: center; gap: 12px; }
+        .brand img { width: 50px; height: 50px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+        .brand h1 { font-size: 20px; margin: 0; }
+        #t-sub { font-size: 13px; color: var(--accent); }
+
+        /* Address Card */
+        .address-card { background: var(--card); padding: 20px; border-radius: 12px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
+        .addr-display { flex: 1; }
+        #address { font-size: 1.4rem; font-weight: 800; color: #fff; word-break: break-all; }
+        #expiry { font-size: 12px; color: #888; display: block; margin-top: 4px; }
+
+        /* Buttons Style */
+        .main-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+        .btn { padding: 10px 18px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; color: #fff; font-size: 14px; }
+        .btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+        
+        #copyBtn { background: var(--warning); color: #000; }
+        #refreshBtn { background: var(--orange); }
+        #newBtn { background: var(--success); }
+        #deleteBtn { background: var(--danger); }
+        .ghost-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; }
+
+        /* Main Grid */
+        .main-grid { display: grid; grid-template-columns: 320px 1fr; gap: 20px; margin-top: 20px; }
+        .panel { background: var(--card); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); height: 550px; display: flex; flex-direction: column; overflow: hidden; }
+        .panel h2 { padding: 15px; font-size: 16px; border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.2); }
+        
+        #inbox { flex: 1; overflow-y: auto; padding: 10px; }
+        .viewer { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; }
+        .msg-body { flex: 1; margin-top: 15px; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 8px; overflow: auto; color: #eee; }
+
+        /* Articles */
+        .article-container { background: var(--card); padding: 25px; border-radius: 12px; margin-top: 30px; border: 1px solid rgba(255,255,255,0.1); }
+        .article-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; }
+        .article-nav button { background: var(--success); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
+
+        /* Footer */
+        footer { text-align: center; padding: 40px 20px; color: #666; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 20px; }
+        footer a { color: var(--accent); text-decoration: none; margin: 0 5px; }
+
+        @media (max-width: 850px) { .main-grid { grid-template-columns: 1fr; } .panel { height: auto; min-height: 350px; } }
+        
+        /* Cookie Banner */
+        #consent-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9998; display: none; }
+        #cookie-banner { position: fixed; top: 0; left: 0; width: 100%; background: #1a1a1a; color: #fff; padding: 20px; display: none; justify-content: space-between; align-items: center; z-index: 9999; border-bottom: 2px solid var(--accent); }
+/* تنسيق صور المقالات لضمان عدم خروجها عن الحجم المناسب */
+#article img {
+    max-width: 100% !important; /* لا تتجاوز عرض الحاوية */
+    height: auto !important;    /* الحفاظ على أبعاد الصورة */
+    display: block;
+    margin: 20px auto;          /* توسيط الصورة مع مسافة حولها */
+    border-radius: 12px;        /* حواف ناعمة تناسب تصميم الموقع */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2); /* ظل خفيف لإبراز الصورة */
 }
 
-function loadAnalytics(){
-  if(window.analyticsLoaded) return;
-  window.analyticsLoaded=true;
-  const s=document.createElement('script');
-  s.async=true;
-  s.src="https://www.googletagmanager.com/gtag/js?id=G-NR4CFG9TFJ";
-  document.head.appendChild(s);
-  s.onload=()=>{ gtag('js',new Date()); gtag('config','G-NR4CFG9TFJ'); };
-}
-</script>
-  <style>
-    #cookie-banner{position:fixed;top:0;width:100%;background:#222;color:#ffffff;padding:12px;text-align:center;display:flex;justify-content:space-between;align-items:center;z-index:9999;font-size:15px;}
-    #cookie-banner button{padding:10px 15px;border:none;border-radius:10px;cursor:pointer;font-size:14px;}
-    #accept-btn{background:#4CAF50;color:#ffffff;margin-right:8px;}
-    #reject-btn{background:#f44336;color:#ffffff;}
-  </style>
-<!-- Favicon -->
-<link rel="icon" type="image/webp" href="/og.webp">
-<link rel="apple-touch-icon" href="/og.webp">
-<meta name="theme-color" content="#000000"/>
-
-<!-- SEO Description (Arabic & English) -->
-<meta name="description" content="خدمة بريد مؤقت مجانية لاستقبال رسائل التفعيل وOTP دون تسجيل | Temporary free email service to receive verification codes and OTP without creating an account. Fast secure temp inbox.">
-<link rel="canonical" href="https://temp-boxmail.org">
-
- <link rel="alternate" hreflang="ar" href="https://www.temp-boxmail.org/">
-<link rel="alternate" hreflang="en" href="https://www.temp-boxmail.org/">
-<link rel="alternate" hreflang="x-default" href="https://www.temp-boxmail.org/">
-<link rel="canonical" href="https://www.temp-boxmail.org/">
-  
-<meta property="og:title" content="Temp-BoxMail">
-<meta property="og:description" content="خدمة بريد مؤقت آمنة وسريعة">
-<meta property="og:url" content="https://temp-boxmail.org">
-<meta property="og:type" content="website">
-<!-- Keywords -->
-<meta name="keywords" content="بريد مؤقت، ايميل مؤقت، رسائل التفعيل، OTP, temp mail, temp-boxmail, tempmail, Temporary mail,best temp mail, ez temp mail, temp mail ninja,mail temp">
-
-<meta name="robots" content="index, follow">
-<meta name="author" content="Temp BoxMail">
-
-<!-- Open Graph -->
-<meta property="og:title" content="Temp BoxMail - Temporary Email for OTP">
-<meta property="og:description" content="A free temporary email service to receive OTP and activation messages without registration.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://www.temp-boxmail.org/">
-<meta property="og:image" content="https://www.temp-boxmail.org/logo.webp">
-
-<!-- Google Verification -->
-  <meta name="google-adsense-account" content="ca-pub-4901985375072472">
-<meta name="google-site-verification=Igt9IOF5K-I8OTkqQjDf9cAl4_J7wKwt0MUBlyHNQaQ"/>
-<!-- Adsense -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4901985375072472" crossorigin="anonymous"></script>
-
-<!-- Hreflang for multilingual SEO -->
-<link rel="alternate" hreflang="ar" href="https://www.temp-boxmail.org/">
-<link rel="alternate" hreflang="en" href="https://www.temp-boxmail.org/">
-
-
-
-<style>/* الحاوية الرئيسية */
-
-/* محتوى المقال */
-.article-content {
-  color: #ffffff !important;
-  max-width: 100%; /* يمنع الخروج من الحاوية */
+/* تنسيق إضافي لضمان توافق الصور داخل الجداول إذا وجدت */
+.article-content figure, .article-content picture {
+    max-width: 100% !important;
+    height: auto !important;
 }
 
-/* الصور داخل المقال */
-.article-content img {
-  max-width: 100%; /* تمنع الصورة من تجاوز الحاوية */
-  height: auto;
-  display: block;
-  margin: 1em auto;
+/* تنسيق عداد المقالات ليظهر بوضوح */
+#articleCounter {
+    background: rgba(20, 238, 8, 0.1); /* لون أخضر شفاف خفيف */
+    color: var(--accent); /* اللون الأخضر الفسفوري */
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 14px;
+    border: 1px solid rgba(20, 238, 8, 0.3);
+    min-width: 50px;
+    text-align: center;
+    display: inline-block;
 }
 
-/* الجداول والقوائم */
-.article-content table,
-.article-content ul,
-.article-content ol {
-  max-width: 100%;
-  overflow-wrap: break-word;
-}
-
-/* النصوص */
-.article-content p,
-.article-content li {
-  color: #ffffff !important;
-  word-break: break-word; /* يكسر النص الطويل */
-}
-
-/* العناوين */
-.article-content h1 {
-  color: #e41e25 !important; /* أحمر */
-}
-.article-content h2,
-.article-content h3,
-.article-content h4,
-.article-content h5,
-.article-content h6 {
-  color: #12ff00 !important; /* أخضر */
-}
-
-.article-nav button {
-  background: #11ac11;
-  color: #ffffff;
-  border: none;
-  padding: 12px 20px;
-  margin: 0 10px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background 0.3s, transform 0.2s;
-}
-
-.article-nav button:hover {
-  background: #0b4b0b;
-  transform: translateY(-2px);
-}
-
-/* --------------------------- */
-/*     تحسين التجاوب للهواتف   */
-/* --------------------------- */
-
-@media (max-width: 600px) {
-  .article-container {
-    padding: 18px;
-    margin: 25px 10px;
-  }
-
-  .article-content h2 {
-    font-size: 24px;
-  color: #ffffff;
-  }
-
-  .article-content h3 {
-    font-size: 19px;
-  color: #ffffff;
-  }
-
-  .article-content p, .article-content ul {
-    font-size: 16px;
-  color: #ffffff;
-  }
-
-  .article-nav button {
-    width: 45%;
-    margin: 5px;
-    padding: 12px;
-    font-size: 15px;
-  }
-
-  .article-nav {
+/* تعديل المسافات في منطقة التنقل */
+.article-nav {
     display: flex;
-    justify-content: space-between;
-    gap: 5px;
-  }
-}
-
-/* زر تغيير اللغة */
-.lang-toggle {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background: #28a745;
-  color: #ffffff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 14px;
-  z-index: 1000;
-  transition: background 0.3s, transform 0.2s;
-}
-
-.lang-toggle:hover {
-  background: #1e7e34;
-  transform: scale(1.05);
-}
-
-/* دعم RTL */
-html[dir="rtl"] .article-container {
-  direction: rtl;
-}
-
-html[dir="rtl"] .article-nav button {
-  margin: 0 5px;
-}
-
-/* تأثير تبديل المقال */
-.article-fade-out {
-  opacity: 1;
-  transform: translateY(20px);
-}
-
-.article-fade-in {
-  opacity: 0;
-  transform: translateY(0);
-  transition: transform 0.4s ease, opacity 0.4s ease;
-}
-/* ---------- VARIABLES ---------- */
-:root{
-  --bg:#050d15;            /* light bg */
-  --card:#0b1720;
-  --text:#ffffff;
-  --muted:#14ee08;
-  --accent:#ff005a /* teal */
-  --accent-2:#5f0e1b; /* blue */
-  --danger:#ef4444;
-  --glass:rgba(5,4,2,0.04);
-  --radius:12px;
-  --max-width:1100px;
-}
-
-/* Dark mode */
-@media (prefers-color-scheme: dark){
-  :root{
-    --bg:#07101a;
-    --card:#0f1720;
-    --text:#e6eef8;
-    --muted:#dcdcdc;
-    --glass:rgba(255,255,255,0.03);
-  }
-}
-
-
-/* ---------- BASE ---------- */
-*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial}
-html,body{height:100%}
-body{background:linear-gradient(180deg,var(--bg),#02060a 80%);color:var(--text);min-height:100vh;-webkit-font-smoothing:antialiased}
-.container{max-width:var(--max-width);margin:20px auto;padding:16px}
-
-/* ---------- HEADER ---------- */
-.header {
-    display: flex;
+    justify-content: center; /* وضع العناصر في المنتصف */
     align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    flex-wrap: wrap;
-
-    background-color: #050c15; /* لون خلفية الهيدر */
-    color: #ffffff;           /* لون النص داخل الهيدر */
-    padding: 12px 16px;       /* مسافة داخلية */
+    gap: 20px; /* مسافة ثابتة بين الأزرار والعداد */
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.05);
 }
 
-.brand{display:flex;align-items:center;gap:12px}
-.brand img{width:56px;height:56px;border-radius:10px;object-fit:cover;box-shadow:0 6px 20px rgba(0,0,0,0.25)}
-.brand h1{font-size:18px;margin:0}
-.brand p{font-size:13px;color:var(--muted);margin:0}
-
-/* language & theme controls */
-.controls-row{display:flex;gap:8px;align-items:center}
-.btn{padding:8px 12px;border-radius:10px;border:1px solid rgba(0,0,0,0.06);background:var(--card);cursor:pointer;color:var(--text)}
-.dark .btn.ghost {
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.2);
-    color: var(--text);
+/* تنسيق الصور داخل المقال */
+#article img {
+    max-width: 100% !important; /* تمنع الصورة من تجاوز عرض الحاوية */
+    height: auto !important;    /* تحافظ على تناسق الأبعاد */
+    display: block;             /* تمنع الفراغات الجانبية */
+    margin: 25px auto;          /* مسافة عمودية وتوسيط أفقي */
+    border-radius: 12px;        /* حواف ناعمة */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3); /* ظل لإبراز الصورة عن الخلفية */
 }
-/* الأزرار الأساسية */
-.btn {
-    padding: 10px 20px;
+
+/* تنسيق عداد المقالات */
+#articleCounter {
+    color: var(--accent);       /* الأخضر الفسفوري الذي تستخدمه */
+    font-weight: 800;
     font-size: 16px;
-    font-weight: bold; /* الخط بولد */
-    cursor: pointer;
+    background: rgba(20, 238, 8, 0.1); /* خلفية خفيفة جداً */
+    padding: 6px 16px;
+    border-radius: 50px;
+    border: 1px solid rgba(20, 238, 8, 0.2);
+    min-width: 60px;
+    text-align: center;
+}
+
+/* تنسيق حاوية الأزرار والعداد */
+.article-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+/* اجعل الماوس يتحول ليد عند الإشارة على الرسائل في البريد الوارد */
+#inbox .mail-item, 
+.mail-item {
+    cursor: pointer !important;
+}
+
+/* حركة اختيارية: تغيير لون الخلفية قليلاً عند مرور الماوس لتشعر المستخدم بالتفاعل */
+#inbox .mail-item:hover {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+    transition: background 0.2s ease;
+}
+
+.site-footer {
+    margin-top: 50px;
+    padding: 30px 20px;
+    background-color: var(--card); /* يستخدم نفس لون الكروت في موقعك */
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    text-align: center;
+}
+
+.footer-content {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+#footer-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 15px;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* لضمان التنسيق في الهواتف */
+    gap: 10px;
+}
+
+.footer-link {
+    color: var(--muted) !important; /* اللون الأخضر الفسفوري أو الرمادي */
+    text-decoration: none;
+    font-size: 13px;
+    transition: all 0.3s ease;
+    padding: 5px 10px;
     border-radius: 6px;
-    transition: all 0.3s ease; /* حركة سلسة لكل التغييرات */
 }
-/* حركة عند المرور */
-.btn:hover {
-    transform: scale(1.05); /* تكبير بسيط */
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2); /* ظل جذاب */
+
+.footer-link:hover {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.05);
 }
-/* حركة عند الضغط */
-.btn:active {
-    transform: scale(0.95); /* تصغير عند الضغط */
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+
+.separator {
+    color: rgba(255, 255, 255, 0.2);
+    font-size: 12px;
 }
-/* الألوان الحالية للأزرار */
-.btn.warn {
-    background-color: #c62828; /* Red 800 */
-    color: #ffffff;
-    border: none;
-}
-#newBtn {
-    background-color: #2ecc71; /* أخضر افتراضي */
-    color: #ffffff;
-    border: none;
-}
-#copyBtn {
-    background-color: #f1c40f; /* أصفر افتراضي */
-    color: #000;
-    border: none;
-}
-#refreshBtn {
-    background-color: #e67e22; /* برتقالي افتراضي */
-    color: #ffffff;
-    border: none;
-}
-/* الوضع الداكن */
-@media (prefers-color-scheme: dark) {
-    #newBtn {
-        background: #27ae60;
-        color: #ffffff;
+
+/* تحسين المظهر للهواتف */
+@media (max-width: 600px) {
+    .footer-links {
+        flex-direction: column;
+        gap: 8px;
     }
-    #copyBtn {
-        background: #f1c40f;
-        color: #000;
-    }
-    #refreshBtn {
-        background: #e67e22;
-        color: #ffffff;
+    .separator {
+        display: none; /* إخفاء النقطة في وضع الجوال لترتيب العناصر عمودياً */
     }
 }
-/* أيقونات داخل الأزرار */
-.icon-btn {
+
+/* تحسين الأزرار للهواتف الصغيرة جداً */
+@media (max-width: 480px) {
+    .main-actions {
+        display: grid !important; /* تحويل الترتيب لشبكة */
+        grid-template-columns: 1fr 1fr; /* تقسيم الصف لزرين */
+        gap: 8px !important;
+        width: 100%;
+    }
+
+    .main-actions button {
+        width: 100%; /* الزر يأخذ نصف عرض الشاشة */
+        justify-content: center; /* توسيط النص والأيقونة داخل الزر */
+        padding: 12px 5px !important;
+        font-size: 13px !important; /* تصغير الخط قليلاً ليناسب المساحة */
+    }
+
+    /* جعل الأزرار تبدو متناسقة */
+    #newBtn, #deleteBtn, #refreshBtn, #copyBtn {
+        margin: 0 !important;
+    }
+}
+
+/* تنسيق إضافي لحاوية العنوان (Address) على الموبايل */
+@media (max-width: 600px) {
+    .address-card {
+        flex-direction: column !important;
+        text-align: center;
+        padding: 15px !important;
+    }
+    
+    .addr-left {
+        margin-bottom: 15px;
+    }
+}
+
+.btn {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    transition: all 0.3s ease; /* حركة سلسة للأيقونات أيضًا */
-}
-/* تدوير الأيقونات عند المرور */
-.icon-btn:hover svg {
-    transform: rotate(20deg);
-    transition: transform 0.3s ease;
-}
-/* ---------- ADDRESS CARD ---------- */
-.address-card{margin-top:16px;background:var(--card);padding:14px;border-radius:var(--radius);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;box-shadow:0 6px 18px rgba(0,0,0,0.08)}
-.addr-left{display:flex;gap:12px;align-items:center}
-.addr{font-weight:700}
-.addr small{display:block;color:var(--muted);font-weight:400}
-/* ---------- LAYOUT ---------- */
-.main,
-.panel,
-#inbox-title,
-#inbox-desc,
-.inbox-list,
-.mail-item,
-.mail-from,
-.mail-time {
-    font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
-    font-weight: 400 !important;
-    font-style: normal !important;
-}
-.main{display:grid;gap:18px;margin-top:18px}
-.panel{background:var(--card);padding:12px;border-radius:calc(var(--radius) - 2px);box-shadow:0 6px 18px rgba(0,0,0,0.06)}
-.inbox-list {
-    max-height: 65vh;
-    overflow: auto;
-    padding-right: 6px;
-    border-radius: 8px;
-}
-.mail-item{padding:10px;border-radius:10px;margin-bottom:10px;background:linear-gradient(180deg,rgba(0,0,0,0.01),transparent);cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
-.mail-item:hover{transform:translateY(-1px)}
-.mail-sub{font-weight:600}
-.mail-from{font-size:12px;color:var(--muted)}
-.mail-time{font-size:11px;color:var(--muted)}
-
-body {
-    -webkit-text-size-adjust: 100%;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    font-weight: 400;  /* خط عادي */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* خط مناسب */
-    color: #ffffff; /* نص أبيض افتراضي إذا الخلفية داكنة */
-}
-/* viewer */
-.viewer{display:flex;flex-direction:column}
-.toolbar{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
-.msg-body{margin-top:12px;padding:12px;border-radius:10px;background:linear-gradient(180deg,rgba(0,0,0,0.01),transparent);overflow:auto;flex:1;min-height:280px}
-.otp{display:inline-block;padding:6px 10px;border-radius:8px;font-weight:700;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#ffffff;}
-/* ---------- ARTICLE ---------- */
-/* تنسيق العناوين داخل حاوية المقال (#article) */
-/* 1. تنسيق الحاوية الخارجية (المستندة إلى HTML الذي أرسلته) */
-.article-container {
-    max-width: 900px;
-    margin: 60px auto 40px auto; /* توسيط الحاوية */
-    padding: 25px;
-    background: #16222f; /* لون الخلفية الداكن الذي اخترته */
-    border-radius: 12px;
-    box-shadow: 0 10px 28px rgba(0,0,0,0.12);
-    line-height: 1.8;
-    color: #ffffff; /* النص الأبيض */
-    box-sizing: border-box; 
-}
-/* 2. تنسيق محتوى المقال (الذي يحقنه JS) */
-/* يجب أن يكون هذا العنصر مرئياً بوضوح */
-#article.article-content {
-    /* لا نحتاج لتعريف لون هنا إذا كان الأب (article-container) يعرّفه */
-    max-width: 100%; 
-    min-height: 250px; /* لضمان ظهوره حتى لو كان المحتوى صغيراً جداً */
-}
-/* 3. تنسيق عناصر المحتوى الداخلي (H1, P, IMG) */
-#article h1 {
-    color: #e41e25; /* الأحمر الذي اخترته */
-    margin-bottom: 20px;
-}
-#article h2, #article h3, #article p, #article li {
-    color: #ffffff; /* الأبيض لجميع النصوص */
+    cursor: pointer !important; /* لظهور اليد */
+    transition: 0.2s;
 }
 
-/* 4. تنسيق أزرار التنقل */
-.article-nav {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-.article-nav button {
-    /* قواعد الزر التي اخترتها */
-    background: #11ac11;
-    color: #ffffff;
-    padding: 12px 20px;
-    border-radius: 8px;
-    /* ... الخ ... */
-}}/* ---------- FOOTER ---------- */
-footer{margin-top:26px;text-align:center;color:var(--muted);font-size:13px}
-/* ---------- RESPONSIVE ---------- */
-@media (max-width:1000px){
-  .main{grid-template-columns:1fr}
-  .address-card{align-items:stretch}
-  .brand img{width:48px;height:48px}
-}
-@media (max-width:600px){
-  .brand h1{font-size:16px}
-  .controls-row{width:100%;justify-content:flex-end}
-  .address-card{padding:12px}
-  .mail-item{flex-direction:column;align-items:stretch}
-  .msg-body{min-height:200px}
-  .article{padding:16px}
-}
-/* ------------------------------------- */
-/*     قواعد التحكم في محتوى الرسالة (HTML)  */
-/* ------------------------------------- */
-
-/* التحكم في الصور لمنع تجاوز العرض */
-.msg-body img {
-    max-width: 100% !important; 
-    height: auto !important;
-    display: block; 
-    margin: 10px auto; /* توسيط الصورة */
-    border-radius: 8px; /* لمسة جمالية */
+@media (max-width: 480px) {
+    .main-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* زرين في كل صف */
+        gap: 10px;
+    }
+    .btn { width: 100%; justify-content: center; }
 }
 
-/* تنسيق الجداول (شائعة في رسائل البريد الإلكتروني) */
-.msg-body table {
-    width: 100% !important; /* ضمان ملء العرض */
-    border-collapse: collapse; 
-    margin: 15px 0;
-    max-width: 100%;
-    /* يسمح بالتمرير داخل الرسالة إذا كان الجدول عريض جداً */
-    overflow-x: auto; 
-    display: block; /* لضمان عمل overflow-x */
-}
-
-/* تنسيق الخلايا والخطوط في الجداول */
-.msg-body td,
-.msg-body th {
-    padding: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.15); /* خطوط خفيفة */
-    color: var(--text) !important; /* ضمان اللون الأبيض في الوضع الداكن */
-    vertical-align: top;
-}
-
-/* تنسيق النصوص والفقرات داخل الرسالة */
-.msg-body p,
-.msg-body div,
-.msg-body span,
-.msg-body li {
-    color: var(--text) !important; /* فرض لون النص الأساسي */
-    line-height: 1.6 !important;
-    word-wrap: break-word; 
-    overflow-wrap: break-word;
-}
-/* تنسيق الروابط */
-.msg-body a {
-    color: var(--accent) !important; /* سيستخدم لون التمييز لديك (#ff005a) */
-    text-decoration: underline;
-    word-break: break-all; /* يكسر الروابط الطويلة جدًا */
-}
-/* تنسيق العناوين (لتجنب الألوان الغريبة التي قد تأتي من الرسالة) */
-.msg-body h1,
-.msg-body h2,
-.msg-body h3,
-.msg-body h4 {
-    color: var(--text) !important; /* نجعلها بيضاء أساسية */
-    margin-top: 20px;
-    margin-bottom: 10px;
-}
-/* داخل ملف الستايل الخاص بك (مثلاً style.css) */
-
-/* 1. التنسيق العام للمحتوى وضمان الخطوط */
-.msg-body {
-    line-height: 1.6; /* مسافة أسطر مريحة للقراءة */
-    padding: 10px 15px;
-    font-size: 15px;
-}
-/* 2. تنسيق الروابط (لتصبح بارزة وسهلة النقر) */
-.msg-body a {
-    color: var(--highlight-color, #4db8ff) !important; /* لون أزرق جذاب */
-    text-decoration: underline;
-    word-break: break-all; /* حل مشكلة الروابط الطويلة */
-}
-
-/* 3. الجداول (لضمان الاحتواء في الشاشات الصغيرة) */
-.msg-body table {
-    width: 100% !important; 
-    max-width: 100% !important;
-    border-collapse: collapse;
-    margin: 10px 0;
-    overflow-x: auto; /* مهم جداً للجداول الكبيرة */
-    display: block; /* لضمان عمل overflow-x */
-}
-/* 4. الصور (لضمان التجاوب والاحتواء) */
-.msg-body img {
-    max-width: 100% !important; 
-    height: auto !important;
-    display: block;
-}
-/* 5. العناوين (لتسهيل قراءة هيكل الرسالة) */
-.msg-body h1, .msg-body h2, .msg-body h3 {
-    color: var(--text-color); /* التأكد من أن اللون واضح */
-    border-bottom: 1px solid var(--border-color, #333);
-    padding-bottom: 5px;
-    margin-top: 20px;
-}
-/* ===============================================
-   التنسيق المُصحح للأزرار وحاويتها (لحل مشكلة التداخل)
-   =============================================== */
-
-/* 1. الحاوية: لترتيب الأزرار الأربعة بشكل أفقي */
-.main-actions {
-    display: flex; /* ⬅️ هذا هو السطر الأهم لحل التراكب */
-    gap: 10px; /* مسافة بين الأزرار */
-    margin: 20px 0;
-    flex-wrap: wrap; /* للسماح بكسر الأزرار إذا ضاقت الشاشة */
-}
-/* 2. الأزرار: لترتيب الأيقونة والنص داخل كل زر */
-.main-actions button {
-    display: flex; /* ⬅️ هذا هو السطر الأهم لترتيب الأيقونة والنص جنباً إلى جنب */
-    align-items: center; /* توسيط عمودي */
-    padding: 10px 15px;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    background-color: var(--button, #4a90e2); 
-    color: var(--button-text, white);
-    white-space: nowrap; /* لمنع كسر النص داخل الزر */
-    transition: filter 0.2s, transform 0.1s;
-}
-/* 3. الأيقونة: ضبط المسافة */
-.main-actions button svg {
-    width: 16px;
-    height: 16px;
-    margin-inline-end: 8px; /* مسافة بين الأيقونة والنص (يعمل مع RTL و LTR) */
-    fill: currentColor; /* لضمان أن الأيقونة تأخذ لون النص */
-}
-/* تخصيص لون زر الحذف */
-#deleteBtn {
-    background-color: var(--delete-bg, #e91e63); 
-}
-.main-actions button:hover {
-    filter: brightness(1.15); 
-}
-/* ===============================================
-   تنسيق التنقل والعداد للمقالات (article-nav)
-   =============================================== */
-.article-nav {
-    display: flex;
-    justify-content: space-between; /* ⬅️ يوزع الأزرار والعداد على الطرفين والمنتصف */
-    align-items: center; /* توسيط عمودي */
-    margin-top: 20px;
-    padding-top: 15px;
-    border-top: 1px solid var(--border-color, #333); 
-}
-/* تنسيق عداد المقالات */
-#articleCounter {
-    font-size: 16px;
-    font-weight: bold;
-    color: var(--primary-color, #4a90e2); /* لون مميز للعداد (يمكنك تغييره) */
-    padding: 0 15px;
-    white-space: nowrap; 
-    /* 🔑 إضافة خلفية خفيفة وتدوير الحواف لجعله بارزاً */
-    background-color: var(--background-highlight, rgba(255, 255, 255, 0.05));
-    border-radius: 4px;
-    padding: 5px 10px; /* زيادة التباعد الداخلي */
-}
-/* تنسيق أزرار التنقل (للتناسق) */
-.article-nav button {
-    padding: 8px 12px;
-    border-radius: 6px;
-    background-color: var(--button, #3f51b5); 
-    color: var(--button-text, white);
-    border: none;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background-color 0.2s;
-}
-/* ===============================================
-   تنسيق الجزء السفلي (Footer)
-   =============================================== */
-footer {
-    /* الخلفية والحدود */
-    background-color: var(--secondary-bg, #1e2630); /* خلفية داكنة للفوتر */
-    color: var(--muted, #aaa); /* لون نص خافت */
-    padding: 25px 20px;
-    margin-top: 30px;
-    border-top: 1px solid var(--border-color, #333); 
-    
-    /* توسيط المحتوى داخله */
-    display: flex;
-    flex-direction: column; /* ترتيب العناصر عمودياً */
-    align-items: center; /* توسيط أفقي */
-    text-align: center;
-}
-#footer-text {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text-color, #fff); /* لجعل النص الأساسي أكثر وضوحاً */
-    margin-bottom: 5px;
-}
-/* تنسيق الروابط (الخصوصية، الشروط، التواصل) */
-footer a {
-    color: var(--link-color, #4a90e2) !important; /* لون أزرق للروابط */
-    text-decoration: none; /* إزالة الخط تحت الروابط */
-    font-size: 13px;
-    transition: color 0.2s;
-    margin: 0 5px;
-}
-footer a:hover {
-    color: var(--primary-color, #a8c8ff) !important; /* تفتيح اللون عند التمرير */
-    text-decoration: underline; /* إضافة خط عند التمرير */
-}
-/* تنسيق الفواصل بين الروابط (نقطة •) */
-footer > div:last-child {
-    display: flex;
-    flex-wrap: wrap; /* للسماح بكسر الروابط في الشاشات الصغيرة */
-    justify-content: center;
-}
-footer > div:last-child a:after {
-    content: " • ";
-    color: var(--muted, #aaa);
-    margin-inline-start: 10px;
-}
-/* إزالة الفاصلة بعد الرابط الأخير */
-footer > div:last-child a:last-child:after {
-    content: "";
-    margin-inline-start: 0;
-}
-/* ------------------------------------- */
-</style>
+    </style>
 </head>
 <body>
-  <!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KK4VK3QN"
-height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
 
- <div id="consent-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.3); z-index:9998;"></div>
-
-<div id="cookie-banner" style="position:fixed; top:0; left:0; width:100%; background:#222; color:#ffffff; padding:15px; display:none; justify-content:space-between; align-items:center; z-index:9999;">
+<div id="consent-overlay"></div>
+<div id="cookie-banner">
     <span id="cookie-message"></span>
     <div>
-        <button id="accept-btn" style="background:#4caf50; color:#ffffff; border:none; padding:6px 12px; margin-left:8px; cursor:pointer;"></button>
-        <button id="reject-btn" style="background:#f44336; color:#ffffff; border:none; padding:6px 12px; margin-left:8px; cursor:pointer;"></button>
+        <button id="reject-btn" style="background:#f44336; color:white; border:none; padding:8px 16px; border-radius:5px; cursor:pointer; margin-left:10px;"></button>
+        <button id="accept-btn" style="background:#4caf50; color:white; border:none; padding:8px 16px; border-radius:5px; cursor:pointer;"></button>
     </div>
 </div>
-   
-  <!-- نسخة SEO مخفية باللغتين -->
-  <div style="display:none;">
-    <h1>ما هو البريد المؤقت؟ ولماذا أصبح أداة ضرورية لحماية الخصوصية على الإنترنت؟ | What is Temporary Email and Why It Matters</h1>
-    <p>البريد المؤقت هو خدمة تمنحك عنوان بريد إلكتروني مؤقت لاستقبال الرسائل ورموز التحقق دون الإفصاح عن بريدك الحقيقي. يُستخدم لتخفيض الرسائل المزعجة وحماية الخصوصية عند تجربة خدمات أو التسجيل المؤقت. | Temporary email provides a disposable inbox to receive messages and verification codes without exposing your real email address. It helps reduce spam and protects privacy when testing services or signing up temporarily.</p>
-    <h2>أهم فوائد البريد المؤقت | Key Benefits</h2>
-    <ul>
-      <li>حماية الخصوصية: يمنع تسريب بريدك الشخصي. | Privacy protection: keeps your real inbox safe.</li>
-      <li>تقليل الرسائل المزعجة: لا تبقى الرسائل الدعائية في صندوقك الدائم. | Less spam: avoids promotional clutter in your main email.</li>
-      <li>سرعة وسهولة: لا حاجة لإنشاء حساب طويل. | Fast and easy: no long registration required.</li>
-      <li>استقبال أكواد OTP: مناسب لتفعيل الحسابات بسرعة. | Receive OTP quickly: great for fast verification flows.</li>
-    </ul>
-    <h3>متى لا تستخدم البريد المؤقت؟ | When NOT to Use</h3>
-    <ul>
-      <li>الخدمات البنكية والحسابات الرسمية. | Banking and official government services.</li>
-      <li>حفظ معلومات مهمة طويلة الأمد. | Accounts where long-term access is required.</li>
-    </ul>
-    <p>الخلاصة: البريد المؤقت مفيد في العديد من الحالات لكنه ليس بديلاً لحساباتك الرسمية. | Temporary email is useful but not a replacement for important accounts.</p>
-  </div>
-   
-<div class="container" id="app">
-  <!-- HEADER -->
-  <header class="header" role="banner">
-    <div class="brand">
-      <img src="/og.webp" alt="Temp-BoxMail logo">
-      <div>
-        <h1 id="t-title">Temp-BoxMail</h1>
-        <p id="t-sub" class="lead">استقبل رسائل التفعيل وOTP فورًا</p>
-      </div>
-    </div>
 
-    <div class="controls-row" aria-hidden="false">
-      <!-- theme indicator (auto) -->
-      <a id="themeHint" class="btn ghost" title="Go to Blog" href="blog/index.html" target="_blank">Get Blog</a>
-
-      <!-- language toggle -->
-      <button id="langToggle" class="btn icon-btn">English</button>
-    </div>
-  </header>
-
-  <!-- ADDRESS + ACTIONS -->
-  <div class="address-card" role="region" aria-label="address card">
-    <div class="addr-left">
-      <div style="display:flex;gap:15px;align-items:center">
-<div style="width:45px;height:45px;border-radius:5px;background:linear-gradient(90deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#ffffff;font-weight:500;font-size:10px;">
-NewTemp<br>
-(BoxMail)
-</div>
-        <div>
-          <!-- IMPORTANT: address text MUST NOT be translated -->
-          <div class="addr" id="address">...جاري الإنشاء</div>
-          <small id="expiry">العنوان سيتم حذفه تلقائيًا (حسب سياسة temp-boxmail.org)</small>
+<div class="container">
+    <header class="header">
+        <div class="brand">
+            <img src="/og.webp" alt="Logo">
+            <div>
+                <h1 id="t-title">Temp-BoxMail</h1>
+                <p id="t-sub">استقبل رسائل التفعيل وOTP فورًا</p>
+            </div>
         </div>
-      </div>
+        <div class="controls-row">
+            <a id="themeHint" class="btn ghost-btn" href="blog/index.html">Get Blog</a>
+            <button id="langToggle" class="btn ghost-btn">English</button>
+        </div>
+    </header>
+
+    <div class="address-card">
+        <div class="addr-left">
+            <div id="address">...جاري الإنشاء</div>
+            <small id="expiry">العنوان سيتم حذفه تلقائيًا</small>
+        </div>
+       <div class="main-actions">
+    <button id="deleteBtn" class="btn">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+        <span id="btn-text-delete">حذف</span>
+    </button>
+
+    <button id="refreshBtn" class="btn">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+        <span id="btn-text-refresh">تحديث</span>
+    </button>
+
+    <button id="newBtn" class="btn">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"></path></svg>
+        <span id="btn-text-new">جديد</span>
+    </button>
+
+    <button id="copyBtn" class="btn">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+        <span id="btn-text-copy">نسخ</span>
+    </button>
+</div>
     </div>
 
-    <div class="main-actions">
-    <button id="deleteBtn">delete</button>
-    <button id="refreshBtn">refresh</button>
-    <button id="newBtn">new Email</button>
-    <button id="copyBtn">copy</button>
-</div>
-</div>
-  <!-- MAIN (inbox + viewer) -->
-  <section class="main" role="main">
-    <aside class="panel" aria-label="inbox panel">
-      <h2 id="inbox-title">البريد الوارد</h2>
-      <div id="inbox-desc" style="color:var(--muted);font-size:13px;margin-bottom:8px">يتم جلب الرسائل تلقائيًا</div>
-      <div class="inbox-list" id="inbox"></div>
+    <section class="main-grid">
+        <aside class="panel">
+            <h2 id="inbox-title">البريد الوارد</h2>
+            <div id="inbox-desc" style="padding:0 15px; font-size:12px; color:#666;">يتم جلب الرسائل تلقائيًا</div>
+            <div id="inbox"></div>
+        </aside>
+
+        <section class="panel viewer">
+            <div class="toolbar">
+                <strong id="msg-sub">أضغط تحديث وأختر الرسالة</strong>
+                <div id="msg-from" style="font-size:12px; color:var(--accent);"></div>
+                <span id="extractedOtp" class="otp" style="display:none; background:var(--accent-pink); padding:5px; border-radius:5px; margin-top:5px; font-weight:bold;"></span>
+            </div>
+            <div id="msg-body" class="msg-body">
+                <p style="color:#666; text-align:center; margin-top:50px;">لا توجد رسائل بعد</p>
+            </div>
+        </section>
     </section>
 
-    <section class="panel viewer" aria-label="message viewer">
-      <div class="toolbar">
-        <div>
-          <strong id="msg-sub">Press refresh and select the message  | أضغط تحديث وأختر الرسالة</strong>
-          <div id="msg-from" style="font-size:12px;color:var(--muted)"></div>
+    <article class="article-container">
+        <div id="article" class="article-content"></div>
+        <div class="article-nav">
+            <button id="prevArticle">‹ السابق</button>
+            <span id="articleCounter"></span>
+            <button id="nextArticle">التالي ›</button>
         </div>
-        <div>
-          <span id="extractedOtp" class="otp" style="display:none">123456</span>
+    </article>
+
+   <footer class="site-footer">
+    <div class="footer-content">
+        <div id="footer-text">جميع الحقوق محفوظة - © Temp-BoxMail</div>
+        
+        <div class="footer-links">
+            <a href="pages/privacy.html" class="footer-link">
+                <span class="icon">🔒</span> الخصوصية | privacy
+            </a>
+            <span class="separator">•</span>
+            <a href="pages/terms.html" class="footer-link">
+                <span class="icon">📄</span> الشروط والأحكام | Terms & Conditions
+            </a>
+            <span class="separator">•</span>
+            <a href="pages/contact.html" class="footer-link">
+                <span class="icon">📩</span> تواصل معنا | Contact
+            </a>
         </div>
-      </div>
-
-      <div id="msg-body" class="msg-body">
-        <p style="color:var(--muted)">لا توجد رسائل بعد — اضغط "إنشاء بريد جديد" ثم استقبل الرسائل هنا.</p>
-      </div>
-    </section>
- <article class="article-container" aria-label="article content">
-    <div id="article" class="article-content"></div>
-    <div class="article-nav">
-        <button id="prevArticle">‹ المقال السابق</button>
-        <span id="articleCounter"></span>
-        <button id="nextArticle">المقال التالي ›</button>
-    </div>  
-</article>
-<main>
-<div id="articles" class="grid"></div>
-</main>
-  <footer>
-    <div id="footer-text">جميع الحقوق محفوظه - © Temp-BoxMail</div>
-    <div style="margin-top:8px;font-size:13px"><a href="pages/privacy.html" style="color:var(--muted)">🔒 الخصوصية | privacy </a> • <a href="pages/terms.html" style="color:var(--muted)">📄 الشروط والأحكام | Terms & Conditions
-</a> • <a href="pages/contact.html" style="color:var(--muted)">📩 تواصل معنا | Contact </a></div>
-  </footer>
-<div class="row"></div>
-
+    </div>
+</footer>
 </div>
-<script src="purify.min.js"></script> 
+
+<script src="purify.min.js"></script>
 <script src="article_nav.js"></script>
 <script src="mail.js"></script>
+
 <audio id="notifySound" src="notification.mp3" preload="auto"></audio>
-<!-- overlay يغطي الموقع -->
+
 <script>
 document.addEventListener("DOMContentLoaded", function() {
     const banner = document.getElementById("cookie-banner");
@@ -827,7 +443,11 @@ document.addEventListener("DOMContentLoaded", function() {
     const acceptBtn = document.getElementById("accept-btn");
     const rejectBtn = document.getElementById("reject-btn");
 
-    // 1. تحديد النصوص لكل لغة
+    // التحقق هل المستخدم وافق سابقاً؟
+    if (localStorage.getItem("user-consent")) {
+        return; // إذا وافق سابقاً، لا تفعل شيئاً
+    }
+
     const translations = {
         'ar': {
             message: 'نستخدم ملفات تعريف الارتباط لتحسين تجربتك وعرض الإعلانات. هل توافق على استخدامها؟',
@@ -843,109 +463,41 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     };
 
-    // 2. دالة تطبيق اللغة والتنسيق
-    function applyLanguage(lang) {
-        // اكتشاف اللغة (يأخذ 'ar' إذا كانت اللغة تبدأ بـ ar، وإلا يأخذ 'en')
+    function applyLanguage() {
+        // اكتشاف لغة المتصفح
         const userLang = (navigator.language || navigator.userLanguage).startsWith('ar') ? 'ar' : 'en';
         const t = translations[userLang];
 
-        // تحديث النصوص
         document.getElementById('cookie-message').textContent = t.message;
         acceptBtn.textContent = t.accept;
         rejectBtn.textContent = t.reject;
         
-        // تحديث اتجاه النص (مهم للغة العربية)
         banner.style.direction = t.direction; 
-        overlay.style.direction = t.direction;
-        
-        // قد تحتاج إلى تعديل الهوامش هنا إذا كان تصميم CSS لديك يعتمد على margin-left في LTR
     }
     
-    // 3. دالة إزالة البانر والخلفية العائمة والسماح بالتفاعل مع الموقع
     function enableSite() {
         banner.style.display = "none";
         overlay.style.display = "none";
+        localStorage.setItem("user-consent", "true"); // حفظ الاختيار
     }
 
-    // 4. تهيئة شريط الإشعارات (تظهر دائماً)
     function initializeConsentBanner() {
-        // تطبيق التعريب بناءً على لغة المتصفح
         applyLanguage();
-
-        // عرض البانر والغلاف لتعطيل تفاعل المستخدم (Blocking)
         banner.style.display = "flex";
         overlay.style.display = "block";
     }
     
-    // 5. إضافة مستمعي الأحداث للأزرار
     acceptBtn.onclick = () => {
-        setConsent("granted"); // استخدم دالة setConsent الخاصة بك
+        if (typeof setConsent === "function") setConsent("granted");
         enableSite();
     };
 
     rejectBtn.onclick = () => {
-        setConsent("denied"); // استخدم دالة setConsent الخاصة بك
+        if (typeof setConsent === "function") setConsent("denied");
         enableSite();
     };
     
-    // تشغيل التهيئة عند تحميل الصفحة
     initializeConsentBanner();
 });
-</script>
-</body>
+</script></body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
