@@ -5,7 +5,7 @@
 <title>من نحن & اتصل بنا | About & Contact - Temp-BoxMail</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="index, follow">
-<meta name="description" content="تعرف على موقع Temp-BoxMail وخدمة البريد الإلكتروني المؤقت، وتواصل معنا في حال وجود أي استفسار أو ملاحظة.">
+<meta name="description" content="تعرف على موقع Temp-BoxMail وخدمة البريد الإلكتروني المؤقت لاستقبال OTP، وتواصل معنا لأي استفسار تقني.">
 
 <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
@@ -35,7 +35,7 @@ body{
 .card{
   background:var(--card);
   border-radius:12px;
-  padding:30px;
+  padding:35px;
   margin-bottom:30px;
   box-shadow:0 0 0 1px #222;
 }
@@ -43,13 +43,15 @@ body{
 h1,h2{
   color:var(--main);
   margin-top:0;
+  border-bottom: 2px solid #222;
+  padding-bottom: 10px;
 }
 
-p{margin:12px 0}
+p{margin:15px 0}
 
 ul{padding-right:22px;}
 
-li{margin:8px 0}
+li{margin:10px 0}
 
 hr{
   border:none;
@@ -57,7 +59,6 @@ hr{
   margin:40px 0;
 }
 
-/* التنسيق الجديد لزر التواصل الآمن */
 .contact-form{
   margin-top:20px;
 }
@@ -71,7 +72,7 @@ input, textarea{
   background:#111;
   color:#fff;
   font-size:1rem;
-  box-sizing: border-box; /* لضمان عدم خروج الإدخال عن الحاوية */
+  box-sizing: border-box;
 }
 
 input:focus, textarea:focus{
@@ -83,14 +84,14 @@ input:focus, textarea:focus{
   background:var(--main);
   color:#000;
   border:none;
-  padding:12px 25px;
+  padding:12px 30px;
   border-radius:30px;
   font-size:1rem;
   cursor:pointer;
   display: inline-block;
   text-decoration: none;
   font-weight: bold;
-  transition: transform 0.2s;
+  transition: transform 0.2s, opacity 0.2s;
 }
 
 .btn-submit:hover{
@@ -98,15 +99,18 @@ input:focus, textarea:focus{
   transform: scale(1.02);
 }
 
-.lang{
-  color:var(--muted);
-  font-size:1.05rem;
-  margin-bottom:10px;
+.lang-header {
+  background: #222;
+  display: inline-block;
+  padding: 5px 15px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  margin-bottom: 15px;
 }
 
 footer{
   text-align:center;
-  padding:20px;
+  padding:30px;
   font-size:.9rem;
   color:var(--muted);
   border-top:1px solid #222;
@@ -125,49 +129,63 @@ footer a{
 <div class="container">
 
 <div class="card">
-<h1>من نحن</h1>
-<p><strong>Temp-BoxMail</strong> هو موقع يقدم خدمة <strong>البريد الإلكتروني المؤقت</strong> لمساعدة المستخدمين على استقبال الرسائل دون الحاجة إلى استخدام بريدهم الشخصي.</p>
-<p>نهدف إلى:</p>
-<ul>
-  <li>حماية خصوصية المستخدمين على الإنترنت.</li>
-  <li>تقليل الرسائل المزعجة (Spam).</li>
-  <li>توفير تجربة سريعة وبسيطة دون تسجيل.</li>
-</ul>
-<p>بالإضافة إلى خدمة البريد المؤقت، يقدم الموقع محتوى تقني وتعليمي في مجالات الذكاء الاصطناعي، الأمن السيبراني، والتقنية.</p>
+    <h1>من نحن - Temp-BoxMail</h1>
+    <p>مرحباً بك في <strong>Temp-BoxMail</strong>، المنصة الرائدة في توفير حلول الخصوصية الرقمية من خلال خدمة <strong>البريد الإلكتروني المؤقت</strong>. نحن ندرك أن الإنترنت أصبح مكاناً مليئاً بمحاولات التتبع والرسائل المزعجة، لذا قررنا بناء أداة تمنح المستخدم السيطرة الكاملة على بريده الحقيقي.</p>
+    
+    <h2>ماذا نقدم؟</h2>
+    <p>مهمتنا الأساسية هي توفير صناديق بريد "مهملة" تنتهي بانتهاء غرضها. يمكنك استخدام عناويننا لاستقبال رسائل التفعيل، وأكواد <strong>OTP</strong>، وتحميل الملفات من المواقع التي تشترط التسجيل، كل ذلك دون أن تترك أثراً لبياناتك الشخصية.</p>
+    
+    <ul>
+        <li><strong>حماية الخصوصية:</strong> منع المواقع من تتبع هويتك الحقيقية عبر البريد الإلكتروني.</li>
+        <li><strong>مكافحة السبام:</strong> حافظ على صندوق بريدك الأساسي نظيفاً من الرسائل الإعلانية والمزعجة.</li>
+        <li><strong>السرعة والكفاءة:</strong> لا توجد استمارات تسجيل أو كلمات مرور؛ بريدك جاهز في ثانية واحدة.</li>
+        <li><strong>المحتوى التقني:</strong> بالإضافة للخدمة، نوفر مقالات تعليمية في الأمن السيبراني والذكاء الاصطناعي لزيادة الوعي الرقمي.</li>
+    </ul>
+
+    <h2>رؤيتنا</h2>
+    <p>نتطلع لأن نكون الخيار الأول عالمياً لكل من يبحث عن الأمان والسرعة. نحن نؤمن بأن الوصول إلى خدمات الإنترنت يجب ألا يكون مشروطاً بالتنازل عن الخصوصية.</p>
+</div>
+
+<div class="card" dir="ltr">
+    <div class="lang-header">About Us (English)</div>
+    <p>Welcome to <strong>Temp-BoxMail</strong>, your professional partner for online privacy. We provide high-speed <strong>temporary email services</strong> designed to help you stay anonymous while navigating the web.</p>
+    
+    <p>Our platform allows you to generate disposable mailboxes instantly to receive verification codes (OTP) and activation links. By using Temp-BoxMail, you effectively shield your primary inbox from data breaches, unwanted marketing, and malicious tracking.</p>
+    
+    <ul>
+        <li><strong>Zero Tracking:</strong> We do not store your personal data.</li>
+        <li><strong>Instant Access:</strong> No passwords, no registration, just one click.</li>
+        <li><strong>Security Focused:</strong> Ideal for testing services and protecting your digital footprint.</li>
+    </ul>
 </div>
 
 <hr>
 
 <div class="card">
-<h1>اتصل بنا</h1>
-<p>إذا كان لديك أي استفسار، يمكنك التواصل معنا عبر كتابة رسالتك أدناه ثم الضغط على إرسال، وسيفتح جهازك تطبيق البريد تلقائياً.</p>
+    <h1>اتصل بنا - Contact Us</h1>
+    <p>نحن نقدر آراء مستخدمينا ويسعدنا دائماً سماع مقترحاتكم أو الرد على استفساراتكم التقنية. سواء كنت تواجه مشكلة في استقبال رسالة، أو تود اقتراح ميزة جديدة، لا تتردد في مراسلتنا.</p>
 
-<p>📧 البريد الإلكتروني المباشر: <strong>support@temp-boxmail.org</strong></p>
-
-<div class="contact-form">
-  <input type="text" id="contact-name" placeholder="الاسم (اختياري)">
-  <input type="text" id="contact-subject" placeholder="موضوع الرسالة">
-  <textarea id="contact-message" rows="5" placeholder="رسالتك..." required></textarea>
-  <button type="button" class="btn-submit" onclick="sendSecureMail()">إرسال الرسالة</button>
-</div>
-</div>
-
-<hr>
-
-<div class="card" dir="ltr">
-<div class="lang">About & Contact (English)</div>
-<p><strong>Temp-BoxMail</strong> provides a temporary email service that helps users receive messages online without using their personal email address.</p>
-<h2>Contact Us</h2>
-<p>📧 <strong>support@temp-boxmail.org</strong></p>
+    <div class="contact-form">
+        <p>📧 البريد المباشر: <strong>support@temp-boxmail.org</strong></p>
+        <input type="text" id="contact-name" placeholder="الاسم الكامل">
+        <input type="text" id="contact-subject" placeholder="موضوع الاستفسار">
+        <textarea id="contact-message" rows="5" placeholder="اكتب تفاصيل رسالتك هنا..." required></textarea>
+        
+        <p><strong>الخطوات التالية:</strong> بعد الضغط على إرسال، سيتم تحويلك لتطبيق البريد الخاص بك لإتمام الإرسال بشكل آمن. سنقوم بالرد عليك في غضون 24-48 ساعة عمل.</p>
+        
+        <button type="button" class="btn-submit" onclick="sendSecureMail()">إرسال الرسالة الآن</button>
+    </div>
 </div>
 
 </div>
 
 <footer>
-<div id="footer-text">جميع الحقوق محفوظة - © Temp-BoxMail</div>
-<a href="../index.html">🏠 الرئيسية</a> |
-<a href="privacy.html">🔒 الخصوصية</a> |
-<a href="terms.html">📄 الشروط</a>
+    <div id="footer-text">جميع الحقوق محفوظة - © Temp-BoxMail 2026</div>
+    <div style="margin-top:10px">
+        <a href="../index.html">🏠 الرئيسية</a> |
+        <a href="privacy.html">🔒 الخصوصية</a> |
+        <a href="terms.html">📄 الشروط</a>
+    </div>
 </footer>
 
 <script>
@@ -184,7 +202,6 @@ function sendSecureMail() {
     const fullBody = `Name: ${name}\n\nMessage:\n${message}`;
     const mailtoUrl = `mailto:support@temp-boxmail.org?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(fullBody)}`;
     
-    // فتح الرابط بشكل مباشر يمنع تحذير Mixed Content Form
     window.location.href = mailtoUrl;
 }
 </script>
