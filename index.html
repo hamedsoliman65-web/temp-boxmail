@@ -76,8 +76,8 @@
     <meta name="keywords" content="بريد مؤقت، ايميل مؤقت، رسائل التفعيل، OTP, temp mail, temp-boxmail, Temporary mail">
     <link rel="canonical" href="https://www.temp-boxmail.org/">
 
-    <link rel="alternate" hreflang="ar" href="https://www.temp-boxmail.org/">
-    <link rel="alternate" hreflang="en" href="https://www.temp-boxmail.org/">
+   <link rel="alternate" hreflang="ar" href="https://www.temp-boxmail.org/?lang=ar">
+<link rel="alternate" hreflang="en" href="https://www.temp-boxmail.org/?lang=en">
     <link rel="alternate" hreflang="x-default" href="https://www.temp-boxmail.org/">
 
     <link rel="icon" type="image/webp" href="/og.webp">
@@ -408,6 +408,23 @@
     border-radius: 4px;
 }
 
+.faq-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 15px 0;
+}
+.faq-item:last-child {
+    border-bottom: none;
+}
+.faq-item p strong {
+    color: var(--accent);
+    font-size: 17px;
+}
+.faq-item p:last-child {
+    color: #ccc;
+    margin-top: 5px;
+    font-size: 15px;
+}
+
     </style>
 </head>
 <body>
@@ -490,7 +507,15 @@
             <span id="articleCounter"></span>
             <button id="nextArticle">التالي ›</button>
         </div>
-    </article>
+   </article>
+
+<article class="article-container" id="faq-section">
+    <h2 id="faq-main-title" style="color: var(--accent); margin-bottom: 20px;">الأسئلة الشائعة (FAQ)</h2>
+    <div id="faq-list">
+        </div>
+</article>
+
+<footer class="site-footer">
 
    <footer class="site-footer">
     <div class="footer-content">
@@ -582,6 +607,6 @@ document.addEventListener("DOMContentLoaded", function() {
     
     initializeConsentBanner();
 });
-</script></body>
+</script>
+</body>
 </html>
-
