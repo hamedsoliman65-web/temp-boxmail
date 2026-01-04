@@ -29,8 +29,16 @@ const UI = {
     prevArticle: '‹ المقال السابق',
     nextArticle: 'المقال التالي ›',
     noMessages:"لا توجد رسائل بعد — اضغط \"إنشاء بريد جديد\" ثم استقبل الرسائل هنا.",
-    msgSub: "أضغط تحديث وأختر الرسالة", // 👈 أضف هذا السطر هنا
-    footer:"جميع الحقوق محفوظه - © Temp-BoxMail"
+    msgSub: "أضغط تحديث وأختر الرسالة",
+    footer:"جميع الحقوق محفوظه - © Temp-BoxMail",
+    // --- أضفنا هذا الجزء للأسئلة الشائعة ---
+    faqTitle: "الأسئلة الشائعة (FAQ)",
+    faqItems: [
+      { q: "ما هو البريد الإلكتروني المؤقت؟", a: "خدمة تمنحك عنوان بريد صالح لفترة مؤقتة للتسجيل دون كشف هويتك الحقيقية." },
+      { q: "هل يمكنني استقبال رسائل OTP؟", a: "نعم، النظام مصمم لاستقبال أكواد التحقق وOTP من جميع المنصات فوراً." },
+      { q: "هل الخدمة مجانية بالكامل؟", a: "نعم، جميع خدماتنا مجانية 100% بدون أي تكاليف مخفية." },
+      { q: "كم تظل الرسائل محفوظة؟", a: "يتم حذف الرسائل دورياً لضمان الخصوصية، لذا نوصي بنسخ بياناتك فوراً." }
+    ]
   },
   en:{
     title:"Temp-BoxMail",
@@ -44,8 +52,16 @@ const UI = {
     prevArticle: '‹ Previous Article',
     nextArticle: 'Next Article ›',
     noMessages:"No messages yet — click \"Create New Email\" to start receiving emails.",
-    msgSub: "Press refresh and select the message", // 👈 أضف هذا السطر هنا
-    footer:"All rights reserved - © Temp-BoxMail"
+    msgSub: "Press refresh and select the message",
+    footer:"All rights reserved - © Temp-BoxMail",
+    // --- أضفنا هذا الجزء للأسئلة الشائعة ---
+    faqTitle: "Frequently Asked Questions (FAQ)",
+    faqItems: [
+      { q: "What is Temporary Email?", a: "A service providing a temp address to receive emails without revealing your identity." },
+      { q: "Can I receive OTP messages?", a: "Yes, our system is optimized to receive verification codes and OTPs instantly." },
+      { q: "Is the service free?", a: "Yes, Temp-BoxMail is 100% free with no hidden fees." },
+      { q: "How long are messages kept?", a: "Messages are deleted periodically for privacy. Please copy important info immediately." }
+    ]
   }
 };
 
@@ -370,6 +386,47 @@ function applyLanguage(lang) {
   const nextBtn = $('nextArticle');
   if (prevBtn) prevBtn.textContent = t.prevArticle;
   if (nextBtn) nextBtn.textContent = t.nextArticle;
+
+// ----------------------------------------------------------------
+  // تحديث قسم الأسئلة الشائعة (FAQ) - الجزء الجديد
+  // ----------------------------------------------------------------
+  const faqTitleElem = $('faq-main-title');
+  const faqListElem = $('faq-list');
+
+  if (faqTitleElem && faqListElem && t.faqItems) {
+    faqTitleElem.textContent = t.faqTitle;
+    faqListElem.innerHTML = t.faqItems.map(item => `
+      <div class="faq-item" style="border-bottom: 1px solid rgba(255,255,255,0.05); padding: 15px 0;">
+        <p><strong style="color: var(--accent); display: block; margin-bottom: 5px;">${item.q}</strong></p>
+        <p style="color: #ccc; font-size: 15px;">${item.a}</p>
+      </div>
+    `).join('');
+  }
+
+// ----------------------------------------------------------------
+  // 4. إضافة Schema FAQ لمساعدة جوجل (SEO) - الجزء المضاف الآن
+  // ----------------------------------------------------------------
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": t.faqItems.map(item => ({
+      "@type": "Question",
+      "name": item.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": item.a
+      }
+    }))
+  };
+
+  let scriptTag = document.getElementById('faq-schema');
+  if (!scriptTag) {
+    scriptTag = document.createElement('script');
+    scriptTag.id = 'faq-schema';
+    scriptTag.type = 'application/ld+json';
+    document.head.appendChild(scriptTag);
+  }
+  scriptTag.textContent = JSON.stringify(schemaData);
 
   // ----------------------------------------------------------------
   // عرض محتوى المقالة
