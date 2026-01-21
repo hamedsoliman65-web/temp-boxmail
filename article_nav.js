@@ -163,7 +163,7 @@ const ARTICLE_2 = {
 
 const ARTICLE_3 = {
   ar: `
-<h1>البريد المؤقت: الدرع الواقي لهويتك الرقمية</h1>
+<h1>صندوق البريد المؤقت المهمل: هو الدرع الواقي لهويتك الرقمية من هجمات المسوقين</h1>
 <p>الهوية الرقمية هي أغلى ما تملكه على الإنترنت. مع تزايد حوادث تسريب البيانات، أصبح من الضروري تقليل بصمتك الرقمية (Digital Footprint) عبر استخدام حلول ذكية مثل البريد المؤقت.</p>
 
 <img src="https://cdn3.vectorstock.com/i/1000x1000/60/12/email-cybersecurity-icon-vector-44676012.jpg" alt="حماية الهوية الرقمية"/>
@@ -197,7 +197,7 @@ const ARTICLE_3 = {
 </div>
 `,
   en: `
-<h1>Temporary Email: The Shield for Your Digital Identity</h1>
+<h1>A disposable temporary mailbox: It's the shield protecting your digital identity from marketer attacks.</h1>
 <p>Your digital identity is your most valuable asset online. With the rise of data breaches, it’s crucial to minimize your digital footprint by using smart solutions like temporary email.</p>
 
 <img src="https://cdn3.vectorstock.com/i/1000x1000/60/12/email-cybersecurity-icon-vector-44676012.jpg" alt="Digital Identity Protection"/>
