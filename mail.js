@@ -1,23 +1,23 @@
-// 1. إعداد سياسات Trusted Types (الحل الجذري لأخطاء الـ Console)
+// 1. إعداد سياسات Trusted Types بشكل مرن
 if (window.trustedTypes && window.trustedTypes.createPolicy) {
-    // إنشاء السياسة الافتراضية للتعامل مع innerHTML
-    if (!window.trustedTypes.defaultPolicy) {
-        window.trustedTypes.createPolicy('default', {
-            createHTML: (string) => DOMPurify.sanitize(string, { RETURN_TRUSTED_TYPE: true })
-        });
-    }
-
-    // إنشاء سياسة الروابط للسكربتات (Analytics / AdSense)
-    // نستخدم try-catch لأن بعض المتصفحات تمنع إعادة إنشاء السياسة بنفس الاسم
     try {
-        if (!window.trustedTypes.getPolicyNames?.().includes('script-url')) {
-            window.trustedTypes.createPolicy('script-url', {
-                createScriptURL: (src) => src
+        // السياسة الافتراضية للـ HTML والـ URLs
+        if (!window.trustedTypes.defaultPolicy) {
+            window.trustedTypes.createPolicy('default', {
+                createHTML: (string) => DOMPurify.sanitize(string, { RETURN_TRUSTED_TYPE: true }),
+                createScriptURL: (src) => src // مهم لسكربتات جوجل
             });
         }
     } catch (e) {
-        console.warn("TrustedTypes: 'script-url' policy setup skipped or exists.");
+        console.warn("TrustedTypes: 'default' policy already exists.");
     }
+
+    // سياسة مخصصة للروابط (إذا طلبها المتصفح بالاسم)
+    try {
+        window.trustedTypes.createPolicy('script-url', {
+            createScriptURL: (src) => src
+        });
+    } catch (e) {}
 }
 // mail.js - الملف المتكامل والمنظف (الإصدار النهائي والخالي من الأخطاء التركيبية)
 
