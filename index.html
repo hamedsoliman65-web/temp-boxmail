@@ -34,26 +34,31 @@
         }
     }
 
-   function loadAnalytics(){
-    if(window.analyticsLoaded) return;
+function loadAnalytics() {
+    // منع التحميل المتكرر
+    if (window.analyticsLoaded) return;
     window.analyticsLoaded = true;
-    
+
     const s = document.createElement('script');
     const url = "https://www.googletagmanager.com/gtag/js?id=G-NR4CFG9TFJ";
 
-    // إنشاء رابط موثوق إذا كان المتصفح يدعم Trusted Types
+    // استخدام السياسة الموثوقة لتجنب خطأ TrustedScriptURL
     if (window.trustedTypes && window.trustedTypes.createPolicy) {
-        const scriptPolicy = window.trustedTypes.createPolicy('script-url', {
+        const scriptPolicy = window.trustedTypes.createPolicy('analytics-policy', {
             createScriptURL: (src) => src
         });
         s.src = scriptPolicy.createScriptURL(url);
     } else {
         s.src = url;
     }
-    
+
     s.async = true;
+    s.nonce = "rAnd0m123"; // ضروري ليتوافق مع CSP script-src
     document.head.appendChild(s);
-    s.onload = () => { gtag('js', new Date()); gtag('config', 'G-NR4CFG9TFJ'); };
+    s.onload = () => { 
+        gtag('js', new Date()); 
+        gtag('config', 'G-NR4CFG9TFJ'); 
+    };
 }
 </script>
     <title>Temp BoxMail - بريد مؤقت لإستقبال الرسائل و OTP | Temporary Email for OTP & Activation</title>
@@ -597,6 +602,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 </body>
 </html>
+
 
 
 
