@@ -1,8 +1,12 @@
-// إنشاء سياسة Trusted Types لـ DOMPurify
+// 1. إعداد سياسة Trusted Types الافتراضية باستخدام DOMPurify
 if (window.trustedTypes && window.trustedTypes.createPolicy) {
-    window.staticPolicy = window.trustedTypes.createPolicy('default', {
-        createHTML: (toPurify) => DOMPurify.sanitize(toPurify)
-    });
+    if (!window.trustedTypes.defaultPolicy) {
+        window.trustedTypes.createPolicy('default', {
+            createHTML: (string) => DOMPurify.sanitize(string, {
+                RETURN_TRUSTED_TYPE: true // هذا السطر ضروري لإرجاع كائن TrustedHTML بدلاً من نص عادي
+            })
+        });
+    }
 }
 // mail.js - الملف المتكامل والمنظف (الإصدار النهائي والخالي من الأخطاء التركيبية)
 
