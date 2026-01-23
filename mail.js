@@ -82,8 +82,45 @@
     }
 
     /* ============================================================
-       5. وظائف البريد الإلكتروني (العمليات الأساسية)
+       5. وظائف البريد الإلكتروني (الإنشاء، المزامنة، والعرض)
        ============================================================ */
+
+    // أولاً: دالة إنشاء إيميل جديد للمستخدمين الجدد
+    async function createNewAccount() {
+        try {
+            const domainsRes = await fetch(`${App.api}/domains`);
+            const domains = await domainsRes.json();
+            const domain = domains['hydra:member'][0].domain;
+
+            const address = `${Math.random().toString(36).substring(7)}@${domain}`;
+            const password = 'password123';
+
+            const res = await fetch(`${App.api}/accounts`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ address, password })
+            });
+
+            if (res.ok) {
+                const tokenRes = await fetch(`${App.api}/token`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ address, password })
+                });
+                const tokenData = await tokenRes.json();
+
+                App.token = tokenData.token;
+                App.address = address;
+                localStorage.setItem('tb_v3_session', JSON.stringify({ token: App.token, address: App.address }));
+                
+                if(document.getElementById('address')) document.getElementById('address').textContent = address;
+                syncInbox();
+                setInterval(syncInbox, 10000);
+            }
+        } catch (e) { console.error("فشل إنشاء الحساب الجديد"); }
+    }
+
+    // ثانياً: دالة جلب قائمة الرسائل
     async function syncInbox() {
         if (!App.token) return;
         try {
@@ -96,15 +133,23 @@
                 if (!container) return;
                 
                 const msgs = data['hydra:member'] || [];
-                if (msgs.length === 0) {
-                    container.innerHTML = `<div style="text-align:center; padding:20px; color:#999;">${lang === 'ar' ? 'لا توجد رسائل بعد' : 'No messages yet'}</div>`;
-                    return;
-                }
+const currentLang = getLang(); // نغير اسم المتغير ليكون مميزاً
+
+if (msgs.length === 0) {
+    container.innerHTML = `
+        <div style="text-align:center; padding:20px; color:#999;">
+            ${currentLang === 'ar' ? 'لا توجد رسائل بعد' : 'No messages yet'}
+        </div>`;
+    return;
+}
                 
                 container.innerHTML = '';
                 msgs.forEach(m => {
                     const div = document.createElement('div');
                     div.className = 'mail-item';
+                    div.style.padding = "10px";
+                    div.style.borderBottom = "1px solid #eee";
+                    div.style.cursor = "pointer";
                     div.innerHTML = `<strong>${m.subject}</strong><br><small>${m.from.address}</small>`;
                     div.onclick = () => loadFullMail(m.id);
                     container.appendChild(div);
@@ -113,6 +158,7 @@
         } catch (e) { console.error("Sync Error"); }
     }
 
+    // ثالثاً: دالة فتح وقراءة رسالة معينة
     async function loadFullMail(id) {
         const res = await fetch(`${App.api}/messages/${id}`, {
             headers: { Authorization: `Bearer ${App.token}` }
@@ -123,14 +169,13 @@
         document.getElementById('msg-body').innerHTML = window.DOMPurify ? 
             DOMPurify.sanitize(htmlBody, { RETURN_TRUSTED_TYPE: true }) : htmlBody;
     }
-
-    /* ============================================================
+  /* ============================================================
        6. البدء عند التحميل (Initialization)
        ============================================================ */
     document.addEventListener('DOMContentLoaded', () => {
         refreshDynamicContent();
 
-        // استعادة جلسة البريد
+        // استعادة جلسة البريد أو إنشاء حساب جديد
         const saved = localStorage.getItem('tb_v3_session');
         if (saved) {
             const data = JSON.parse(saved);
@@ -139,6 +184,9 @@
             if(document.getElementById('address')) document.getElementById('address').textContent = App.address;
             syncInbox();
             setInterval(syncInbox, 10000);
+        } else {
+            // مهم جداً: إذا لم يجد جلسة قديمة، يقوم بإنشاء حساب جديد فوراً
+            createNewAccount();
         }
 
         // إعدادات تغيير اللغة
@@ -150,19 +198,20 @@
                 location.reload(); 
             };
         }
-    // 1. تشغيل المحتوى فور تحميل الصفحة
+
+        // تشغيل محتوى الأسئلة والمقالات
         renderFAQ(); 
         if (typeof renderCurrentArticle === 'function') {
             renderCurrentArticle();
         }
 
-    }); // إغلاق 
-    // 2. تعريف الدالة (يجب أن تكون خارج أقواس الأحداث)
+    }); // إغلاق مستمع الأحداث
+
+    // 2. تعريف دالة الأسئلة (خارج نطاق الأحداث)
     function renderFAQ() {
-        const lang = localStorage.getItem('lang') || 'ar';
+        const lang = getLang();
         const faqContainer = document.getElementById('faq-list');
         
-        // التأكد من وجود البيانات والحاوية
         if (faqContainer && App.faq) {
             faqContainer.innerHTML = App.faq[lang].map(item => `
                 <div class="faq-item" style="margin-bottom: 25px; padding: 15px; background: #1a1a1a; border-radius: 8px; border-right: 4px solid #00bc8c;">
@@ -173,4 +222,4 @@
         }
     }
 
-})();
+})(); // نهاية الملف
