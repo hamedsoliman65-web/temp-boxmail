@@ -3,44 +3,51 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/> 
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4901985375072472" crossorigin="anonymous"></script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-10997329046"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'AW-10997329046');
-        // Consent Mode Initialization
-        gtag('consent','default',{
-            'ad_storage':'denied',
-            'analytics_storage':'denied'
-        });
-        function setConsent(status){
-            if(status==='granted'){
-                gtag('consent','update',{
-                    'ad_storage':'granted',
-                    'analytics_storage':'granted'
-                });
-                loadAnalytics();
-            } else {
-                gtag('consent','update',{
-                    'ad_storage':'denied',
-                    'analytics_storage':'denied'
-                });
-            }
-        }
+   <script async nonce="rAnd0m123" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4901985375072472" crossorigin="anonymous"></script>
 
-        function loadAnalytics(){
-            if(window.analyticsLoaded) return;
-            window.analyticsLoaded=true;
-            const s=document.createElement('script');
-            s.async=true;
-            s.src="https://www.googletagmanager.com/gtag/js?id=G-NR4CFG9TFJ";
-            document.head.appendChild(s);
-            s.onload=()=>{ gtag('js',new Date()); gtag('config','G-NR4CFG9TFJ'); };
-        }
-    </script>
+<script async nonce="rAnd0m123" src="https://www.googletagmanager.com/gtag/js?id=AW-10997329046"></script>
 
+<script nonce="rAnd0m123">
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'AW-10997329046');
+    
+    // Consent Mode Initialization
+    gtag('consent','default',{
+        'ad_storage':'denied',
+        'analytics_storage':'denied'
+    });
+
+    function setConsent(status){
+        if(status==='granted'){
+            gtag('consent','update',{
+                'ad_storage':'granted',
+                'analytics_storage':'granted'
+            });
+            loadAnalytics();
+        } else {
+            gtag('consent','update',{
+                'ad_storage':'denied',
+                'analytics_storage':'denied'
+            });
+        }
+    }
+
+    function loadAnalytics(){
+        if(window.analyticsLoaded) return;
+        window.analyticsLoaded=true;
+        const s=document.createElement('script');
+        s.async=true;
+        s.src="https://www.googletagmanager.com/gtag/js?id=G-NR4CFG9TFJ";
+        
+        // ملاحظة مهمة: عند إنشاء سكريبت ديناميكي مع وجود strict-dynamic، 
+        // المتصفحات الحديثة ستثق به تلقائياً لأنه أُنشئ بواسطة سكريبت موثوق (بواسطة الـ Nonce).
+        
+        document.head.appendChild(s);
+        s.onload=()=>{ gtag('js',new Date()); gtag('config','G-NR4CFG9TFJ'); };
+    }
+</script>
     <title>Temp BoxMail - بريد مؤقت لإستقبال الرسائل و OTP | Temporary Email for OTP & Activation</title>
     <meta name="description" content="خدمة بريد مؤقت مجانية لاستقبال رسائل التفعيل وOTP دون تسجيل | Temporary free email service to receive verification codes and OTP without creating an account.">
     <meta name="keywords" content="بريد مؤقت، ايميل مؤقت، رسائل التفعيل، OTP, temp mail, temp-boxmail, Temporary mail">
@@ -582,6 +589,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 </body>
 </html>
+
 
 
 
