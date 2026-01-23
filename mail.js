@@ -3,8 +3,15 @@ if (window.trustedTypes && window.trustedTypes.createPolicy) {
     if (!window.trustedTypes.defaultPolicy) {
         window.trustedTypes.createPolicy('default', {
             createHTML: (string) => DOMPurify.sanitize(string, {
-                RETURN_TRUSTED_TYPE: true // هذا السطر ضروري لإرجاع كائن TrustedHTML بدلاً من نص عادي
+                RETURN_TRUSTED_TYPE: true // ضروري لإرجاع كائن TrustedHTML
             })
+        });
+    }
+
+    // 2. إضافة سياسة روابط السكربتات (حل مشكلة حظر src في Analytics و AdSense)
+    if (!window.trustedTypes.getPolicyNames().includes('script-url')) {
+        window.trustedTypes.createPolicy('script-url', {
+            createScriptURL: (src) => src 
         });
     }
 }
