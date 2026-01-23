@@ -764,62 +764,53 @@ const ARTICLE_10 = {
 `
 };
 
-// 2. تهيئة المصفوفة (الآن يتم استخدام المتغيرات بعد تعريفها)
+// 2. تهيئة المصفوفة
+// جعل المتغير window.currentArticleIndex يضمن وصول ملف mail.js إليه بدون أخطاء
+window.ALL_ARTICLES = [ARTICLE_1, ARTICLE_2, ARTICLE_3, ARTICLE_4, ARTICLE_5, ARTICLE_6, ARTICLE_7, ARTICLE_8, ARTICLE_9, ARTICLE_10];
+window.currentArticleIndex = 0;
 
-const ALL_ARTICLES = [ARTICLE_1, ARTICLE_2, ARTICLE_3, ARTICLE_4, ARTICLE_5,ARTICLE_6, ARTICLE_7, ARTICLE_8, ARTICLE_9, ARTICLE_10];
-var currentArticleIndex = 0;
 function updateArticleCounter() {
-    if (typeof ALL_ARTICLES === 'undefined' || typeof currentArticleIndex === 'undefined') {
-        return;
-    }
     const currentSpan = document.getElementById('current-article-num');
     const totalSpan = document.getElementById('total-articles-num');
-    const totalArticles = ALL_ARTICLES.length;
-    const currentNum = currentArticleIndex + 1; 
-
-    if (currentSpan) {
-        currentSpan.textContent = currentNum;
-    }
-    if (totalSpan) {
-        totalSpan.textContent = totalArticles;
-    }
+    
+    if (currentSpan) currentSpan.textContent = window.currentArticleIndex + 1;
+    if (totalSpan) totalSpan.textContent = window.ALL_ARTICLES.length;
 }
 
 function prevArticle() {
-    if (typeof renderCurrentArticle === 'function' && currentArticleIndex > 0) {
-        currentArticleIndex--;
+    if (window.currentArticleIndex > 0) {
+        window.currentArticleIndex--;
         renderCurrentArticle();
     }
 }
 
 function nextArticle() {
-    if (typeof renderCurrentArticle === 'function' && currentArticleIndex < ALL_ARTICLES.length - 1) {
-        currentArticleIndex++;
+    if (window.currentArticleIndex < window.ALL_ARTICLES.length - 1) {
+        window.currentArticleIndex++;
         renderCurrentArticle();
     }
 }
+
 function renderCurrentArticle() {
     const container = document.getElementById('article-content');
-    if (!container || typeof ALL_ARTICLES === 'undefined') return;
+    if (!container || !window.ALL_ARTICLES) return;
 
-    // الحصول على اللغة الحالية (من الـ localStorage أو من دالة الترجمة لديك)
     const lang = localStorage.getItem('lang') || 'ar';
-    const articleData = ALL_ARTICLES[currentArticleIndex];
+    const articleData = window.ALL_ARTICLES[window.currentArticleIndex];
 
     if (articleData && articleData[lang]) {
-        // بما أننا عرفنا 'default policy' في mail.js
-        // المتصفح سيقبل تعيين innerHTML هنا تلقائياً
+        // حقن محتوى المقال
         container.innerHTML = articleData[lang];
         
-        // تحديث العداد بعد العرض
+        // تحديث العداد
         updateArticleCounter();
         
-        // العودة لأعلى المقال عند التنقل
-        container.scrollIntoView({ behavior: 'smooth' });
+        // تمرير الصفحة لأعلى المقال بسلاسة
+        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }
-// تشغيل المقال الأول تلقائياً عند تحميل الصفحة
+
+// تشغيل المقال الأول عند التحميل
 document.addEventListener('DOMContentLoaded', () => {
-    // التأكد من تهيئة العداد والمقال الأول
     renderCurrentArticle();
 });
