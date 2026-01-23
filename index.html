@@ -35,25 +35,31 @@
     }
 
 function loadAnalytics() {
-    // منع التحميل المتكرر
     if (window.analyticsLoaded) return;
     window.analyticsLoaded = true;
 
     const s = document.createElement('script');
     const url = "https://www.googletagmanager.com/gtag/js?id=G-NR4CFG9TFJ";
 
-    // استخدام السياسة الموثوقة لتجنب خطأ TrustedScriptURL
     if (window.trustedTypes && window.trustedTypes.createPolicy) {
-        const scriptPolicy = window.trustedTypes.createPolicy('analytics-policy', {
-            createScriptURL: (src) => src
-        });
+        // نتحقق أولاً إذا كانت السياسة موجودة لتجنب خطأ التكرار
+        const policyName = 'analytics-policy';
+        let scriptPolicy;
+        try {
+            scriptPolicy = window.trustedTypes.createPolicy(policyName, {
+                createScriptURL: (src) => src
+            });
+        } catch (e) {
+            // إذا كانت السياسة موجودة بالفعل، نستخدمها
+            scriptPolicy = { createScriptURL: (src) => src };
+        }
         s.src = scriptPolicy.createScriptURL(url);
     } else {
         s.src = url;
     }
 
     s.async = true;
-    s.nonce = "rAnd0m123"; // ضروري ليتوافق مع CSP script-src
+    s.nonce = "rAnd0m123"; 
     document.head.appendChild(s);
     s.onload = () => { 
         gtag('js', new Date()); 
@@ -602,6 +608,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 </body>
 </html>
+
 
 
 
