@@ -562,23 +562,23 @@ document.addEventListener('DOMContentLoaded', () => {
   const acceptBtn = document.getElementById('accept-btn');
   const rejectBtn = document.getElementById('reject-btn');
 
-  const enableAnalyticsAndAds = () => {
-    // Google Analytics
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-XG-NR4CFG9TFJ');
-
-    // Google AdSense
-    if (!document.getElementById('adsense-script')) {
-      const script = document.createElement('script');
-      script.id = 'adsense-script';
-      script.async = true;
-      script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
-      script.setAttribute('data-ad-client', 'ca-pub-4901985375072472');
-      document.head.appendChild(script);
+ const enableAnalyticsAndAds = () => {
+    // استخدم الـ loadAnalytics التي عرفناها في HTML لضمان الالتزام بـ Trusted Types والـ Nonce
+    if (typeof loadAnalytics === 'function') {
+        loadAnalytics();
     }
-  };
+
+    // Google AdSense مع الالتزام بالـ Nonce
+    if (!document.getElementById('adsense-script')) {
+        const script = document.createElement('script');
+        script.id = 'adsense-script';
+        script.async = true;
+        script.nonce = "rAnd0m123"; // يجب أن يطابق الـ Nonce في الـ HTML
+        script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4901985375072472";
+        script.setAttribute('crossorigin', 'anonymous');
+        document.head.appendChild(script);
+    }
+};
 
   if (acceptBtn) {
     acceptBtn.addEventListener('click', () => {
