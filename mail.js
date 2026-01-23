@@ -1,14 +1,10 @@
 if (window.trustedTypes && window.trustedTypes.createPolicy) {
-    try {
-        if (!window.trustedTypes.defaultPolicy) {
-            window.trustedTypes.createPolicy('default', {
-                createHTML: (string) => DOMPurify.sanitize(string, { RETURN_TRUSTED_TYPE: true }),
-                createScriptURL: (src) => src,
-                createScript: (s) => s // حاسم جداً لحل أخطاء 'TrustedScript' في الصورة
-            });
-        }
-    } catch (e) {
-        console.warn("TrustedTypes: Policy setup already exists.");
+    if (!window.trustedTypes.defaultPolicy) {
+        window.trustedTypes.createPolicy('default', {
+            createHTML: (string) => DOMPurify.sanitize(string, { RETURN_TRUSTED_TYPE: true }),
+            createScriptURL: (src) => src,
+            createScript: (s) => s // هذا السطر سيحل خطأ السطر 458 الذي ظهر في صورك
+        });
     }
 }
 // mail.js - الملف المتكامل والمنظف (الإصدار النهائي والخالي من الأخطاء التركيبية)
