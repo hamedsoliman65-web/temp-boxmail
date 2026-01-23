@@ -433,54 +433,42 @@ function applyLanguage(lang) {
   }
 
 // ----------------------------------------------------------------
-  // 4. إضافة Schema FAQ لمساعدة جوجل (SEO) - الجزء المضاف الآن
-  // ----------------------------------------------------------------
-  const schemaData = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": t.faqItems.map(item => ({
-      "@type": "Question",
-      "name": item.q,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": item.a
-      }
-    }))
-  };
-
-  let scriptTag = document.getElementById('faq-schema');
-  if (!scriptTag) {
+// 4. إضافة Schema FAQ لمساعدة جوجل (SEO)
+// ----------------------------------------------------------------
+let scriptTag = document.getElementById('faq-schema');
+if (!scriptTag) {
     scriptTag = document.createElement('script');
     scriptTag.id = 'faq-schema';
     scriptTag.type = 'application/ld+json';
     document.head.appendChild(scriptTag);
-  }
-  scriptTag.textContent = JSON.stringify(schemaData);
+}
 
-  // ----------------------------------------------------------------
-  // عرض محتوى المقالة
-  // ----------------------------------------------------------------
-  const articleContentContainer = $('article');
-  const article = ALL_ARTICLES[currentArticleIndex];
+// التعديل الأمني: استخدام Trusted Types بدلاً من textContent المباشر
+const schemaString = JSON.stringify(schemaData);
+if (window.trustedTypes && window.trustedTypes.defaultPolicy) {
+    // نستخدم createScript لأن السياسة تمنع النصوص غير المفحوصة في السكربتات
+    scriptTag.text = window.trustedTypes.defaultPolicy.createScript(schemaString);
+} else {
+    scriptTag.textContent = schemaString;
+}
 
-  if (article && article[lang] && articleContentContainer) {
-    // يجب تحميل DOMPurify في HTML لكي يعمل هذا السطر
-    const safeArticleHtml = DOMPurify.sanitize(article[lang]); 
-    articleContentContainer.innerHTML = safeArticleHtml;
+// ----------------------------------------------------------------
+// عرض محتوى المقالة
+// ----------------------------------------------------------------
+const articleContentContainer = $('article');
+const article = ALL_ARTICLES[currentArticleIndex];
+
+if (article && article[lang] && articleContentContainer) {
+    // التطهير الأمني وحقن المحتوى كـ TrustedHTML
+    const cleanHtml = DOMPurify.sanitize(article[lang], { RETURN_TRUSTED_TYPE: true });
+    articleContentContainer.innerHTML = cleanHtml;
+    
     applySEO(currentArticleIndex + 1);
-  } else if (articleContentContainer) {
+} else if (articleContentContainer) {
     articleContentContainer.innerHTML = `<p style="color:var(--muted)">
       ${lang === 'ar' ? 'لا يمكن عرض محتوى المقالة.' : 'Could not display article content.'}
     </p>`;
-  }
-
-  // تحديث حالة الرسائل الفارغة
-  if(!messages.length){
-    $('msg-body').innerHTML = `<p style="color:var(--muted)">${t.noMessages}</p>`;
-  }
 }
-
-
 /* ============================================================
   DOM Content Loaded (المنفذ الرئيسي عند تحميل الصفحة)
   ============================================================ */
