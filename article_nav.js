@@ -798,3 +798,28 @@ function nextArticle() {
         renderCurrentArticle();
     }
 }
+function renderCurrentArticle() {
+    const container = document.getElementById('article-content');
+    if (!container || typeof ALL_ARTICLES === 'undefined') return;
+
+    // الحصول على اللغة الحالية (من الـ localStorage أو من دالة الترجمة لديك)
+    const lang = localStorage.getItem('lang') || 'ar';
+    const articleData = ALL_ARTICLES[currentArticleIndex];
+
+    if (articleData && articleData[lang]) {
+        // بما أننا عرفنا 'default policy' في mail.js
+        // المتصفح سيقبل تعيين innerHTML هنا تلقائياً
+        container.innerHTML = articleData[lang];
+        
+        // تحديث العداد بعد العرض
+        updateArticleCounter();
+        
+        // العودة لأعلى المقال عند التنقل
+        container.scrollIntoView({ behavior: 'smooth' });
+    }
+}
+// تشغيل المقال الأول تلقائياً عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', () => {
+    // التأكد من تهيئة العداد والمقال الأول
+    renderCurrentArticle();
+});
