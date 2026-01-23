@@ -1,26 +1,15 @@
-// 1. إعداد سياسات Trusted Types بشكل مرن وشامل
 if (window.trustedTypes && window.trustedTypes.createPolicy) {
     try {
-        // السياسة الافتراضية للـ HTML، الـ URLs، والـ Scripts
         if (!window.trustedTypes.defaultPolicy) {
             window.trustedTypes.createPolicy('default', {
                 createHTML: (string) => DOMPurify.sanitize(string, { RETURN_TRUSTED_TYPE: true }),
-                createScriptURL: (src) => src, // ضروري لسكربتات جوجل التحليلية والإعلانية
-                createScript: (s) => s // حاسم جداً لحقن بيانات الـ Schema FAQ دون حظر المتصفح
+                createScriptURL: (src) => src,
+                createScript: (s) => s // حاسم جداً لحل أخطاء 'TrustedScript' في الصورة
             });
         }
     } catch (e) {
-        console.warn("TrustedTypes: 'default' policy already exists.");
+        console.warn("TrustedTypes: Policy setup already exists.");
     }
-
-    // سياسة مخصصة للروابط بالاسم (لضمان التوافق مع بعض السكربتات القديمة)
-    try {
-        if (!window.trustedTypes.getPolicyNames?.().includes('script-url')) {
-            window.trustedTypes.createPolicy('script-url', {
-                createScriptURL: (src) => src
-            });
-        }
-    } catch (e) {}
 }
 // mail.js - الملف المتكامل والمنظف (الإصدار النهائي والخالي من الأخطاء التركيبية)
 
