@@ -764,15 +764,29 @@ const ARTICLE_10 = {
 `
 };
 
-// 2. تهيئة المصفوفة
-// جعل المتغير window.currentArticleIndex يضمن وصول ملف mail.js إليه بدون أخطاء
-window.ALL_ARTICLES = [ARTICLE_1, ARTICLE_2, ARTICLE_3, ARTICLE_4, ARTICLE_5, ARTICLE_6, ARTICLE_7, ARTICLE_8, ARTICLE_9, ARTICLE_10];
+// تأكد من تعريف المقالات (ARTICLE_1 إلى ARTICLE_10) قبل هذا السطر 
+// أو تأكد أنها معرفة في ملف منفصل يتم تحميله قبل هذا الملف.
+
+window.ALL_ARTICLES = [
+    typeof ARTICLE_1 !== 'undefined' ? ARTICLE_1 : {},
+    typeof ARTICLE_2 !== 'undefined' ? ARTICLE_2 : {},
+    typeof ARTICLE_3 !== 'undefined' ? ARTICLE_3 : {},
+    typeof ARTICLE_4 !== 'undefined' ? ARTICLE_4 : {},
+    typeof ARTICLE_5 !== 'undefined' ? ARTICLE_5 : {},
+    typeof ARTICLE_6 !== 'undefined' ? ARTICLE_6 : {},
+    typeof ARTICLE_7 !== 'undefined' ? ARTICLE_7 : {},
+    typeof ARTICLE_8 !== 'undefined' ? ARTICLE_8 : {},
+    typeof ARTICLE_9 !== 'undefined' ? ARTICLE_9 : {},
+    typeof ARTICLE_10 !== 'undefined' ? ARTICLE_10 : {}
+];
+
 window.currentArticleIndex = 0;
 
 function updateArticleCounter() {
     const currentSpan = document.getElementById('current-article-num');
     const totalSpan = document.getElementById('total-articles-num');
     
+    // استخدام window للتأكد من الوصول للمتغير العام
     if (currentSpan) currentSpan.textContent = window.currentArticleIndex + 1;
     if (totalSpan) totalSpan.textContent = window.ALL_ARTICLES.length;
 }
@@ -793,7 +807,7 @@ function nextArticle() {
 
 function renderCurrentArticle() {
     const container = document.getElementById('article-content');
-    if (!container || !window.ALL_ARTICLES) return;
+    if (!container || !window.ALL_ARTICLES || window.ALL_ARTICLES.length === 0) return;
 
     const lang = localStorage.getItem('lang') || 'ar';
     const articleData = window.ALL_ARTICLES[window.currentArticleIndex];
@@ -805,12 +819,15 @@ function renderCurrentArticle() {
         // تحديث العداد
         updateArticleCounter();
         
-        // تمرير الصفحة لأعلى المقال بسلاسة
+        // تمرير الصفحة لأعلى الحاوية (وليس أعلى الصفحة بالكامل) لراحة المستخدم
         container.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 }
 
 // تشغيل المقال الأول عند التحميل
 document.addEventListener('DOMContentLoaded', () => {
-    renderCurrentArticle();
+    // نتحقق من وجود الحاوية قبل التشغيل لتجنب أخطاء الكونسول
+    if (document.getElementById('article-content')) {
+        renderCurrentArticle();
+    }
 });
