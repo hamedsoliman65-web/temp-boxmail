@@ -150,5 +150,27 @@
                 location.reload(); 
             };
         }
-    });
+    // 1. تشغيل المحتوى فور تحميل الصفحة
+        renderFAQ(); 
+        if (typeof renderCurrentArticle === 'function') {
+            renderCurrentArticle();
+        }
+
+    }); // إغلاق 
+    // 2. تعريف الدالة (يجب أن تكون خارج أقواس الأحداث)
+    function renderFAQ() {
+        const lang = localStorage.getItem('lang') || 'ar';
+        const faqContainer = document.getElementById('faq-list');
+        
+        // التأكد من وجود البيانات والحاوية
+        if (faqContainer && App.faq) {
+            faqContainer.innerHTML = App.faq[lang].map(item => `
+                <div class="faq-item" style="margin-bottom: 25px; padding: 15px; background: #1a1a1a; border-radius: 8px; border-right: 4px solid #00bc8c;">
+                    <h3 style="color: #00bc8c; font-size: 1.1rem; margin-bottom: 10px;">${item.q}</h3>
+                    <p style="color: #ffffff; line-height: 1.6; margin: 0;">${item.a}</p>
+                </div>
+            `).join('');
+        }
+    }
+
 })();
