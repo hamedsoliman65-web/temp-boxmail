@@ -1,6 +1,6 @@
 (function() {
     /* ============================================================
-       1. إعدادات الأمان (Trusted Types) - لحل أخطاء الكونسول
+       1. إعدادات الأمان (Trusted Types)
        ============================================================ */
     if (window.trustedTypes && window.trustedTypes.createPolicy) {
         if (!window.trustedTypes.defaultPolicy) {
@@ -20,7 +20,6 @@
         api: 'https://api.mail.tm',
         token: null,
         address: null,
-        // الأسئلة الشائعة مدمجة هنا لضمان ظهورها
         faq: {
             ar: [
                 { q: "ما هو البريد الإلكتروني المؤقت؟", a: "خدمة تمنحك عنوان بريد صالح لفترة مؤقتة للتسجيل دون كشف هويتك الحقيقية." },
@@ -38,7 +37,7 @@
     const getLang = () => localStorage.getItem('lang') || 'ar';
 
     /* ============================================================
-       3. محرك الـ SEO (تحديث العناوين والوصف تلقائياً)
+       3. محرك الـ SEO والترجمة
        ============================================================ */
     function updateSEO(lang) {
         const titles = {
@@ -49,49 +48,53 @@
             ar: "أفضل خدمة بريد إلكتروني مؤقت مهمل. احصل على إيميل وهمي بضغطة واحدة واستقبل رسائل التفعيل فوراً.",
             en: "Best disposable temp mail service. Get a temporary email and receive activation codes instantly."
         };
-
         document.title = titles[lang];
         const metaDesc = document.querySelector('meta[name="description"]');
         if (metaDesc) metaDesc.content = descriptions[lang];
     }
 
-    /* ============================================================
-       4. حقن المحتوى (الأسئلة الشائعة والمقالات)
-       ============================================================ */
     function refreshDynamicContent() {
         const lang = getLang();
-        
-        // 1. تحديث SEO
         updateSEO(lang);
 
-        // 2. حقن الأسئلة الشائعة
-        const faqContainer = document.getElementById('faq-list');
-        if (faqContainer) {
-            faqContainer.innerHTML = App.faq[lang].map(item => `
-                <div class="faq-item" style="margin-bottom:20px; border-bottom:1px solid #eee; padding-bottom:15px;">
-                    <h3 style="font-size:1.1rem; color:#333;">${item.q}</h3>
-                    <p style="color:#666;">${item.a}</p>
-                </div>
-            `).join('');
-        }
+        const uiStrings = {
+            ar: {
+                'inbox-title': 'البريد الوارد',
+                'btn-copy': 'نسخ',
+                'btn-new': 'جديد',
+                'btn-refresh': 'تحديث',
+                'btn-delete': 'حذف',
+                'msg-status': 'لا توجد رسائل بعد',
+                'select-msg-text': 'اختر رسالة لعرضها'
+            },
+            en: {
+                'inbox-title': 'Inbox',
+                'btn-copy': 'Copy',
+                'btn-new': 'New',
+                'btn-refresh': 'Refresh',
+                'btn-delete': 'Delete',
+                'msg-status': 'No messages yet',
+                'select-msg-text': 'Select a message to view'
+            }
+        };
 
-        // 3. ربط ملف المقالات (article_nav.js) بهذا الملف
-        if (typeof renderCurrentArticle === 'function') {
-            renderCurrentArticle(); // استدعاء دالة العرض الموجودة في ملفك
-        }
+        Object.keys(uiStrings[lang]).forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = uiStrings[lang][id];
+        });
+
+        renderFAQ();
+        if (typeof renderCurrentArticle === 'function') renderCurrentArticle();
     }
 
     /* ============================================================
-       5. وظائف البريد الإلكتروني (الإنشاء، المزامنة، والعرض)
+       4. وظائف البريد الإلكتروني
        ============================================================ */
-
-    // أولاً: دالة إنشاء إيميل جديد للمستخدمين الجدد
     async function createNewAccount() {
         try {
             const domainsRes = await fetch(`${App.api}/domains`);
             const domains = await domainsRes.json();
             const domain = domains['hydra:member'][0].domain;
-
             const address = `${Math.random().toString(36).substring(7)}@${domain}`;
             const password = 'password123';
 
@@ -108,19 +111,16 @@
                     body: JSON.stringify({ address, password })
                 });
                 const tokenData = await tokenRes.json();
-
                 App.token = tokenData.token;
                 App.address = address;
                 localStorage.setItem('tb_v3_session', JSON.stringify({ token: App.token, address: App.address }));
-                
                 if(document.getElementById('address')) document.getElementById('address').textContent = address;
                 syncInbox();
                 setInterval(syncInbox, 10000);
             }
-        } catch (e) { console.error("فشل إنشاء الحساب الجديد"); }
+        } catch (e) { console.error("Account Creation Failed"); }
     }
 
-    // ثانياً: دالة جلب قائمة الرسائل
     async function syncInbox() {
         if (!App.token) return;
         try {
@@ -131,25 +131,18 @@
                 const data = await res.json();
                 const container = document.getElementById('inbox');
                 if (!container) return;
-                
                 const msgs = data['hydra:member'] || [];
-const currentLang = getLang(); // نغير اسم المتغير ليكون مميزاً
+                const currentLang = getLang();
 
-if (msgs.length === 0) {
-    container.innerHTML = `
-        <div style="text-align:center; padding:20px; color:#999;">
-            ${currentLang === 'ar' ? 'لا توجد رسائل بعد' : 'No messages yet'}
-        </div>`;
-    return;
-}
-                
+                if (msgs.length === 0) {
+                    container.innerHTML = `<div style="text-align:center; padding:20px; color:#999;">${currentLang === 'ar' ? 'لا توجد رسائل بعد' : 'No messages yet'}</div>`;
+                    return;
+                }
                 container.innerHTML = '';
                 msgs.forEach(m => {
                     const div = document.createElement('div');
                     div.className = 'mail-item';
-                    div.style.padding = "10px";
-                    div.style.borderBottom = "1px solid #eee";
-                    div.style.cursor = "pointer";
+                    div.style = "padding:10px; border-bottom:1px solid #eee; cursor:pointer;";
                     div.innerHTML = `<strong>${m.subject}</strong><br><small>${m.from.address}</small>`;
                     div.onclick = () => loadFullMail(m.id);
                     container.appendChild(div);
@@ -158,24 +151,54 @@ if (msgs.length === 0) {
         } catch (e) { console.error("Sync Error"); }
     }
 
-    // ثالثاً: دالة فتح وقراءة رسالة معينة
     async function loadFullMail(id) {
         const res = await fetch(`${App.api}/messages/${id}`, {
             headers: { Authorization: `Bearer ${App.token}` }
         });
         const d = await res.json();
-        document.getElementById('msg-sub').textContent = d.subject;
-        const htmlBody = d.html || d.text;
-        document.getElementById('msg-body').innerHTML = window.DOMPurify ? 
-            DOMPurify.sanitize(htmlBody, { RETURN_TRUSTED_TYPE: true }) : htmlBody;
+        const subEl = document.getElementById('msg-sub');
+        if(subEl) subEl.textContent = d.subject;
+        const bodyEl = document.getElementById('msg-body');
+        if(bodyEl) {
+            const htmlBody = d.html || d.text;
+            bodyEl.innerHTML = window.DOMPurify ? DOMPurify.sanitize(htmlBody, { RETURN_TRUSTED_TYPE: true }) : htmlBody;
+        }
     }
-  /* ============================================================
-       6. البدء عند التحميل (Initialization)
+
+    async function deleteAccount() {
+        if (!App.token) return;
+        if (!confirm(getLang() === 'ar' ? "هل أنت متأكد؟" : "Are you sure?")) return;
+        try {
+            await fetch(`${App.api}/accounts/me`, { method: 'DELETE', headers: { Authorization: `Bearer ${App.token}` } });
+        } catch (e) {}
+        localStorage.removeItem('tb_v3_session');
+        location.reload();
+    }
+
+    /* ============================================================
+       5. البدء والتشغيل (Initialization)
        ============================================================ */
     document.addEventListener('DOMContentLoaded', () => {
         refreshDynamicContent();
 
-        // استعادة جلسة البريد أو إنشاء حساب جديد
+        // ربط أزرار التحكم
+        const btnNew = document.getElementById('btn-new');
+        if (btnNew) btnNew.onclick = () => { localStorage.removeItem('tb_v3_session'); location.reload(); };
+
+        const btnDelete = document.getElementById('btn-delete');
+        if (btnDelete) btnDelete.onclick = deleteAccount;
+
+        const btnCopy = document.getElementById('btn-copy');
+        if (btnCopy) btnCopy.onclick = () => {
+            const addr = document.getElementById('address').textContent;
+            navigator.clipboard.writeText(addr);
+            alert(getLang() === 'ar' ? 'تم النسخ!' : 'Copied!');
+        };
+
+        const btnRefresh = document.getElementById('btn-refresh');
+        if (btnRefresh) btnRefresh.onclick = () => syncInbox();
+
+        // إدارة الجلسة
         const saved = localStorage.getItem('tb_v3_session');
         if (saved) {
             const data = JSON.parse(saved);
@@ -185,34 +208,23 @@ if (msgs.length === 0) {
             syncInbox();
             setInterval(syncInbox, 10000);
         } else {
-            // مهم جداً: إذا لم يجد جلسة قديمة، يقوم بإنشاء حساب جديد فوراً
             createNewAccount();
         }
 
-        // إعدادات تغيير اللغة
+        // زر اللغة
         const langToggle = document.getElementById('langToggle');
         if (langToggle) {
             langToggle.onclick = () => {
-                const next = getLang() === 'ar' ? 'en' : 'ar';
-                localStorage.setItem('lang', next);
-                location.reload(); 
+                localStorage.setItem('lang', getLang() === 'ar' ? 'en' : 'ar');
+                location.reload();
             };
         }
+    });
 
-        // تشغيل محتوى الأسئلة والمقالات
-        renderFAQ(); 
-        if (typeof renderCurrentArticle === 'function') {
-            renderCurrentArticle();
-        }
-
-    }); // إغلاق مستمع الأحداث
-
-    // 2. تعريف دالة الأسئلة (خارج نطاق الأحداث)
     function renderFAQ() {
         const lang = getLang();
         const faqContainer = document.getElementById('faq-list');
-        
-        if (faqContainer && App.faq) {
+        if (faqContainer) {
             faqContainer.innerHTML = App.faq[lang].map(item => `
                 <div class="faq-item" style="margin-bottom: 25px; padding: 15px; background: #1a1a1a; border-radius: 8px; border-right: 4px solid #00bc8c;">
                     <h3 style="color: #00bc8c; font-size: 1.1rem; margin-bottom: 10px;">${item.q}</h3>
@@ -221,5 +233,4 @@ if (msgs.length === 0) {
             `).join('');
         }
     }
-
-})(); // نهاية الملف
+})();
