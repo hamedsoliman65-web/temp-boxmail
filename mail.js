@@ -1,216 +1,161 @@
 /* ============================================================
-   1. Trusted Types Configuration
+   1. Trusted Types Configuration (لحل مشاكل الأمان في الكونسول)
    ============================================================ */
 if (window.trustedTypes && window.trustedTypes.createPolicy) {
     if (!window.trustedTypes.defaultPolicy) {
         try {
             window.trustedTypes.createPolicy('default', {
-                createHTML: (string) => typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(string, { RETURN_TRUSTED_TYPE: true }) : string,
+                createHTML: (string) => (window.DOMPurify ? DOMPurify.sanitize(string, { RETURN_TRUSTED_TYPE: true }) : string),
                 createScriptURL: (src) => src,
                 createScript: (s) => s 
             });
-        } catch (e) { console.warn("TrustedTypes policy already exists"); }
+        } catch (e) { console.warn("TrustedTypes policy initialization skipped."); }
     }
 }
 
-/* ======================
-   2. Configuration & State
-   ====================== */
-const API_BASE = 'https://api.mail.tm';
-const $ = id => document.getElementById(id);
+/* ============================================================
+   2. Application State (استخدام كائن موحد لتجنب تكرار التعريفات)
+   ============================================================ */
+const BoxApp = {
+    api: 'https://api.mail.tm',
+    account: null,
+    token: null,
+    messages: [],
+    poll: null,
+    currentArtIdx: 0 // تم تغيير الاسم لتجنب التعارض مع ملفات أخرى
+};
 
-let mail_account = null;
-let mail_token = null;
-let mail_messages = [];
-let mail_pollInterval = null;
-// تم تغيير الاسم لمنع خطأ "already declared"
-let mail_currentArticleIdx = 0; 
+const $el = id => document.getElementById(id);
 
-/* ==============
-   3. Translations
-   ============== */
-const UI_DOCS = {
-  ar: {
-    title: "Temp-BoxMail",
-    subtitle: "استقبل رسائل التفعيل وOTP فورًا",
-    inboxTitle: "البريد الوارد",
-    noMessages: "لا توجد رسائل بعد — اضغط \"إنشاء بريد جديد\" ثم استقبل الرسائل هنا.",
-    copy: "نسخ", refresh: "تحديث", newMail: "جديد", delete: "حذف",
-    footer: "جميع الحقوق محفوظة - © Temp-BoxMail",
-    faqTitle: "الأسئلة الشائعة (FAQ)",
-    faqItems: [
-      { q: "ما هو البريد الإلكتروني المؤقت؟", a: "خدمة تمنحك عنوان بريد صالح لفترة مؤقتة للتسجيل دون كشف هويتك الحقيقية." },
-      { q: "هل يمكنني استقبال رسائل OTP؟", a: "نعم، النظام مصمم لاستقبال أكواد التحقق وOTP فوراً." }
-    ]
-  },
-  en: {
-    title: "Temp-BoxMail",
-    subtitle: "Receive OTP & verification emails instantly",
-    inboxTitle: "Inbox",
-    noMessages: "No messages yet — click \"Create New Email\".",
-    copy: "Copy", refresh: "Refresh", newMail: "New", delete: "Delete",
-    footer: "All rights reserved - © Temp-BoxMail",
-    faqTitle: "Frequently Asked Questions (FAQ)",
-    faqItems: [
-      { q: "What is Temporary Email?", a: "A service providing a temp address for privacy." },
-      { q: "Can I receive OTP?", a: "Yes, our system is optimized for OTP codes." }
-    ]
-  }
+/* ============================================================
+   3. Translations & UI Content
+   ============================================================ */
+const UI_RESOURCES = {
+    ar: {
+        faqTitle: "الأسئلة الشائعة (FAQ)",
+        noMsgs: "لا توجد رسائل بعد.",
+        copy: "نسخ", refresh: "تحديث", new: "جديد", delete: "حذف",
+        faqItems: [
+            { q: "ما هو البريد الإلكتروني المؤقت؟", a: "خدمة تمنحك عنوان بريد صالح لفترة مؤقتة للتسجيل دون كشف هويتك الحقيقية." },
+            { q: "هل يمكنني استقبال رسائل OTP؟", a: "نعم، النظام مصمم لاستقبال أكواد التحقق وOTP من جميع المنصات فوراً." }
+        ]
+    },
+    en: {
+        faqTitle: "Frequently Asked Questions (FAQ)",
+        noMsgs: "No messages yet.",
+        copy: "Copy", refresh: "Refresh", new: "New", delete: "Delete",
+        faqItems: [
+            { q: "What is Temporary Email?", a: "A service providing a temp address to receive emails without revealing your identity." },
+            { q: "Can I receive OTP messages?", a: "Yes, our system is optimized for verification codes." }
+        ]
+    }
 };
 
 /* ============================================================
    4. Core Functions
    ============================================================ */
-function safeHtml(s){ return s? s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])) : ''; }
-function getActiveLang() { return localStorage.getItem('lang') || 'ar'; }
+function getLang() { return localStorage.getItem('lang') || 'ar'; }
 
-async function fetchMailMessages(){
-  if(!mail_token) return;
-  try {
-    const res = await fetch(API_BASE + '/messages', {headers: {Authorization: 'Bearer ' + mail_token}});
-    if(res.ok) {
-        const json = await res.json();
-        mail_messages = json['hydra:member'] || [];
-        renderMailInbox();
+function applyGlobalLanguage(lang) {
+    const t = UI_RESOURCES[lang];
+    if ($el('faq-main-title')) $el('faq-main-title').textContent = t.faqTitle;
+    
+    // حقن الأسئلة الشائعة
+    const faqList = $el('faq-list');
+    if (faqList) {
+        faqList.innerHTML = t.faqItems.map(item => `
+            <div class="faq-item">
+                <p><strong>${item.q}</strong></p>
+                <p>${item.a}</p>
+            </div>`).join('');
     }
-  } catch(e) { console.error("Fetch Error", e); }
-}
 
-function renderMailInbox(){
-  const container = $('inbox');
-  if(!container) return;
-  container.innerHTML = '';
-  if(!mail_messages.length){
-    container.innerHTML = `<div style="color:#888;padding:10px">${UI_DOCS[getActiveLang()].noMessages}</div>`;
-    return;
-  }
-  mail_messages.forEach(m => {
-    const el = document.createElement('div');
-    el.className = 'mail-item';
-    el.style.cursor = 'pointer';
-    el.innerHTML = `<div><div class="mail-sub">${safeHtml(m.subject)}</div><div class="mail-from">${safeHtml(m.from?.address)}</div></div>`;
-    el.onclick = () => showMailDetail(m);
-    container.appendChild(el);
-  });
-}
-
-async function showMailDetail(m){
-    try {
-        const res = await fetch(`${API_BASE}/messages/${m.id}`, { headers: { Authorization: 'Bearer ' + mail_token } });
-        const full = await res.json();
-        $('msg-sub').textContent = full.subject || 'No Subject';
-        let rawContent = full.html || `<pre>${safeHtml(full.text)}</pre>`;
-        
-        if (window.DOMPurify) {
-            $('msg-body').innerHTML = window.DOMPurify.sanitize(rawContent, { RETURN_TRUSTED_TYPE: true });
-        } else {
-            $('msg-body').innerHTML = rawContent;
+    // عرض المقالات من ALL_ARTICLES (الموجود في article_nav.js)
+    if (window.ALL_ARTICLES && window.ALL_ARTICLES[BoxApp.currentArtIdx]) {
+        const art = window.ALL_ARTICLES[BoxApp.currentArtIdx];
+        const content = art[lang] || art['ar'];
+        if ($el('article')) {
+            $el('article').innerHTML = window.DOMPurify ? DOMPurify.sanitize(content, { RETURN_TRUSTED_TYPE: true }) : content;
         }
-    } catch(e){ console.error(e); }
-}
-
-function updateUILanguage(lang) {
-  document.documentElement.lang = lang;
-  document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-  const t = UI_DOCS[lang];
-
-  if ($('btn-text-copy')) $('btn-text-copy').textContent = t.copy;
-  if ($('btn-text-refresh')) $('btn-text-refresh').textContent = t.refresh;
-  if ($('btn-text-new')) $('btn-text-new').textContent = t.newMail;
-  if ($('btn-text-delete')) $('btn-text-delete').textContent = t.delete;
-  if ($('t-title')) $('t-title').textContent = t.title;
-  if ($('t-sub')) $('t-sub').textContent = t.subtitle;
-  if ($('inbox-title')) $('inbox-title').textContent = t.inboxTitle;
-  if ($('footer-text')) $('footer-text').textContent = t.footer;
-  if ($('langToggle')) $('langToggle').textContent = (lang === 'ar') ? 'English' : 'العربية';
-
-  // تحديث المقالات من ملف article_nav.js
-  if (window.ALL_ARTICLES && ALL_ARTICLES[mail_currentArticleIdx]) {
-    const art = ALL_ARTICLES[mail_currentArticleIdx];
-    if ($('article')) {
-        $('article').innerHTML = window.DOMPurify ? DOMPurify.sanitize(art[lang], { RETURN_TRUSTED_TYPE: true }) : art[lang];
+        if ($el('articleCounter')) $el('articleCounter').textContent = `${BoxApp.currentArtIdx + 1} / ${window.ALL_ARTICLES.length}`;
     }
-    if ($('articleCounter')) $('articleCounter').textContent = `${mail_currentArticleIdx + 1} / ${ALL_ARTICLES.length}`;
-  }
 }
 
-async function createNewMailAccount(){
-  try {
-    const dRes = await fetch(API_BASE + '/domains');
-    const dJson = await dRes.json();
-    const domain = dJson['hydra:member'][0].domain;
-    const address = 'box' + Math.random().toString(36).substring(2, 7) + '@' + domain;
-    const password = 'Pass' + Math.random().toString(36).slice(-8);
-
-    const res = await fetch(API_BASE + '/accounts', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({address, password})
-    });
-    
-    const tokenRes = await fetch(API_BASE + '/token', {
-      method: 'POST',
-      headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({address, password})
-    });
-    const tJson = await tokenRes.json();
-    
-    mail_account = { address };
-    mail_token = tJson.token;
-    localStorage.setItem('tb_acc_v2', JSON.stringify({address, token: mail_token}));
-    refreshAccountDisplay();
-  } catch(e) { console.error("Account Creation Error", e); }
+async function fetchInbox() {
+    if (!BoxApp.token) return;
+    try {
+        const res = await fetch(`${BoxApp.api}/messages`, {
+            headers: { Authorization: `Bearer ${BoxApp.token}` }
+        });
+        if (res.ok) {
+            const data = await res.json();
+            BoxApp.messages = data['hydra:member'] || [];
+            renderInboxUI();
+        }
+    } catch (e) { console.error("Inbox Error:", e); }
 }
 
-function refreshAccountDisplay(){
-  if ($('address')) $('address').textContent = mail_account.address;
-  if (mail_pollInterval) clearInterval(mail_pollInterval);
-  mail_pollInterval = setInterval(fetchMailMessages, 8000);
-  fetchMailMessages();
+function renderInboxUI() {
+    const container = $el('inbox');
+    if (!container) return;
+    container.innerHTML = '';
+    if (BoxApp.messages.length === 0) {
+        container.innerHTML = `<div style="padding:15px; color:#888;">${UI_RESOURCES[getLang()].noMsgs}</div>`;
+        return;
+    }
+    BoxApp.messages.forEach(m => {
+        const div = document.createElement('div');
+        div.className = 'mail-item';
+        div.innerHTML = `<strong>${m.subject}</strong><br><small>${m.from.address}</small>`;
+        div.onclick = () => loadMailContent(m.id);
+        container.appendChild(div);
+    });
+}
+
+async function loadMailContent(id) {
+    const res = await fetch(`${BoxApp.api}/messages/${id}`, {
+        headers: { Authorization: `Bearer ${BoxApp.token}` }
+    });
+    const data = await res.json();
+    $el('msg-sub').textContent = data.subject;
+    const raw = data.html || data.text;
+    $el('msg-body').innerHTML = window.DOMPurify ? DOMPurify.sanitize(raw, { RETURN_TRUSTED_TYPE: true }) : raw;
 }
 
 /* ============================================================
-   5. Initialization
+   5. Initialization & Events
    ============================================================ */
 document.addEventListener('DOMContentLoaded', () => {
-  const savedLang = getActiveLang();
-  updateUILanguage(savedLang);
+    applyGlobalLanguage(getLang());
 
-  const stored = localStorage.getItem('tb_acc_v2');
-  if(stored) {
-    const data = JSON.parse(stored);
-    mail_account = { address: data.address };
-    mail_token = data.token;
-    refreshAccountDisplay();
-  } else {
-    createNewMailAccount();
-  }
+    const saved = localStorage.getItem('tb_v3_session');
+    if (saved) {
+        const session = JSON.parse(saved);
+        BoxApp.account = { address: session.address };
+        BoxApp.token = session.token;
+        if ($el('address')) $el('address').textContent = BoxApp.account.address;
+        fetchInbox();
+        BoxApp.poll = setInterval(fetchInbox, 10000);
+    }
 
-  // Events
-  $('copyBtn').onclick = () => {
-    navigator.clipboard.writeText(mail_account.address);
-    alert(getActiveLang() === 'ar' ? 'تم النسخ!' : 'Copied!');
-  };
-  
-  $('refreshBtn').onclick = () => fetchMailMessages();
-  $('newBtn').onclick = () => createNewMailAccount();
-  $('langToggle').onclick = () => {
-    const next = getActiveLang() === 'ar' ? 'en' : 'ar';
-    localStorage.setItem('lang', next);
-    updateUILanguage(next);
-  };
-  
-  $('nextArticle').onclick = () => {
-      if(window.ALL_ARTICLES && mail_currentArticleIdx < ALL_ARTICLES.length - 1) {
-          mail_currentArticleIdx++;
-          updateUILanguage(getActiveLang());
-      }
-  };
-  
-  $('prevArticle').onclick = () => {
-      if(mail_currentArticleIdx > 0) {
-          mail_currentArticleIdx--;
-          updateUILanguage(getActiveLang());
-      }
-  };
+    // أزرار التحكم
+    if ($el('langToggle')) $el('langToggle').onclick = () => {
+        const next = getLang() === 'ar' ? 'en' : 'ar';
+        localStorage.setItem('lang', next);
+        location.reload(); // إعادة التحميل لضمان تنظيف كافة الحالات
+    };
+
+    if ($el('nextArticle')) $el('nextArticle').onclick = () => {
+        if (window.ALL_ARTICLES && BoxApp.currentArtIdx < window.ALL_ARTICLES.length - 1) {
+            BoxApp.currentArtIdx++;
+            applyGlobalLanguage(getLang());
+        }
+    };
+
+    if ($el('prevArticle')) $el('prevArticle').onclick = () => {
+        if (BoxApp.currentArtIdx > 0) {
+            BoxApp.currentArtIdx--;
+            applyGlobalLanguage(getLang());
+        }
+    };
 });
