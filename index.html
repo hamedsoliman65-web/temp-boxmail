@@ -3,97 +3,88 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1"/> 
-   <script async nonce="rAnd0m123" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4901985375072472" crossorigin="anonymous"></script>
-
-<script async nonce="rAnd0m123" src="https://www.googletagmanager.com/gtag/js?id=AW-10997329046"></script>
-
-<script nonce="rAnd0m123">
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'AW-10997329046');
     
-    // Consent Mode Initialization
-    gtag('consent','default',{
-        'ad_storage':'denied',
-        'analytics_storage':'denied'
-    });
+    <script async nonce="rAnd0m123" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4901985375072472" crossorigin="anonymous"></script>
+    
+    <script async nonce="rAnd0m123" src="https://www.googletagmanager.com/gtag/js?id=AW-10997329046"></script>
 
-    function setConsent(status){
-        if(status==='granted'){
-            gtag('consent','update',{
-                'ad_storage':'granted',
-                'analytics_storage':'granted'
-            });
-            loadAnalytics();
-        } else {
-            gtag('consent','update',{
-                'ad_storage':'denied',
-                'analytics_storage':'denied'
-            });
+    <script nonce="rAnd0m123">
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'AW-10997329046');
+        
+        // Consent Mode Initialization
+        gtag('consent','default',{
+            'ad_storage':'denied',
+            'analytics_storage':'denied'
+        });
+
+        function setConsent(status){
+            if(status==='granted'){
+                gtag('consent','update',{
+                    'ad_storage':'granted',
+                    'analytics_storage':'granted'
+                });
+                loadAnalytics();
+            } else {
+                gtag('consent','update',{
+                    'ad_storage':'denied',
+                    'analytics_storage':'denied'
+                });
+            }
         }
-    }
 
-function loadAnalytics() {
-    if (window.analyticsLoaded) return;
-    window.analyticsLoaded = true;
+        function loadAnalytics() {
+            if (window.analyticsLoaded) return;
+            window.analyticsLoaded = true;
 
-    const s = document.createElement('script');
-    const url = "https://www.googletagmanager.com/gtag/js?id=G-NR4CFG9TFJ";
+            const s = document.createElement('script');
+            const url = "https://www.googletagmanager.com/gtag/js?id=G-NR4CFG9TFJ";
 
-    if (window.trustedTypes && window.trustedTypes.createPolicy) {
-        // نتحقق أولاً إذا كانت السياسة موجودة لتجنب خطأ التكرار
-        const policyName = 'analytics-policy';
-        let scriptPolicy;
-        try {
-            scriptPolicy = window.trustedTypes.createPolicy(policyName, {
-                createScriptURL: (src) => src
-            });
-        } catch (e) {
-            // إذا كانت السياسة موجودة بالفعل، نستخدمها
-            scriptPolicy = { createScriptURL: (src) => src };
+            if (window.trustedTypes && window.trustedTypes.createPolicy) {
+                const policyName = 'analytics-policy';
+                let scriptPolicy;
+                try {
+                    scriptPolicy = window.trustedTypes.createPolicy(policyName, {
+                        createScriptURL: (src) => src
+                    });
+                } catch (e) {
+                    scriptPolicy = { createScriptURL: (src) => src };
+                }
+                s.src = scriptPolicy.createScriptURL(url);
+            } else {
+                s.src = url;
+            }
+
+            s.async = true;
+            s.nonce = "rAnd0m123"; 
+            document.head.appendChild(s);
+            s.onload = () => { 
+                gtag('js', new Date()); 
+                gtag('config', 'G-NR4CFG9TFJ'); 
+            };
         }
-        s.src = scriptPolicy.createScriptURL(url);
-    } else {
-        s.src = url;
-    }
+    </script>
 
-    s.async = true;
-    s.nonce = "rAnd0m123"; 
-    document.head.appendChild(s);
-    s.onload = () => { 
-        gtag('js', new Date()); 
-        gtag('config', 'G-NR4CFG9TFJ'); 
-    };
-}
-</script>
-    <title>Temp BoxMail - بريد مؤقت لإستقبال الرسائل و OTP | Temporary Email for OTP & Activation</title>
-    <meta name="description" content="خدمة بريد مؤقت مجانية لاستقبال رسائل التفعيل وOTP دون تسجيل | Temporary free email service to receive verification codes and OTP without creating an account.">
-    <meta name="keywords" content="بريد مؤقت، ايميل مؤقت، رسائل التفعيل، OTP, temp mail, temp-boxmail, Temporary mail">
+    <title>Temp BoxMail - بريد مؤقت لإستقبال الرسائل و OTP | Temporary Email</title>
+    <meta name="description" content="خدمة بريد مؤقت مجانية لاستقبال رسائل التفعيل وOTP دون تسجيل | Temporary free email service to receive verification codes and OTP.">
+    <meta name="keywords" content="بريد مؤقت، ايميل مؤقت، رسائل التفعيل، OTP, temp mail, temp-boxmail">
     <link rel="canonical" href="https://www.temp-boxmail.org/">
 
-   <link rel="alternate" hreflang="ar" href="https://www.temp-boxmail.org/?lang=ar">
-<link rel="alternate" hreflang="en" href="https://www.temp-boxmail.org/?lang=en">
+    <link rel="alternate" hreflang="ar" href="https://www.temp-boxmail.org/?lang=ar">
+    <link rel="alternate" hreflang="en" href="https://www.temp-boxmail.org/?lang=en">
     <link rel="alternate" hreflang="x-default" href="https://www.temp-boxmail.org/">
 
     <link rel="icon" type="image/webp" href="/og.webp">
-    <link rel="apple-touch-icon" href="/og.webp">
-    <meta name="theme-color" content="#000000"/>
+    <meta name="theme-color" content="#050d15"/>
 
-    <meta property="og:title" content="Temp BoxMail - Temporary Email for OTP">
-    <meta property="og:description" content="A free temporary email service to receive OTP and activation messages without registration.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.temp-boxmail.org/">
-    <meta property="og:image" content="https://www.temp-boxmail.org/logo.webp">
-
-    <meta name="google-adsense-account" content="ca-pub-4901985375072472">
-    <meta name="google-site-verification" content="Igt9IOF5K-I8OTkqQjDf9cAl4_J7wKwt0MUBlyHNQaQ"/>
     <style>
-        /* التنسيقات مع الحفاظ على هوية الموقع */
         :root {
             --bg: #050d15;
             --card: #0b1720;
             --text: #ffffff;
+            --muted: #888;
             --accent: #14ee08;
             --accent-pink: #ff005a;
             --danger: #ef4444;
@@ -103,23 +94,22 @@ function loadAnalytics() {
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: Inter, system-ui, sans-serif; }
-        body { background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; }
+        body { background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; overflow-x: hidden; }
         .container { max-width: 1100px; margin: 0 auto; padding: 15px; }
 
         /* Header */
         .header { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05); flex-wrap: wrap; gap: 10px; }
         .brand { display: flex; align-items: center; gap: 12px; }
-        .brand img { width: 50px; height: 50px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-        .brand h1 { font-size: 20px; margin: 0; }
+        .brand img { width: 50px; height: 50px; border-radius: 10px; }
+        .brand h1 { font-size: 20px; }
         #t-sub { font-size: 13px; color: var(--accent); }
 
         /* Address Card */
-        .address-card { background: var(--card); padding: 20px; border-radius: 12px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
-        .addr-display { flex: 1; }
+        .address-card { background: var(--card); padding: 20px; border-radius: 12px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
         #address { font-size: 1.4rem; font-weight: 800; color: #fff; word-break: break-all; }
-        #expiry { font-size: 12px; color: #888; display: block; margin-top: 4px; }
+        #expiry { font-size: 12px; color: var(--muted); display: block; margin-top: 4px; }
 
-        /* Buttons Style */
+        /* Buttons */
         .main-actions { display: flex; gap: 10px; flex-wrap: wrap; }
         .btn { padding: 10px 18px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; color: #fff; font-size: 14px; }
         .btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
@@ -128,301 +118,50 @@ function loadAnalytics() {
         #refreshBtn { background: var(--orange); }
         #newBtn { background: var(--success); }
         #deleteBtn { background: var(--danger); }
-        .ghost-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; }
+        .ghost-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; text-decoration: none; }
 
-        /* Main Grid */
+        /* Inbox & Viewer Grid */
         .main-grid { display: grid; grid-template-columns: 320px 1fr; gap: 20px; margin-top: 20px; }
         .panel { background: var(--card); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); height: 550px; display: flex; flex-direction: column; overflow: hidden; }
         .panel h2 { padding: 15px; font-size: 16px; border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.2); }
         
         #inbox { flex: 1; overflow-y: auto; padding: 10px; }
-        .viewer { flex: 1; padding: 20px; overflow-y: auto; display: flex; flex-direction: column; }
-        .msg-body { flex: 1; margin-top: 15px; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 8px; overflow: auto; color: #eee; }
+        .mail-item { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: 0.2s; }
+        .mail-item:hover { background: rgba(255,255,255,0.05); }
+        .mail-sub { font-weight: bold; font-size: 14px; margin-bottom: 4px; }
+        .mail-from { font-size: 12px; color: var(--muted); }
 
-        /* Articles */
+        .viewer { flex: 1; padding: 20px; overflow-y: auto; }
+        .msg-body { margin-top: 15px; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 8px; min-height: 200px; color: #eee; }
+
+        /* Article & FAQ Styles */
         .article-container { background: var(--card); padding: 25px; border-radius: 12px; margin-top: 30px; border: 1px solid rgba(255,255,255,0.1); }
-        .article-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; }
-        .article-nav button { background: var(--success); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
+        #article img { max-width: 100%; height: auto; border-radius: 12px; margin: 20px auto; display: block; }
+        #article a { color: #00d4ff; font-weight: 600; }
+
+        .article-nav { display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); }
+        #articleCounter { color: var(--accent); font-weight: 800; background: rgba(20, 238, 8, 0.1); padding: 6px 16px; border-radius: 50px; }
+
+        /* FAQ */
+        .faq-item { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 15px 0; }
+        .faq-item:last-child { border-bottom: none; }
+
+        /* Cookie Banner */
+        #consent-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 9998; display: none; }
+        #cookie-banner { position: fixed; top: 0; left: 0; width: 100%; background: #1a1a1a; padding: 20px; display: none; justify-content: space-between; align-items: center; z-index: 9999; border-bottom: 2px solid var(--accent); }
 
         /* Footer */
-        footer { text-align: center; padding: 40px 20px; color: #666; font-size: 13px; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 20px; }
-        footer a { color: var(--accent); text-decoration: none; margin: 0 5px; }
+        .site-footer { margin-top: 50px; padding: 30px 20px; background: var(--card); border-top: 1px solid rgba(255,255,255,0.05); text-align: center; }
+        .footer-link { color: var(--muted); text-decoration: none; font-size: 13px; margin: 0 10px; }
+        .footer-link:hover { color: var(--accent); }
 
-        @media (max-width: 850px) { .main-grid { grid-template-columns: 1fr; } .panel { height: auto; min-height: 350px; } }
-        
-        /* Cookie Banner */
-        #consent-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 9998; display: none; }
-        #cookie-banner { position: fixed; top: 0; left: 0; width: 100%; background: #1a1a1a; color: #fff; padding: 20px; display: none; justify-content: space-between; align-items: center; z-index: 9999; border-bottom: 2px solid var(--accent); }
-/* تنسيق صور المقالات لضمان عدم خروجها عن الحجم المناسب */
-#article img {
-    max-width: 100% !important; /* لا تتجاوز عرض الحاوية */
-    height: auto !important;    /* الحفاظ على أبعاد الصورة */
-    display: block;
-    margin: 20px auto;          /* توسيط الصورة مع مسافة حولها */
-    border-radius: 12px;        /* حواف ناعمة تناسب تصميم الموقع */
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2); /* ظل خفيف لإبراز الصورة */
-}
-
-/* تنسيق إضافي لضمان توافق الصور داخل الجداول إذا وجدت */
-.article-content figure, .article-content picture {
-    max-width: 100% !important;
-    height: auto !important;
-}
-
-/* تنسيق عداد المقالات ليظهر بوضوح */
-#articleCounter {
-    background: rgba(20, 238, 8, 0.1); /* لون أخضر شفاف خفيف */
-    color: var(--accent); /* اللون الأخضر الفسفوري */
-    padding: 5px 15px;
-    border-radius: 20px;
-    font-weight: bold;
-    font-size: 14px;
-    border: 1px solid rgba(20, 238, 8, 0.3);
-    min-width: 50px;
-    text-align: center;
-    display: inline-block;
-}
-
-/* تعديل المسافات في منطقة التنقل */
-.article-nav {
-    display: flex;
-    justify-content: center; /* وضع العناصر في المنتصف */
-    align-items: center;
-    gap: 20px; /* مسافة ثابتة بين الأزرار والعداد */
-    margin-top: 25px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255,255,255,0.05);
-}
-
-/* تنسيق الصور داخل المقال */
-#article img {
-    max-width: 100% !important; /* تمنع الصورة من تجاوز عرض الحاوية */
-    height: auto !important;    /* تحافظ على تناسق الأبعاد */
-    display: block;             /* تمنع الفراغات الجانبية */
-    margin: 25px auto;          /* مسافة عمودية وتوسيط أفقي */
-    border-radius: 12px;        /* حواف ناعمة */
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3); /* ظل لإبراز الصورة عن الخلفية */
-}
-
-/* تنسيق عداد المقالات */
-#articleCounter {
-    color: var(--accent);       /* الأخضر الفسفوري الذي تستخدمه */
-    font-weight: 800;
-    font-size: 16px;
-    background: rgba(20, 238, 8, 0.1); /* خلفية خفيفة جداً */
-    padding: 6px 16px;
-    border-radius: 50px;
-    border: 1px solid rgba(20, 238, 8, 0.2);
-    min-width: 60px;
-    text-align: center;
-}
-
-/* تنسيق حاوية الأزرار والعداد */
-.article-nav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    margin-top: 30px;
-}
-
-/* اجعل الماوس يتحول ليد عند الإشارة على الرسائل في البريد الوارد */
-#inbox .mail-item, 
-.mail-item {
-    cursor: pointer !important;
-}
-
-/* حركة اختيارية: تغيير لون الخلفية قليلاً عند مرور الماوس لتشعر المستخدم بالتفاعل */
-#inbox .mail-item:hover {
-    background-color: rgba(255, 255, 255, 0.05) !important;
-    transition: background 0.2s ease;
-}
-
-.site-footer {
-    margin-top: 50px;
-    padding: 30px 20px;
-    background-color: var(--card); /* يستخدم نفس لون الكروت في موقعك */
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    text-align: center;
-}
-
-.footer-content {
-    max-width: 1100px;
-    margin: 0 auto;
-}
-
-#footer-text {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 15px;
-}
-
-.footer-links {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap; /* لضمان التنسيق في الهواتف */
-    gap: 10px;
-}
-
-.footer-link {
-    color: var(--muted) !important; /* اللون الأخضر الفسفوري أو الرمادي */
-    text-decoration: none;
-    font-size: 13px;
-    transition: all 0.3s ease;
-    padding: 5px 10px;
-    border-radius: 6px;
-}
-
-.footer-link:hover {
-    color: #ffffff !important;
-    background: rgba(255, 255, 255, 0.05);
-}
-
-.separator {
-    color: rgba(255, 255, 255, 0.2);
-    font-size: 12px;
-}
-
-/* تحسين المظهر للهواتف */
-@media (max-width: 600px) {
-    .footer-links {
-        flex-direction: column;
-        gap: 8px;
-    }
-    .separator {
-        display: none; /* إخفاء النقطة في وضع الجوال لترتيب العناصر عمودياً */
-    }
-}
-
-/* تحسين الأزرار للهواتف الصغيرة جداً */
-@media (max-width: 480px) {
-    .main-actions {
-        display: grid !important; /* تحويل الترتيب لشبكة */
-        grid-template-columns: 1fr 1fr; /* تقسيم الصف لزرين */
-        gap: 8px !important;
-        width: 100%;
-    }
-
-    .main-actions button {
-        width: 100%; /* الزر يأخذ نصف عرض الشاشة */
-        justify-content: center; /* توسيط النص والأيقونة داخل الزر */
-        padding: 12px 5px !important;
-        font-size: 13px !important; /* تصغير الخط قليلاً ليناسب المساحة */
-    }
-
-    /* جعل الأزرار تبدو متناسقة */
-    #newBtn, #deleteBtn, #refreshBtn, #copyBtn {
-        margin: 0 !important;
-    }
-}
-
-/* تنسيق إضافي لحاوية العنوان (Address) على الموبايل */
-@media (max-width: 600px) {
-    .address-card {
-        flex-direction: column !important;
-        text-align: center;
-        padding: 15px !important;
-    }
-    
-    .addr-left {
-        margin-bottom: 15px;
-    }
-}
-
-.btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer !important; /* لظهور اليد */
-    transition: 0.2s;
-}
-
-@media (max-width: 480px) {
-    .main-actions {
-        display: grid;
-        grid-template-columns: 1fr 1fr; /* زرين في كل صف */
-        gap: 10px;
-    }
-    .btn { width: 100%; justify-content: center; }
-}
-
-/* تنسيق محتوى المقالة الداخلي */
-#article h1, #article h2, #article h3 {
-    color: var(--accent); /* تلوين العناوين بالأخضر الفسفوري */
-    margin-top: 25px;
-    margin-bottom: 15px;
-    line-height: 1.4;
-}
-
-#article p {
-    color: #e0e0e0; /* لون أبيض مريح للعين للفقرات */
-    line-height: 1.8; /* مسافة بين السطور لراحة القراءة */
-    margin-bottom: 20px;
-    font-size: 16px;
-}
-
-#article strong {
-    color: #ffffff; /* جعل الخط العريض أبيض ناصع لإبرازه */
-    font-weight: bold;
-}
-
-#article ul, #article ol {
-    margin-bottom: 20px;
-    padding-inline-start: 25px; /* إزاحة القوائم المكتوبة */
-}
-
-#article li {
-    margin-bottom: 10px;
-    color: #cccccc;
-}
-
-#article a {
-    color: var(--accent);
-    text-decoration: underline;
-    transition: 0.3s;
-}
-
-#article a:hover {
-    color: #ffffff;
-}
-
-/* تنسيق الروابط داخل المقال */
-#article a {
-    color: #00d4ff; /* لون أزرق سماوي زاهٍ ليبرز وسط النص الرمادي */
-    text-decoration: underline; /* إضافة خط تحت الرابط لتمييزه */
-    font-weight: 600; /* جعل الخط أسمك قليلاً */
-    transition: all 0.3s ease; /* نعومة في تغيير اللون */
-}
-
-/* تأثير عند مرور الماوس على الرابط */
-#article a:hover {
-    color: #ffffff; /* يتحول للأبيض عند الوقوف عليه */
-    text-decoration: none; /* إزالة الخط عند الوقوف عليه */
-    background-color: rgba(0, 212, 255, 0.1); /* خلفية خفيفة جداً */
-    border-radius: 4px;
-}
-
-.faq-item {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    padding: 15px 0;
-}
-.faq-item:last-child {
-    border-bottom: none;
-}
-.faq-item p strong {
-    color: var(--accent);
-    font-size: 17px;
-}
-.faq-item p:last-child {
-    color: #ccc;
-    margin-top: 5px;
-    font-size: 15px;
-}
-section h1 {
-    font-size: 24px; /* أو الحجم الذي تراه مناسباً */
-}
+        /* Responsive */
+        @media (max-width: 850px) { .main-grid { grid-template-columns: 1fr; } .panel { height: auto; min-height: 400px; } }
+        @media (max-width: 480px) {
+            .main-actions { display: grid; grid-template-columns: 1fr 1fr; width: 100%; }
+            .btn { justify-content: center; }
+            .address-card { flex-direction: column; text-align: center; }
+        }
     </style>
 </head>
 <body>
@@ -431,22 +170,22 @@ section h1 {
 <div id="cookie-banner">
     <span id="cookie-message"></span>
     <div>
-        <button id="reject-btn" style="background:#f44336; color:white; border:none; padding:8px 16px; border-radius:5px; cursor:pointer; margin-left:10px;"></button>
-        <button id="accept-btn" style="background:#4caf50; color:white; border:none; padding:8px 16px; border-radius:5px; cursor:pointer;"></button>
+        <button id="reject-btn" style="background:#f44336; color:white; border:none; padding:8px 16px; border-radius:5px; cursor:pointer;"></button>
+        <button id="accept-btn" style="background:#4caf50; color:white; border:none; padding:8px 16px; border-radius:5px; cursor:pointer; margin-right:10px;"></button>
     </div>
 </div>
 
 <div class="container">
     <header class="header">
         <div class="brand">
-            <img src="/og.webp" alt="Logo">
+            <img src="/og.webp" alt="Temp-BoxMail Logo">
             <div>
                 <h1 id="t-title">Temp-BoxMail</h1>
                 <p id="t-sub">استقبل رسائل التفعيل وOTP فورًا</p>
             </div>
         </div>
         <div class="controls-row">
-            <a id="themeHint" class="btn ghost-btn" href="blog/index.html">Get Blog</a>
+            <a class="btn ghost-btn" href="blog/index.html">Blog</a>
             <button id="langToggle" class="btn ghost-btn">English</button>
         </div>
     </header>
@@ -456,44 +195,41 @@ section h1 {
             <div id="address">...جاري الإنشاء</div>
             <small id="expiry">العنوان سيتم حذفه تلقائيًا</small>
         </div>
-       <div class="main-actions">
-    <button id="deleteBtn" class="btn">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-        <span id="btn-text-delete">حذف</span>
-    </button>
-
-    <button id="refreshBtn" class="btn">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
-        <span id="btn-text-refresh">تحديث</span>
-    </button>
-
-    <button id="newBtn" class="btn">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"></path></svg>
-        <span id="btn-text-new">جديد</span>
-    </button>
-
-    <button id="copyBtn" class="btn">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-        <span id="btn-text-copy">نسخ</span>
-    </button>
-</div>
+        <div class="main-actions">
+            <button id="deleteBtn" class="btn">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                <span id="btn-text-delete">حذف</span>
+            </button>
+            <button id="refreshBtn" class="btn">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                <span id="btn-text-refresh">تحديث</span>
+            </button>
+            <button id="newBtn" class="btn">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"></path></svg>
+                <span id="btn-text-new">جديد</span>
+            </button>
+            <button id="copyBtn" class="btn">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                <span id="btn-text-copy">نسخ</span>
+            </button>
+        </div>
     </div>
 
     <section class="main-grid">
         <aside class="panel">
             <h2 id="inbox-title">البريد الوارد</h2>
-            <div id="inbox-desc" style="padding:0 15px; font-size:12px; color:#666;">يتم جلب الرسائل تلقائيًا</div>
+            <div id="inbox-desc" style="padding:5px 15px; font-size:12px; color:var(--muted);">يتم جلب الرسائل تلقائيًا</div>
             <div id="inbox"></div>
         </aside>
 
         <section class="panel viewer">
             <div class="toolbar">
-                <strong id="msg-sub">أضغط تحديث وأختر الرسالة</strong>
+                <strong id="msg-sub">اختر رسالة لعرضها</strong>
                 <div id="msg-from" style="font-size:12px; color:var(--accent);"></div>
-                <span id="extractedOtp" class="otp" style="display:none; background:var(--accent-pink); padding:5px; border-radius:5px; margin-top:5px; font-weight:bold;"></span>
+                <span id="extractedOtp" style="display:none; background:var(--accent-pink); padding:4px 10px; border-radius:5px; font-weight:bold; margin-top:5px;"></span>
             </div>
             <div id="msg-body" class="msg-body">
-                <p style="color:#666; text-align:center; margin-top:50px;">لا توجد رسائل بعد</p>
+                <p style="color:var(--muted); text-align:center; margin-top:50px;">لا توجد رسائل بعد</p>
             </div>
         </section>
     </section>
@@ -501,39 +237,27 @@ section h1 {
     <article class="article-container">
         <div id="article" class="article-content"></div>
         <div class="article-nav">
-            <button id="prevArticle">‹ السابق</button>
-            <span id="articleCounter"></span>
-            <button id="nextArticle">التالي ›</button>
+            <button id="prevArticle" class="btn ghost-btn">‹ السابق</button>
+            <span id="articleCounter">1 / 1</span>
+            <button id="nextArticle" class="btn ghost-btn">التالي ›</button>
         </div>
-   </article>
+    </article>
 
-<article class="article-container" id="faq-section">
-    <h2 id="faq-main-title" style="color: var(--accent); margin-bottom: 20px;">الأسئلة الشائعة (FAQ)</h2>
-    <div id="faq-list">
+    <article class="article-container" id="faq-section">
+        <h2 id="faq-main-title" style="color: var(--accent); margin-bottom: 20px;">الأسئلة الشائعة (FAQ)</h2>
+        <div id="faq-list"></div>
+    </article>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div id="footer-text">جميع الحقوق محفوظة - © Temp-BoxMail</div>
+            <div class="footer-links" style="margin-top: 15px;">
+                <a href="pages/privacy.html" class="footer-link">الخصوصية</a>
+                <a href="pages/terms.html" class="footer-link">الشروط</a>
+                <a href="pages/contact.html" class="footer-link">تواصل معنا</a>
+            </div>
         </div>
-</article>
-
-<footer class="site-footer">
-
-   <footer class="site-footer">
-    <div class="footer-content">
-        <div id="footer-text">جميع الحقوق محفوظة - © Temp-BoxMail</div>
-        
-        <div class="footer-links">
-            <a href="pages/privacy.html" class="footer-link">
-                <span class="icon">🔒</span> الخصوصية | privacy
-            </a>
-            <span class="separator">•</span>
-            <a href="pages/terms.html" class="footer-link">
-                <span class="icon">📄</span> الشروط والأحكام | Terms & Conditions
-            </a>
-            <span class="separator">•</span>
-            <a href="pages/contact.html" class="footer-link">
-                <span class="icon">📩</span> تواصل معنا | Contact
-            </a>
-        </div>
-    </div>
-</footer>
+    </footer>
 </div>
 
 <script nonce="rAnd0m123" src="purify.min.js"></script>
@@ -549,72 +273,45 @@ document.addEventListener("DOMContentLoaded", function() {
     const acceptBtn = document.getElementById("accept-btn");
     const rejectBtn = document.getElementById("reject-btn");
 
-    // التحقق هل المستخدم وافق سابقاً؟
-    if (localStorage.getItem("user-consent")) {
-        return; // إذا وافق سابقاً، لا تفعل شيئاً
-    }
+    if (localStorage.getItem("user-consent")) return;
 
     const translations = {
         'ar': {
-            message: 'نستخدم ملفات تعريف الارتباط لتحسين تجربتك وعرض الإعلانات. هل توافق على استخدامها؟',
-            accept: 'أوافق',
-            reject: 'أرفض',
-            direction: 'rtl',
+            message: 'نستخدم ملفات تعريف الارتباط لتحسين تجربتك وعرض الإعلانات. هل توافق؟',
+            accept: 'أوافق', reject: 'أرفض', direction: 'rtl'
         },
         'en': {
-            message: 'We use cookies to enhance your experience and display ads. Do you agree to their use?',
-            accept: 'Accept',
-            reject: 'Reject',
-            direction: 'ltr',
+            message: 'We use cookies to enhance your experience. Do you agree?',
+            accept: 'Accept', reject: 'Reject', direction: 'ltr'
         }
     };
 
-    function applyLanguage() {
-        // اكتشاف لغة المتصفح
-        const userLang = (navigator.language || navigator.userLanguage).startsWith('ar') ? 'ar' : 'en';
-        const t = translations[userLang];
+    const userLang = (navigator.language || navigator.userLanguage).startsWith('ar') ? 'ar' : 'en';
+    const t = translations[userLang];
 
-        document.getElementById('cookie-message').textContent = t.message;
-        acceptBtn.textContent = t.accept;
-        rejectBtn.textContent = t.reject;
-        
-        banner.style.direction = t.direction; 
-    }
+    document.getElementById('cookie-message').textContent = t.message;
+    acceptBtn.textContent = t.accept;
+    rejectBtn.textContent = t.reject;
+    banner.style.direction = t.direction;
     
-    function enableSite() {
-        banner.style.display = "none";
-        overlay.style.display = "none";
-        localStorage.setItem("user-consent", "true"); // حفظ الاختيار
-    }
+    banner.style.display = "flex";
+    overlay.style.display = "block";
 
-    function initializeConsentBanner() {
-        applyLanguage();
-        banner.style.display = "flex";
-        overlay.style.display = "block";
-    }
-    
     acceptBtn.onclick = () => {
         if (typeof setConsent === "function") setConsent("granted");
-        enableSite();
+        closeBanner();
     };
-
     rejectBtn.onclick = () => {
         if (typeof setConsent === "function") setConsent("denied");
-        enableSite();
+        closeBanner();
     };
-    
-    initializeConsentBanner();
+
+    function closeBanner() {
+        banner.style.display = "none";
+        overlay.style.display = "none";
+        localStorage.setItem("user-consent", "true");
+    }
 });
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
