@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1"/> 
     
     <script async nonce="rAnd0m123" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4901985375072472" crossorigin="anonymous"></script>
-    
     <script async nonce="rAnd0m123" src="https://www.googletagmanager.com/gtag/js?id=AW-10997329046"></script>
 
     <script nonce="rAnd0m123">
@@ -14,154 +13,68 @@
         gtag('js', new Date());
         gtag('config', 'AW-10997329046');
         
-        // Consent Mode Initialization
-        gtag('consent','default',{
-            'ad_storage':'denied',
-            'analytics_storage':'denied'
-        });
+        gtag('consent','default',{'ad_storage':'denied','analytics_storage':'denied'});
 
         function setConsent(status){
             if(status==='granted'){
-                gtag('consent','update',{
-                    'ad_storage':'granted',
-                    'analytics_storage':'granted'
-                });
+                gtag('consent','update',{'ad_storage':'granted','analytics_storage':'granted'});
                 loadAnalytics();
             } else {
-                gtag('consent','update',{
-                    'ad_storage':'denied',
-                    'analytics_storage':'denied'
-                });
+                gtag('consent','update',{'ad_storage':'denied','analytics_storage':'denied'});
             }
         }
 
         function loadAnalytics() {
             if (window.analyticsLoaded) return;
             window.analyticsLoaded = true;
-
             const s = document.createElement('script');
             const url = "https://www.googletagmanager.com/gtag/js?id=G-NR4CFG9TFJ";
-
             if (window.trustedTypes && window.trustedTypes.createPolicy) {
-                const policyName = 'analytics-policy';
-                let scriptPolicy;
-                try {
-                    scriptPolicy = window.trustedTypes.createPolicy(policyName, {
-                        createScriptURL: (src) => src
-                    });
-                } catch (e) {
-                    scriptPolicy = { createScriptURL: (src) => src };
-                }
+                const scriptPolicy = window.trustedTypes.createPolicy('analytics-policy', { createScriptURL: (src) => src });
                 s.src = scriptPolicy.createScriptURL(url);
-            } else {
-                s.src = url;
-            }
-
-            s.async = true;
-            s.nonce = "rAnd0m123"; 
+            } else { s.src = url; }
+            s.async = true; s.nonce = "rAnd0m123";
             document.head.appendChild(s);
-            s.onload = () => { 
-                gtag('js', new Date()); 
-                gtag('config', 'G-NR4CFG9TFJ'); 
-            };
+            s.onload = () => { gtag('js', new Date()); gtag('config', 'G-NR4CFG9TFJ'); };
         }
     </script>
 
     <title>Temp BoxMail - بريد مؤقت لإستقبال الرسائل و OTP | Temporary Email</title>
     <meta name="description" content="خدمة بريد مؤقت مجانية لاستقبال رسائل التفعيل وOTP دون تسجيل | Temporary free email service to receive verification codes and OTP.">
-    <meta name="keywords" content="بريد مؤقت، ايميل مؤقت، رسائل التفعيل، OTP, temp mail, temp-boxmail">
-    <link rel="canonical" href="https://www.temp-boxmail.org/">
-
-    <link rel="alternate" hreflang="ar" href="https://www.temp-boxmail.org/?lang=ar">
-    <link rel="alternate" hreflang="en" href="https://www.temp-boxmail.org/?lang=en">
-    <link rel="alternate" hreflang="x-default" href="https://www.temp-boxmail.org/">
-
-    <link rel="icon" type="image/webp" href="/og.webp">
-    <meta name="theme-color" content="#050d15"/>
-
+    
     <style>
         :root {
-            --bg: #050d15;
-            --card: #0b1720;
-            --text: #ffffff;
-            --muted: #888;
-            --accent: #14ee08;
-            --accent-pink: #ff005a;
-            --danger: #ef4444;
-            --warning: #f1c40f;
-            --orange: #e67e22;
-            --success: #2ecc71;
+            --bg: #050d15; --card: #0b1720; --text: #ffffff; --muted: #888;
+            --accent: #14ee08; --accent-pink: #ff005a; --danger: #ef4444;
+            --warning: #f1c40f; --orange: #e67e22; --success: #2ecc71;
         }
-
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: Inter, system-ui, sans-serif; }
         body { background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; overflow-x: hidden; }
         .container { max-width: 1100px; margin: 0 auto; padding: 15px; }
-
-        /* Header */
         .header { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; border-bottom: 1px solid rgba(255,255,255,0.05); flex-wrap: wrap; gap: 10px; }
         .brand { display: flex; align-items: center; gap: 12px; }
         .brand img { width: 50px; height: 50px; border-radius: 10px; }
-        .brand h1 { font-size: 20px; }
-        #t-sub { font-size: 13px; color: var(--accent); }
-
-        /* Address Card */
         .address-card { background: var(--card); padding: 20px; border-radius: 12px; margin: 20px 0; border: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
         #address { font-size: 1.4rem; font-weight: 800; color: #fff; word-break: break-all; }
-        #expiry { font-size: 12px; color: var(--muted); display: block; margin-top: 4px; }
-
-        /* Buttons */
         .main-actions { display: flex; gap: 10px; flex-wrap: wrap; }
         .btn { padding: 10px 18px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: 0.3s; color: #fff; font-size: 14px; }
-        .btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
-        
-        #copyBtn { background: var(--warning); color: #000; }
-        #refreshBtn { background: var(--orange); }
-        #newBtn { background: var(--success); }
-        #deleteBtn { background: var(--danger); }
+        #btn-copy { background: var(--warning); color: #000; }
+        #btn-refresh { background: var(--orange); }
+        #btn-new { background: var(--success); }
+        #btn-delete { background: var(--danger); }
         .ghost-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; text-decoration: none; }
-
-        /* Inbox & Viewer Grid */
         .main-grid { display: grid; grid-template-columns: 320px 1fr; gap: 20px; margin-top: 20px; }
         .panel { background: var(--card); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); height: 550px; display: flex; flex-direction: column; overflow: hidden; }
         .panel h2 { padding: 15px; font-size: 16px; border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.2); }
-        
         #inbox { flex: 1; overflow-y: auto; padding: 10px; }
-        .mail-item { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: 0.2s; }
-        .mail-item:hover { background: rgba(255,255,255,0.05); }
-        .mail-sub { font-weight: bold; font-size: 14px; margin-bottom: 4px; }
-        .mail-from { font-size: 12px; color: var(--muted); }
-
         .viewer { flex: 1; padding: 20px; overflow-y: auto; }
         .msg-body { margin-top: 15px; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 8px; min-height: 200px; color: #eee; }
-
-        /* Article & FAQ Styles */
         .article-container { background: var(--card); padding: 25px; border-radius: 12px; margin-top: 30px; border: 1px solid rgba(255,255,255,0.1); }
-        #article img { max-width: 100%; height: auto; border-radius: 12px; margin: 20px auto; display: block; }
-        #article a { color: #00d4ff; font-weight: 600; }
-
-        .article-nav { display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); }
-        #articleCounter { color: var(--accent); font-weight: 800; background: rgba(20, 238, 8, 0.1); padding: 6px 16px; border-radius: 50px; }
-
-        /* FAQ */
-        .faq-item { border-bottom: 1px solid rgba(255,255,255,0.05); padding: 15px 0; }
-        .faq-item:last-child { border-bottom: none; }
-
-        /* Cookie Banner */
+        .article-nav { display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 25px; }
+        #articleCounter { color: var(--accent); font-weight: 800; }
         #consent-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 9998; display: none; }
         #cookie-banner { position: fixed; top: 0; left: 0; width: 100%; background: #1a1a1a; padding: 20px; display: none; justify-content: space-between; align-items: center; z-index: 9999; border-bottom: 2px solid var(--accent); }
-
-        /* Footer */
-        .site-footer { margin-top: 50px; padding: 30px 20px; background: var(--card); border-top: 1px solid rgba(255,255,255,0.05); text-align: center; }
-        .footer-link { color: var(--muted); text-decoration: none; font-size: 13px; margin: 0 10px; }
-        .footer-link:hover { color: var(--accent); }
-
-        /* Responsive */
         @media (max-width: 850px) { .main-grid { grid-template-columns: 1fr; } .panel { height: auto; min-height: 400px; } }
-        @media (max-width: 480px) {
-            .main-actions { display: grid; grid-template-columns: 1fr 1fr; width: 100%; }
-            .btn { justify-content: center; }
-            .address-card { flex-direction: column; text-align: center; }
-        }
     </style>
 </head>
 <body>
@@ -170,15 +83,15 @@
 <div id="cookie-banner">
     <span id="cookie-message"></span>
     <div>
-        <button id="reject-btn" style="background:#f44336; color:white; border:none; padding:8px 16px; border-radius:5px; cursor:pointer;"></button>
-        <button id="accept-btn" style="background:#4caf50; color:white; border:none; padding:8px 16px; border-radius:5px; cursor:pointer; margin-right:10px;"></button>
+        <button id="reject-btn"></button>
+        <button id="accept-btn"></button>
     </div>
 </div>
 
 <div class="container">
     <header class="header">
         <div class="brand">
-            <img src="/og.webp" alt="Temp-BoxMail Logo">
+            <img src="/og.webp" alt="Logo">
             <div>
                 <h1 id="t-title">Temp-BoxMail</h1>
                 <p id="t-sub">استقبل رسائل التفعيل وOTP فورًا</p>
@@ -196,50 +109,38 @@
             <small id="expiry">العنوان سيتم حذفه تلقائيًا</small>
         </div>
         <div class="main-actions">
-            <button id="deleteBtn" class="btn">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
-                <span id="btn-text-delete">حذف</span>
-            </button>
-            <button id="refreshBtn" class="btn">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
-                <span id="btn-text-refresh">تحديث</span>
-            </button>
-            <button id="newBtn" class="btn">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"></path></svg>
-                <span id="btn-text-new">جديد</span>
-            </button>
-            <button id="copyBtn" class="btn">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                <span id="btn-text-copy">نسخ</span>
-            </button>
+            <button id="btn-delete" class="btn">حذف</button>
+            <button id="btn-refresh" class="btn">تحديث</button>
+            <button id="btn-new" class="btn">جديد</button>
+            <button id="btn-copy" class="btn">نسخ</button>
         </div>
     </div>
 
     <section class="main-grid">
         <aside class="panel">
             <h2 id="inbox-title">البريد الوارد</h2>
-            <div id="inbox-desc" style="padding:5px 15px; font-size:12px; color:var(--muted);">يتم جلب الرسائل تلقائيًا</div>
             <div id="inbox"></div>
         </aside>
 
         <section class="panel viewer">
             <div class="toolbar">
                 <strong id="msg-sub">اختر رسالة لعرضها</strong>
-                <div id="msg-from" style="font-size:12px; color:var(--accent);"></div>
-                <span id="extractedOtp" style="display:none; background:var(--accent-pink); padding:4px 10px; border-radius:5px; font-weight:bold; margin-top:5px;"></span>
+                <div id="msg-from"></div>
             </div>
             <div id="msg-body" class="msg-body">
-                <p style="color:var(--muted); text-align:center; margin-top:50px;">لا توجد رسائل بعد</p>
+                <p id="msg-status" style="color:var(--muted); text-align:center; margin-top:50px;">لا توجد رسائل بعد</p>
             </div>
         </section>
     </section>
 
     <article class="article-container">
-        <div id="article" class="article-content"></div>
+        <div id="article-content" class="article-content"></div>
         <div class="article-nav">
-            <button id="prevArticle" class="btn ghost-btn">‹ السابق</button>
-            <span id="articleCounter">1 / 1</span>
-            <button id="nextArticle" class="btn ghost-btn">التالي ›</button>
+            <button onclick="prevArticle()" id="prev-btn" class="btn ghost-btn">‹ السابق</button>
+            <span id="articleCounter">
+                <span id="current-article-num">1</span> / <span id="total-articles-num">10</span>
+            </span>
+            <button onclick="nextArticle()" id="next-btn" class="btn ghost-btn">التالي ›</button>
         </div>
     </article>
 
@@ -249,13 +150,11 @@
     </article>
 
     <footer class="site-footer">
-        <div class="footer-content">
-            <div id="footer-text">جميع الحقوق محفوظة - © Temp-BoxMail</div>
-            <div class="footer-links" style="margin-top: 15px;">
-                <a href="pages/privacy.html" class="footer-link">الخصوصية</a>
-                <a href="pages/terms.html" class="footer-link">الشروط</a>
-                <a href="pages/contact.html" class="footer-link">تواصل معنا</a>
-            </div>
+        <div id="footer-text">جميع الحقوق محفوظة - © Temp-BoxMail</div>
+        <div class="footer-links" style="margin-top: 15px;">
+            <a href="pages/privacy.html" class="footer-link">الخصوصية</a> | 
+            <a href="pages/terms.html" class="footer-link">الشروط</a> | 
+            <a href="pages/contact.html" class="footer-link">تواصل معنا</a>
         </div>
     </footer>
 </div>
@@ -264,53 +163,29 @@
 <script nonce="rAnd0m123" src="article_nav.js"></script>
 <script nonce="rAnd0m123" src="mail.js"></script>
 
-<audio id="notifySound" src="notification.mp3" preload="auto"></audio>
-
 <script nonce="rAnd0m123">
+// كود ملفات تعريف الارتباط (Cookies)
 document.addEventListener("DOMContentLoaded", function() {
     const banner = document.getElementById("cookie-banner");
     const overlay = document.getElementById("consent-overlay");
-    const acceptBtn = document.getElementById("accept-btn");
-    const rejectBtn = document.getElementById("reject-btn");
-
     if (localStorage.getItem("user-consent")) return;
 
     const translations = {
-        'ar': {
-            message: 'نستخدم ملفات تعريف الارتباط لتحسين تجربتك وعرض الإعلانات. هل توافق؟',
-            accept: 'أوافق', reject: 'أرفض', direction: 'rtl'
-        },
-        'en': {
-            message: 'We use cookies to enhance your experience. Do you agree?',
-            accept: 'Accept', reject: 'Reject', direction: 'ltr'
-        }
+        'ar': { msg: 'نستخدم ملفات تعريف الارتباط لتحسين تجربتك. هل توافق؟', yes: 'أوافق', no: 'أرفض' },
+        'en': { msg: 'We use cookies to enhance your experience. Agree?', yes: 'Accept', no: 'Reject' }
     };
 
-    const userLang = (navigator.language || navigator.userLanguage).startsWith('ar') ? 'ar' : 'en';
-    const t = translations[userLang];
-
-    document.getElementById('cookie-message').textContent = t.message;
-    acceptBtn.textContent = t.accept;
-    rejectBtn.textContent = t.reject;
-    banner.style.direction = t.direction;
+    const lang = localStorage.getItem('lang') === 'en' ? 'en' : 'ar';
+    document.getElementById('cookie-message').textContent = translations[lang].msg;
+    document.getElementById('accept-btn').textContent = translations[lang].yes;
+    document.getElementById('reject-btn').textContent = translations[lang].no;
     
     banner.style.display = "flex";
     overlay.style.display = "block";
 
-    acceptBtn.onclick = () => {
-        if (typeof setConsent === "function") setConsent("granted");
-        closeBanner();
-    };
-    rejectBtn.onclick = () => {
-        if (typeof setConsent === "function") setConsent("denied");
-        closeBanner();
-    };
-
-    function closeBanner() {
-        banner.style.display = "none";
-        overlay.style.display = "none";
-        localStorage.setItem("user-consent", "true");
-    }
+    document.getElementById('accept-btn').onclick = () => { setConsent("granted"); closeB(); };
+    document.getElementById('reject-btn').onclick = () => { setConsent("denied"); closeB(); };
+    function closeB() { banner.style.display="none"; overlay.style.display="none"; localStorage.setItem("user-consent","true"); }
 });
 </script>
 </body>
