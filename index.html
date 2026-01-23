@@ -34,19 +34,27 @@
         }
     }
 
-    function loadAnalytics(){
-        if(window.analyticsLoaded) return;
-        window.analyticsLoaded=true;
-        const s=document.createElement('script');
-        s.async=true;
-        s.src="https://www.googletagmanager.com/gtag/js?id=G-NR4CFG9TFJ";
-        
-        // ملاحظة مهمة: عند إنشاء سكريبت ديناميكي مع وجود strict-dynamic، 
-        // المتصفحات الحديثة ستثق به تلقائياً لأنه أُنشئ بواسطة سكريبت موثوق (بواسطة الـ Nonce).
-        
-        document.head.appendChild(s);
-        s.onload=()=>{ gtag('js',new Date()); gtag('config','G-NR4CFG9TFJ'); };
+   function loadAnalytics(){
+    if(window.analyticsLoaded) return;
+    window.analyticsLoaded = true;
+    
+    const s = document.createElement('script');
+    const url = "https://www.googletagmanager.com/gtag/js?id=G-NR4CFG9TFJ";
+
+    // إنشاء رابط موثوق إذا كان المتصفح يدعم Trusted Types
+    if (window.trustedTypes && window.trustedTypes.createPolicy) {
+        const scriptPolicy = window.trustedTypes.createPolicy('script-url', {
+            createScriptURL: (src) => src
+        });
+        s.src = scriptPolicy.createScriptURL(url);
+    } else {
+        s.src = url;
     }
+    
+    s.async = true;
+    document.head.appendChild(s);
+    s.onload = () => { gtag('js', new Date()); gtag('config', 'G-NR4CFG9TFJ'); };
+}
 </script>
     <title>Temp BoxMail - بريد مؤقت لإستقبال الرسائل و OTP | Temporary Email for OTP & Activation</title>
     <meta name="description" content="خدمة بريد مؤقت مجانية لاستقبال رسائل التفعيل وOTP دون تسجيل | Temporary free email service to receive verification codes and OTP without creating an account.">
@@ -589,6 +597,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 </body>
 </html>
+
 
 
 
