@@ -1,9 +1,13 @@
+// 1. إعداد سياسات Trusted Types بشكل شامل
 if (window.trustedTypes && window.trustedTypes.createPolicy) {
     if (!window.trustedTypes.defaultPolicy) {
         window.trustedTypes.createPolicy('default', {
+            // تطهير HTML باستخدام DOMPurify
             createHTML: (string) => DOMPurify.sanitize(string, { RETURN_TRUSTED_TYPE: true }),
+            // السماح بروابط السكربتات (ضروري لجوجل)
             createScriptURL: (src) => src,
-            createScript: (s) => s // هذا السطر سيحل خطأ السطر 458 الذي ظهر في صورك
+            // السماح بالنصوص البرمجية (حل خطأ السطر 458)
+            createScript: (s) => s 
         });
     }
 }
