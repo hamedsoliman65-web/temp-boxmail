@@ -819,17 +819,24 @@ function updateArticleUI() {
     document.documentElement.lang = lang;
 }
 
-// دالة تغيير اللغة التي تحافظ على موقعك في المقالات
+// دالة تغيير اللغة التي تضمن بقاءك في نفس المقال وتغيير نص الزر
 window.toggleLanguage = function() {
+    // 1. تحديد اللغة الجديدة
     const currentLang = localStorage.getItem('lang') === 'en' ? 'en' : 'ar';
     const newLang = currentLang === 'en' ? 'ar' : 'en';
     
+    // 2. حفظ اللغة وتحديث خصائص الصفحة
     localStorage.setItem('lang', newLang);
+    document.documentElement.lang = newLang;
+    document.documentElement.dir = newLang === 'ar' ? 'rtl' : 'ltr';
     
-    // تحديث الواجهة فوراً دون إعادة تحميل الصفحة (يمنع العودة للمقال 1)
-    updateArticleUI();
+    // 3. تحديث واجهة المقالات فوراً (بدون إعادة تحميل الصفحة)
+    // هذا يضمن بقاء currentArticleIndex كما هو وعدم العودة للمقال الأول
+    if (typeof updateArticleUI === 'function') {
+        updateArticleUI();
+    }
     
-    // إذا كان لديك دالة لتحديث واجهة البريد في mail.js، استدعها هنا
+    // 4. تحديث أي عناصر أخرى (مثل واجهة البريد)
     if (typeof updateMailInterface === 'function') {
         updateMailInterface();
     }
@@ -862,3 +869,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateArticleUI();
 });
+if (!contentDiv || !window.ALL_ARTICLES) return;
+
+    // 1. تحديث محتوى المقالة الحالية بناءً على اللغة
+    const articleData = window.ALL_ARTICLES[currentArticleIndex];
+    if (articleData) {
+        contentDiv.innerHTML = articleData[lang];
+        
+        // 2. تنسيق الألوان برمجياً لضمان الوضوح في القالب الداكن
+        contentDiv.style.color = "#e0e0e0"; 
+        contentDiv.querySelectorAll('h1, h2, h3').forEach(h => h.style.color = "#ffffff");
+    }
+
+    // 3. تحديث أرقام العداد
+    if (currentNumSpan) currentNumSpan.textContent = currentArticleIndex + 1;
+    if (totalNumSpan) totalNumSpan.textContent = window.ALL_ARTICLES.length;
+
+    // 4. ترجمة الأزرار والنصوص الثابتة (حل مشكلة عدم الترجمة)
+    if (msgSub) msgSub.textContent = (lang === 'en') ? "Select a message to view" : "اختر رسالة لعرضها";
+    if (langBtn) langBtn.textContent = (lang === 'en') ? "العربية" : "English";
+    if (nextBtn) nextBtn.textContent = (lang === 'en') ? "Next ›" : "التالي ›";
+    if (prevBtn) prevBtn.textContent = (lang === 'en') ? "‹ Previous" : "‹ السابق";
+
+    // 5. التحكم في ظهور أزرار التنقل
+    if (prevBtn) prevBtn.style.visibility = (currentArticleIndex === 0) ? 'hidden' : 'visible';
+    if (nextBtn) nextBtn.style.visibility = (currentArticleIndex === window.ALL_ARTICLES.length - 1) ? 'hidden' : 'visible';
+
+    // 6. تحديث اتجاه الصفحة
+    document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+    document.documentElement.lang = lang;
+}
