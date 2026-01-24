@@ -764,10 +764,10 @@ const ARTICLE_10 = {
 </div>
 `
 };
-
 // 2. تهيئة المصفوفة العامة (Logic)
 // -----------------------------------------
 window.ALL_ARTICLES = [ARTICLE_1, ARTICLE_2, ARTICLE_3, ARTICLE_4, ARTICLE_5, ARTICLE_6, ARTICLE_7, ARTICLE_8, ARTICLE_9, ARTICLE_10];
+
 /* ============================================================
    إدارة التنقل بين المقالات وتحديث العداد
    ============================================================ */
@@ -781,48 +781,46 @@ function updateArticleUI() {
     const currentNumSpan = document.getElementById('current-article-num');
     const totalNumSpan = document.getElementById('total-articles-num');
 
-    if (!contentDiv || !articles[lang]) return;
+    // التأكد من وجود العناصر في الصفحة والمقالات في المصفوفة
+    if (!contentDiv || !window.ALL_ARTICLES[currentArticleIndex]) return;
 
-    // 1. تحديث المحتوى (مع التطهير باستخدام DOMPurify)
-    const rawHTML = articles[lang][currentArticleIndex];
-    contentDiv.innerHTML = typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(rawHTML) : rawHTML;
+    // 1. جلب المقال الحالي بناءً على اللغة
+    // بما أن كل مقال هو Object يحتوي على {ar: '...', en: '...'}
+    const articleData = window.ALL_ARTICLES[currentArticleIndex];
+    const htmlContent = articleData[lang]; // يسحب النص بناءً على lang (ar أو en)
 
-    // 2. تحديث العداد
+    // 2. عرض المحتوى في الصفحة
+    contentDiv.innerHTML = htmlContent;
+
+    // 3. تحديث أرقام العداد
     if (currentNumSpan) currentNumSpan.textContent = currentArticleIndex + 1;
-    if (totalNumSpan) totalNumSpan.textContent = articles[lang].length;
+    if (totalNumSpan) totalNumSpan.textContent = window.ALL_ARTICLES.length;
 
-    // 3. التحكم في ظهور الأزرار (إخفاء السابق في أول مقال والتالي في آخر مقال)
-    document.getElementById('prev-btn').style.visibility = currentArticleIndex === 0 ? 'hidden' : 'visible';
-    document.getElementById('next-btn').style.visibility = currentArticleIndex === articles[lang].length - 1 ? 'hidden' : 'visible';
+    // 4. التحكم في ظهور الأزرار (إخفاء السابق في البداية والتالي في النهاية)
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    if (prevBtn) prevBtn.style.visibility = currentArticleIndex === 0 ? 'hidden' : 'visible';
+    if (nextBtn) nextBtn.style.visibility = currentArticleIndex === window.ALL_ARTICLES.length - 1 ? 'hidden' : 'visible';
 }
 
-// دالة المقال التالي
-function nextArticle() {
-    const lang = localStorage.getItem('lang') === 'en' ? 'en' : 'ar';
-    if (currentArticleIndex < articles[lang].length - 1) {
+// دالة الانتقال للمقال التالي
+window.nextArticle = function() {
+    if (currentArticleIndex < window.ALL_ARTICLES.length - 1) {
         currentArticleIndex++;
         updateArticleUI();
+        // العودة لأعلى المقال بسلاسة
         window.scrollTo({ top: document.querySelector('.article-container').offsetTop - 20, behavior: 'smooth' });
     }
-}
+};
 
-// دالة المقال السابق
-function prevArticle() {
+// دالة الانتقال للمقال السابق
+window.prevArticle = function() {
     if (currentArticleIndex > 0) {
         currentArticleIndex--;
         updateArticleUI();
         window.scrollTo({ top: document.querySelector('.article-container').offsetTop - 20, behavior: 'smooth' });
     }
-}
+};
 
-// تشغيل النظام عند تحميل الصفحة
-document.addEventListener('DOMContentLoaded', () => {
-    updateArticleUI();
-
-    // ربط الأزرار برمجياً (حل مشكلة الـ CSP والعداد)
-    const nBtn = document.getElementById('next-btn');
-    const pBtn = document.getElementById('prev-btn');
-
-    if (nBtn) nBtn.addEventListener('click', nextArticle);
-    if (pBtn) pBtn.addEventListener('click', prevArticle);
-});
+// تشغيل الدالة فور تحميل الـ DOM
+document.addEventListener('DOMContentLoaded', updateArticleUI);
