@@ -769,10 +769,9 @@ const ARTICLE_10 = {
 window.ALL_ARTICLES = [ARTICLE_1, ARTICLE_2, ARTICLE_3, ARTICLE_4, ARTICLE_5, ARTICLE_6, ARTICLE_7, ARTICLE_8, ARTICLE_9, ARTICLE_10];
 
 /* ============================================================
-   نظام إدارة المحتوى والترجمة والأرشفة - النسخة النهائية
+   نظام إدارة المحتوى والترجمة والأرشفة - النسخة المصلحة
    ============================================================ */
 
-// التأكد من أن المتغير معرف عالمياً
 if (typeof currentArticleIndex === 'undefined') {
     var currentArticleIndex = 0; 
 }
@@ -788,60 +787,44 @@ function updateArticleUI() {
     const nextBtn = document.getElementById('next-btn');
     const prevBtn = document.getElementById('prev-btn');
 
-    // 1. فحص وجود العناصر قبل التنفيذ
     if (!contentDiv || !window.ALL_ARTICLES) return;
 
-    // 2. تحديث محتوى المقالة وتنسيقها
     const articleData = window.ALL_ARTICLES[currentArticleIndex];
     if (articleData) {
         contentDiv.innerHTML = articleData[lang];
-        
-        // تحسين الألوان والمظهر للوضع الداكن
         contentDiv.style.color = "#e0e0e0"; 
         contentDiv.querySelectorAll('h1, h2, h3').forEach(h => h.style.color = "#ffffff");
 
-        // ميزة الأرشفة: تحديث الرابط في المتصفح دون إعادة تحميل
+        // ميزة الأرشفة
         const articleSlug = `article-${currentArticleIndex + 1}`;
         history.pushState({index: currentArticleIndex}, "", `?p=${articleSlug}`);
     }
 
-    // 3. تحديث العداد
     if (currentNumSpan) currentNumSpan.textContent = currentArticleIndex + 1;
     if (totalNumSpan) totalNumSpan.textContent = window.ALL_ARTICLES.length;
 
-    // 4. ترجمة نصوص الواجهة (الأزرار والرسائل الثابتة)
+    // ترجمة الواجهة
     if (msgSub) msgSub.textContent = (lang === 'en') ? "Select a message to view" : "اختر رسالة لعرضها";
     if (langBtn) langBtn.textContent = (lang === 'en') ? "العربية" : "English";
     if (nextBtn) nextBtn.textContent = (lang === 'en') ? "Next ›" : "التالي ›";
     if (prevBtn) prevBtn.textContent = (lang === 'en') ? "‹ Previous" : "‹ السابق";
 
-    // 5. التحكم في ظهور أزرار التنقل
     if (prevBtn) prevBtn.style.visibility = (currentArticleIndex === 0) ? 'hidden' : 'visible';
     if (nextBtn) nextBtn.style.visibility = (currentArticleIndex === window.ALL_ARTICLES.length - 1) ? 'hidden' : 'visible';
 
-    // 6. تحديث اتجاه الصفحة
     document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
     document.documentElement.lang = lang;
 }
 
-// دالة تغيير اللغة التي تحافظ على موقعك الحالي
 window.toggleLanguage = function() {
     const currentLang = localStorage.getItem('lang') === 'en' ? 'en' : 'ar';
     const newLang = currentLang === 'en' ? 'ar' : 'en';
-    
     localStorage.setItem('lang', newLang);
-    
-    // التحديث الفوري يضمن عدم العودة للمقالة الأولى
     updateArticleUI();
-    
-    if (typeof updateMailInterface === 'function') {
-        updateMailInterface();
-    }
+    if (typeof updateMailInterface === 'function') updateMailInterface();
 };
 
-// تشغيل النظام عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', () => {
-    // التحقق من الرابط لفتح المقالة الصحيحة (للأرشفة)
     const urlParams = new URLSearchParams(window.location.search);
     const pParam = urlParams.get('p');
     if (pParam && pParam.startsWith('article-')) {
@@ -854,12 +837,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const nBtn = document.getElementById('next-btn');
     const pBtn = document.getElementById('prev-btn');
     const lBtn = document.getElementById('lang-btn');
+    const contentDiv = document.getElementById('article-content'); // تعريف محلي هنا للإصلاح
 
     if(nBtn) nBtn.addEventListener('click', () => {
         if (currentArticleIndex < window.ALL_ARTICLES.length - 1) {
             currentArticleIndex++;
             updateArticleUI();
-            window.scrollTo({ top: contentDiv.parentElement.offsetTop - 20, behavior: 'smooth' });
+            if (contentDiv) window.scrollTo({ top: contentDiv.parentElement.offsetTop - 20, behavior: 'smooth' });
         }
     });
 
@@ -867,7 +851,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentArticleIndex > 0) {
             currentArticleIndex--;
             updateArticleUI();
-            window.scrollTo({ top: contentDiv.parentElement.offsetTop - 20, behavior: 'smooth' });
+            if (contentDiv) window.scrollTo({ top: contentDiv.parentElement.offsetTop - 20, behavior: 'smooth' });
         }
     });
 
