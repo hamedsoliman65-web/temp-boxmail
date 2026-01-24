@@ -120,40 +120,43 @@
             }
         } catch (e) { console.error("Account Creation Failed"); }
     }
+async function syncInbox() {
+    if (!App.token) return;
+    try {
+        const res = await fetch(`${App.api}/messages`, {
+            headers: { Authorization: `Bearer ${App.token}` }
+        });
+        if (res.ok) {
+            const data = await res.json();
+            const container = document.getElementById('inbox');
+            if (!container) return;
 
-    async function syncInbox() {
-        if (!App.token) return;
-        try {
-            const res = await fetch(`${App.api}/messages`, {
-                headers: { Authorization: `Bearer ${App.token}` }
-            });
-            if (res.ok) {
-                const data = await res.json();
-                const container = document.getElementById('inbox');
-                if (!container) return;
-               // أضف هذا السطر داخل دالة syncInbox بعد جلب البيانات
-const msgs = data['hydra:member'] || [];
-const inboxTitle = document.getElementById('inbox-title');
-const lang = getLang();
-if (inboxTitle) {
-    inboxTitle.textContent = lang === 'ar' ? `البريد الوارد (${msgs.length})` : `Inbox (${msgs.length})`;
-}
-                if (msgs.length === 0) {
-                    container.innerHTML = `<div style="text-align:center; padding:20px; color:#999;">${currentLang === 'ar' ? 'لا توجد رسائل بعد' : 'No messages yet'}</div>`;
-                    return;
-                }
-                container.innerHTML = '';
-                msgs.forEach(m => {
-                    const div = document.createElement('div');
-                    div.className = 'mail-item';
-                    div.style = "padding:10px; border-bottom:1px solid #eee; cursor:pointer;";
-                    div.innerHTML = `<strong>${m.subject}</strong><br><small>${m.from.address}</small>`;
-                    div.onclick = () => loadFullMail(m.id);
-                    container.appendChild(div);
-                });
+            const msgs = data['hydra:member'] || [];
+            const lang = getLang();
+            
+            // تحديث عداد الرسائل في العنوان
+            const inboxTitle = document.getElementById('inbox-title');
+            if (inboxTitle) {
+                inboxTitle.textContent = lang === 'ar' ? `البريد الوارد (${msgs.length})` : `Inbox (${msgs.length})`;
             }
-        } catch (e) { console.error("Sync Error"); }
-    }
+
+            if (msgs.length === 0) {
+                container.innerHTML = `<div style="text-align:center; padding:20px; color:#999;">${lang === 'ar' ? 'لا توجد رسائل بعد' : 'No messages yet'}</div>`;
+                return;
+            }
+
+            container.innerHTML = '';
+            msgs.forEach(m => {
+                const div = document.createElement('div');
+                div.className = 'mail-item';
+                div.style = "padding:10px; border-bottom:1px solid rgba(255,255,255,0.1); cursor:pointer;";
+                div.innerHTML = `<strong>${m.subject}</strong><br><small>${m.from.address}</small>`;
+                div.onclick = () => loadFullMail(m.id);
+                container.appendChild(div);
+            });
+        }
+    } catch (e) { console.error("Sync Error"); }
+}
 
     async function loadFullMail(id) {
         const res = await fetch(`${App.api}/messages/${id}`, {
@@ -179,62 +182,82 @@ if (inboxTitle) {
         location.reload();
     }
 
-    /* ============================================================
-       5. البدء والتشغيل (Initialization)
+  /* ============================================================
+       5. البدء والتشغيل (Initialization) - نسخة مصححة
        ============================================================ */
     document.addEventListener('DOMContentLoaded', () => {
+        // تحديث النصوص والترجمة عند التحميل
         refreshDynamicContent();
 
-        // ربط أزرار التحكم
+        // 1. ربط زر "جديد" (إصلاح مشكلة تحميل الصفحة)
         const btnNew = document.getElementById('btn-new');
-        if (btnNew) btnNew.onclick = () => { localStorage.removeItem('tb_v3_session'); location.reload(); };
+        if (btnNew) {
+            btnNew.onclick = (e) => {
+                e.preventDefault(); // يمنع إعادة تحميل الصفحة
+                if (confirm(getLang() === 'ar' ? "هل تريد إنشاء بريد جديد؟" : "Create a new email?")) {
+                    localStorage.removeItem('tb_v3_session');
+                    // تصفير الواجهة فوراً لتحسين تجربة المستخدم
+                    document.getElementById('address').textContent = "...";
+                    document.getElementById('inbox').innerHTML = "";
+                    createNewAccount(); // إنشاء حساب جديد مباشرة
+                }
+            };
+        }
 
+        // 2. ربط زر الحذف
         const btnDelete = document.getElementById('btn-delete');
         if (btnDelete) btnDelete.onclick = deleteAccount;
 
+        // 3. ربط زر النسخ
         const btnCopy = document.getElementById('btn-copy');
-        if (btnCopy) btnCopy.onclick = () => {
-            const addr = document.getElementById('address').textContent;
-            navigator.clipboard.writeText(addr);
-            alert(getLang() === 'ar' ? 'تم النسخ!' : 'Copied!');
-        };
+        if (btnCopy) {
+            btnCopy.onclick = () => {
+                const addr = document.getElementById('address').textContent;
+                navigator.clipboard.writeText(addr);
+                alert(getLang() === 'ar' ? 'تم نسخ العنوان!' : 'Address Copied!');
+            };
+        }
 
+        // 4. ربط زر التحديث اليدوي
         const btnRefresh = document.getElementById('btn-refresh');
         if (btnRefresh) btnRefresh.onclick = () => syncInbox();
 
-        // إدارة الجلسة
+        // 5. إدارة الجلسة (الاستمرارية)
         const saved = localStorage.getItem('tb_v3_session');
         if (saved) {
             const data = JSON.parse(saved);
             App.token = data.token;
             App.address = data.address;
-            if(document.getElementById('address')) document.getElementById('address').textContent = App.address;
-            syncInbox();
-            setInterval(syncInbox, 10000);
+            if(document.getElementById('address')) {
+                document.getElementById('address').textContent = App.address;
+            }
+            syncInbox(); // جلب الرسائل فوراً
+            setInterval(syncInbox, 10000); // تحديث تلقائي كل 10 ثوانٍ
         } else {
-            createNewAccount();
+            createNewAccount(); // إذا لم توجد جلسة، أنشئ حساباً فوراً
         }
 
-        // زر اللغة
+        // 6. زر تبديل اللغة
         const langToggle = document.getElementById('langToggle');
         if (langToggle) {
             langToggle.onclick = () => {
                 localStorage.setItem('lang', getLang() === 'ar' ? 'en' : 'ar');
-                location.reload();
+                location.reload(); // تغيير اللغة يتطلب إعادة تحميل لتحديث القوالب
             };
         }
     });
 
+    // لا تنسَ التأكد من وجود هذه الدالة لعرض الأسئلة
     function renderFAQ() {
         const lang = getLang();
         const faqContainer = document.getElementById('faq-list');
-        if (faqContainer) {
+        if (faqContainer && App.faq[lang]) {
             faqContainer.innerHTML = App.faq[lang].map(item => `
-                <div class="faq-item" style="margin-bottom: 25px; padding: 15px; background: #1a1a1a; border-radius: 8px; border-right: 4px solid #00bc8c;">
-                    <h3 style="color: #00bc8c; font-size: 1.1rem; margin-bottom: 10px;">${item.q}</h3>
-                    <p style="color: #ffffff; line-height: 1.6; margin: 0;">${item.a}</p>
+                <div class="faq-item" style="margin-bottom: 20px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 8px;">
+                    <h3 style="color: var(--accent); font-size: 1rem;">${item.q}</h3>
+                    <p style="color: #ccc; font-size: 0.9rem;">${item.a}</p>
                 </div>
             `).join('');
         }
     }
-})();
+})(); // إغلاق الدالة الأساسية للملف
