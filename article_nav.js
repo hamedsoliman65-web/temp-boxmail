@@ -772,46 +772,86 @@ window.ALL_ARTICLES = [ARTICLE_1, ARTICLE_2, ARTICLE_3, ARTICLE_4, ARTICLE_5, AR
    إدارة المحتوى، العداد، والترجمة - Temp-BoxMail
    ============================================================ */
 
-let currentArticleIndex = 0;
+/* ============================================================
+   إدارة المحتوى المتقدمة - Temp-BoxMail
+   ============================================================ */
+
+// تأكد أن currentArticleIndex معرف عالمياً خارج الدوال
+if (typeof currentArticleIndex === 'undefined') {
+    var currentArticleIndex = 0;
+}
 
 function updateArticleUI() {
     const lang = localStorage.getItem('lang') === 'en' ? 'en' : 'ar';
     const contentDiv = document.getElementById('article-content');
     const currentNumSpan = document.getElementById('current-article-num');
     const totalNumSpan = document.getElementById('total-articles-num');
+    
+    // العناصر التي طلبت ترجمتها
+    const msgSub = document.getElementById('msg-sub'); // كلمة "اختر رسالة لعرضها"
     const langBtn = document.getElementById('lang-btn');
-    const faqTitle = document.getElementById('faq-main-title');
+    const nextBtn = document.getElementById('next-btn');
+    const prevBtn = document.getElementById('prev-btn');
 
     if (!contentDiv || !window.ALL_ARTICLES) return;
 
-    // 1. تحديث المقال والعداد
+    // 1. تحديث المحتوى مع الحفاظ على المقالة الحالية
     const articleData = window.ALL_ARTICLES[currentArticleIndex];
     contentDiv.innerHTML = articleData[lang];
-    
+
+    // 2. تنسيق الألوان برمجياً لضمان الوضوح في الوضع الداكن
+    contentDiv.style.color = "#e0e0e0"; 
+    const headers = contentDiv.querySelectorAll('h1, h2, h3');
+    headers.forEach(h => h.style.color = "#ffffff");
+
+    // 3. تحديث العداد
     if (currentNumSpan) currentNumSpan.textContent = currentArticleIndex + 1;
     if (totalNumSpan) totalNumSpan.textContent = window.ALL_ARTICLES.length;
 
-    // 2. ترجمة واجهة المستخدم (إصلاح مشكلة عدم التغير)
-    if (langBtn) langBtn.textContent = (lang === 'en') ? "العربية" : "English";
-    if (faqTitle) faqTitle.textContent = (lang === 'en') ? "Frequently Asked Questions (FAQ)" : "الأسئلة الشائعة (FAQ)";
+    // 4. ترجمة الأزرار والنصوص الثابتة (إصلاح طلبك)
+    if (msgSub) {
+        msgSub.textContent = (lang === 'en') ? "Select a message to view" : "اختر رسالة لعرضها";
+    }
+    if (langBtn) {
+        langBtn.textContent = (lang === 'en') ? "العربية" : "English";
+    }
+    if (nextBtn) {
+        nextBtn.textContent = (lang === 'en') ? "Next ›" : "التالي ›";
+    }
+    if (prevBtn) {
+        prevBtn.textContent = (lang === 'en') ? "‹ Previous" : "‹ السابق";
+    }
 
-    // 3. التحكم في ظهور الأزرار
-    const prevBtn = document.getElementById('prev-btn');
-    const nextBtn = document.getElementById('next-btn');
+    // 5. التحكم في ظهور الأزرار
     if (prevBtn) prevBtn.style.visibility = currentArticleIndex === 0 ? 'hidden' : 'visible';
     if (nextBtn) nextBtn.style.visibility = currentArticleIndex === window.ALL_ARTICLES.length - 1 ? 'hidden' : 'visible';
 }
 
-// ربط الأزرار برمجياً (حل مشكلة حظر CSP)
+// تعديل دالة تبديل اللغة لكي لا تعيد المقال للأول
+window.toggleLanguage = function() {
+    const currentLang = localStorage.getItem('lang') === 'en' ? 'en' : 'ar';
+    const newLang = currentLang === 'en' ? 'ar' : 'en';
+    localStorage.setItem('lang', newLang);
+    document.documentElement.lang = newLang;
+    document.documentElement.dir = newLang === 'ar' ? 'rtl' : 'ltr';
+    
+    // تحديث الواجهة فوراً دون إعادة تحميل الصفحة
+    updateArticleUI();
+    
+    // إذا كان لديك دالة ترجمة أخرى للبريد، استدعها هنا أيضاً
+    if (typeof updateMailInterface === 'function') updateMailInterface();
+};
+
+// ربط الأزرار
 document.addEventListener('DOMContentLoaded', () => {
     const nBtn = document.getElementById('next-btn');
     const pBtn = document.getElementById('prev-btn');
+    const lBtn = document.getElementById('lang-btn');
 
     if(nBtn) nBtn.addEventListener('click', () => {
         if (currentArticleIndex < window.ALL_ARTICLES.length - 1) {
             currentArticleIndex++;
             updateArticleUI();
-            window.scrollTo({ top: document.querySelector('.article-container').offsetTop - 20, behavior: 'smooth' });
         }
     });
 
@@ -819,9 +859,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentArticleIndex > 0) {
             currentArticleIndex--;
             updateArticleUI();
-            window.scrollTo({ top: document.querySelector('.article-container').offsetTop - 20, behavior: 'smooth' });
         }
     });
+
+    // ربط زر اللغة بالدالة الجديدة
+    if(lBtn) lBtn.addEventListener('click', window.toggleLanguage);
 
     updateArticleUI();
 });
