@@ -767,12 +767,41 @@ const ARTICLE_10 = {
 // 1. المصفوفة العامة للمقالات
 window.ALL_ARTICLES = [ARTICLE_1, ARTICLE_2, ARTICLE_3, ARTICLE_4, ARTICLE_5, ARTICLE_6, ARTICLE_7, ARTICLE_8, ARTICLE_9, ARTICLE_10];
 
-// 2. إدارة المؤشر الحالي
+// 2. بيانات الأسئلة الشائعة (FAQ Data)
+const FAQ_DATA = [
+    {
+        ar: { q: "ما هو البريد المؤقت؟", a: "خدمة تمنحك عنوان بريد إلكتروني ينتهي بعد فترة، لاستخدامه في التسجيلات السريعة ومنع الرسائل المزعجة." },
+        en: { q: "What is Temporary Email?", a: "A service that provides a temporary email address for quick registrations to prevent spam." }
+    },
+    {
+        ar: { q: "هل الخدمة مجانية؟", a: "نعم، Temp-BoxMail هي خدمة مجانية بالكامل وستظل كذلك." },
+        en: { q: "Is the service free?", a: "Yes, Temp-BoxMail is completely free and will always be." }
+    },
+    {
+        ar: { q: "هل يمكنني استقبال رسائل تفعيل (OTP)؟", a: "بالطبع، يمكنك استقبال جميع رسائل تفعيل والروابط في ثوانٍ معدودة." },
+        en: { q: "Can I receive OTP codes?", a: "Absolutely, you can receive all activation codes and links within seconds." }
+    }
+];
+
+// 3. إدارة المؤشر الحالي
 if (typeof currentArticleIndex === 'undefined') {
     var currentArticleIndex = 0; 
 }
 
-// 3. دالة ترجمة عنوان الأسئلة الشائعة
+// 4. دالة بناء الأسئلة الشائعة (Render FAQ)
+function renderFAQ(lang) {
+    const faqList = document.getElementById('faq-list');
+    if (!faqList) return;
+
+    faqList.innerHTML = FAQ_DATA.map(item => `
+        <div class="faq-item" style="margin-bottom: 20px; border-bottom: 1px solid #333; padding-bottom: 15px;">
+            <h3 style="color: #ffc107; font-size: 1.2rem; margin-bottom: 8px;">${item[lang].q}</h3>
+            <p style="color: #ccc; font-size: 1rem; line-height: 1.6;">${item[lang].a}</p>
+        </div>
+    `).join('');
+}
+
+// 5. دالة ترجمة عنوان الأسئلة الشائعة
 function updateFAQTitle(lang) {
     const faqTitle = document.getElementById('faq-main-title');
     if (faqTitle) {
@@ -780,7 +809,7 @@ function updateFAQTitle(lang) {
     }
 }
 
-// 4. الدالة الرئيسية لتحديث الواجهة
+// 6. الدالة الرئيسية لتحديث الواجهة
 function updateArticleUI() {
     const lang = localStorage.getItem('lang') === 'en' ? 'en' : 'ar';
     const contentDiv = document.getElementById('article-content');
@@ -816,36 +845,41 @@ function updateArticleUI() {
     if (prevBtn) prevBtn.style.visibility = (currentArticleIndex === 0) ? 'hidden' : 'visible';
     if (nextBtn) nextBtn.style.visibility = (currentArticleIndex === window.ALL_ARTICLES.length - 1) ? 'hidden' : 'visible';
 
-    // استدعاء ترجمة عنوان FAQ
+    // تحديث قسم FAQ (العنوان والمحتوى)
     updateFAQTitle(lang);
+    renderFAQ(lang);
 
     // تحديث اتجاه الموقع واللغة
     document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
     document.documentElement.lang = lang;
 }
-// تأكد أن المؤشر معرف عالمياً
-if (typeof currentArticleIndex === 'undefined') {
-    var currentArticleIndex = 0; 
-}
 
+// 7. إعداد مستمعي الأحداث عند تحميل المستند
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. جلب العناصر مرة واحدة عند التحميل
+    // معالجة روابط الأرشفة عند الدخول المباشر
+    const urlParams = new URLSearchParams(window.location.search);
+    const pParam = urlParams.get('p');
+    if (pParam && pParam.startsWith('article-')) {
+        const articleNum = parseInt(pParam.split('-')[1]);
+        if (!isNaN(articleNum) && articleNum > 0 && articleNum <= window.ALL_ARTICLES.length) {
+            currentArticleIndex = articleNum - 1;
+        }
+    }
+
     const nBtn = document.getElementById('next-btn');
     const pBtn = document.getElementById('prev-btn');
     const contentDiv = document.getElementById('article-content');
 
-    // 2. مستمع حدث لزر "التالي"
     if (nBtn) {
         nBtn.addEventListener('click', () => {
             if (currentArticleIndex < window.ALL_ARTICLES.length - 1) {
                 currentArticleIndex++;
-                updateArticleUI(); // هذه الدالة ستحدث المحتوى والعداد
+                updateArticleUI();
                 if (contentDiv) window.scrollTo({ top: contentDiv.parentElement.offsetTop - 20, behavior: 'smooth' });
             }
         });
     }
 
-    // 3. مستمع حدث لزر "السابق"
     if (pBtn) {
         pBtn.addEventListener('click', () => {
             if (currentArticleIndex > 0) {
