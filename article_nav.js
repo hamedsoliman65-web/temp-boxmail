@@ -764,20 +764,27 @@ const ARTICLE_10 = {
 </div>
 `
 };
-// 2. تهيئة المصفوفة العامة (Logic)
-// -----------------------------------------
+// 1. المصفوفة العامة للمقالات
 window.ALL_ARTICLES = [ARTICLE_1, ARTICLE_2, ARTICLE_3, ARTICLE_4, ARTICLE_5, ARTICLE_6, ARTICLE_7, ARTICLE_8, ARTICLE_9, ARTICLE_10];
 
-// التأكد من أن المتغير معرف عالمياً للسماح بالوصول إليه من جميع الدوال
+// 2. إدارة المؤشر الحالي
 if (typeof currentArticleIndex === 'undefined') {
     var currentArticleIndex = 0; 
 }
 
+// 3. دالة ترجمة عنوان الأسئلة الشائعة
+function updateFAQTitle(lang) {
+    const faqTitle = document.getElementById('faq-main-title');
+    if (faqTitle) {
+        faqTitle.textContent = (lang === 'en') ? "Frequently Asked Questions (FAQ)" : "الأسئلة الشائعة (FAQ)";
+    }
+}
+
+// 4. الدالة الرئيسية لتحديث الواجهة
 function updateArticleUI() {
     const lang = localStorage.getItem('lang') === 'en' ? 'en' : 'ar';
     const contentDiv = document.getElementById('article-content');
     
-    // 1. جلب عناصر العداد والأزرار
     const currentNumSpan = document.getElementById('current-article-num');
     const totalNumSpan = document.getElementById('total-articles-num');
     const nextBtn = document.getElementById('next-btn');
@@ -785,7 +792,7 @@ function updateArticleUI() {
 
     if (!contentDiv || !window.ALL_ARTICLES) return;
 
-    // 2. تحديث محتوى المقال
+    // تحديث محتوى المقال
     const articleData = window.ALL_ARTICLES[currentArticleIndex];
     if (articleData) {
         contentDiv.innerHTML = articleData[lang];
@@ -797,18 +804,22 @@ function updateArticleUI() {
         history.pushState({index: currentArticleIndex}, "", `?p=${articleSlug}`);
     }
 
-    // 3. تحديث العداد (الإصلاح هنا)
+    // تحديث العداد
     if (currentNumSpan) currentNumSpan.textContent = currentArticleIndex + 1;
     if (totalNumSpan) totalNumSpan.textContent = window.ALL_ARTICLES.length;
 
-    // 4. ترجمة الأزرار فوراً (الإصلاح هنا)
+    // ترجمة أزرار التنقل
     if (nextBtn) nextBtn.textContent = (lang === 'en') ? "Next ›" : "التالي ›";
     if (prevBtn) prevBtn.textContent = (lang === 'en') ? "‹ Previous" : "‹ السابق";
 
-    // 5. التحكم في الظهور
+    // التحكم في ظهور الأزرار
     if (prevBtn) prevBtn.style.visibility = (currentArticleIndex === 0) ? 'hidden' : 'visible';
     if (nextBtn) nextBtn.style.visibility = (currentArticleIndex === window.ALL_ARTICLES.length - 1) ? 'hidden' : 'visible';
 
+    // استدعاء ترجمة عنوان FAQ
+    updateFAQTitle(lang);
+
+    // تحديث اتجاه الموقع واللغة
     document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
     document.documentElement.lang = lang;
 }
