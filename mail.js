@@ -131,9 +131,13 @@
                 const data = await res.json();
                 const container = document.getElementById('inbox');
                 if (!container) return;
-                const msgs = data['hydra:member'] || [];
-                const currentLang = getLang();
-
+               // أضف هذا السطر داخل دالة syncInbox بعد جلب البيانات
+const msgs = data['hydra:member'] || [];
+const inboxTitle = document.getElementById('inbox-title');
+const lang = getLang();
+if (inboxTitle) {
+    inboxTitle.textContent = lang === 'ar' ? `البريد الوارد (${msgs.length})` : `Inbox (${msgs.length})`;
+}
                 if (msgs.length === 0) {
                     container.innerHTML = `<div style="text-align:center; padding:20px; color:#999;">${currentLang === 'ar' ? 'لا توجد رسائل بعد' : 'No messages yet'}</div>`;
                     return;
