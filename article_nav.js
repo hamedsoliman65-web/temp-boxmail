@@ -768,10 +768,7 @@ const ARTICLE_10 = {
 // -----------------------------------------
 window.ALL_ARTICLES = [ARTICLE_1, ARTICLE_2, ARTICLE_3, ARTICLE_4, ARTICLE_5, ARTICLE_6, ARTICLE_7, ARTICLE_8, ARTICLE_9, ARTICLE_10];
 
-/* ============================================================
-   نظام إدارة المحتوى والترجمة والأرشفة - النسخة المصلحة
-   ============================================================ */
-
+// التأكد من أن المتغير معرف عالمياً للسماح بالوصول إليه من جميع الدوال
 if (typeof currentArticleIndex === 'undefined') {
     var currentArticleIndex = 0; 
 }
@@ -779,52 +776,36 @@ if (typeof currentArticleIndex === 'undefined') {
 function updateArticleUI() {
     const lang = localStorage.getItem('lang') === 'en' ? 'en' : 'ar';
     const contentDiv = document.getElementById('article-content');
-    const currentNumSpan = document.getElementById('current-article-num');
-    const totalNumSpan = document.getElementById('total-articles-num');
     
-    const msgSub = document.getElementById('msg-sub'); 
-    const langBtn = document.getElementById('lang-btn');
-    const nextBtn = document.getElementById('next-btn');
-    const prevBtn = document.getElementById('prev-btn');
-
+    // فحص وجود العناصر قبل التنفيذ لمنع أخطاء ReferenceError
     if (!contentDiv || !window.ALL_ARTICLES) return;
 
     const articleData = window.ALL_ARTICLES[currentArticleIndex];
     if (articleData) {
         contentDiv.innerHTML = articleData[lang];
+        
+        // تحسين الألوان والمظهر للوضع الداكن
         contentDiv.style.color = "#e0e0e0"; 
         contentDiv.querySelectorAll('h1, h2, h3').forEach(h => h.style.color = "#ffffff");
 
-        // ميزة الأرشفة
+        // ميزة الأرشفة: تحديث الرابط في المتصفح بصيغة متوافقة مع الـ Sitemap
         const articleSlug = `article-${currentArticleIndex + 1}`;
         history.pushState({index: currentArticleIndex}, "", `?p=${articleSlug}`);
     }
-
-    if (currentNumSpan) currentNumSpan.textContent = currentArticleIndex + 1;
-    if (totalNumSpan) totalNumSpan.textContent = window.ALL_ARTICLES.length;
-
-    // ترجمة الواجهة
-    if (msgSub) msgSub.textContent = (lang === 'en') ? "Select a message to view" : "اختر رسالة لعرضها";
-    if (langBtn) langBtn.textContent = (lang === 'en') ? "العربية" : "English";
-    if (nextBtn) nextBtn.textContent = (lang === 'en') ? "Next ›" : "التالي ›";
-    if (prevBtn) prevBtn.textContent = (lang === 'en') ? "‹ Previous" : "‹ السابق";
-
-    if (prevBtn) prevBtn.style.visibility = (currentArticleIndex === 0) ? 'hidden' : 'visible';
-    if (nextBtn) nextBtn.style.visibility = (currentArticleIndex === window.ALL_ARTICLES.length - 1) ? 'hidden' : 'visible';
-
+    
+    // تحديث اتجاه الصفحة والنصوص
     document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
     document.documentElement.lang = lang;
+    
+    // تحديث حالة الأزرار (إخفاء السابق في أول مقال والتالي في آخر مقال)
+    const nextBtn = document.getElementById('next-btn');
+    const prevBtn = document.getElementById('prev-btn');
+    if (prevBtn) prevBtn.style.visibility = (currentArticleIndex === 0) ? 'hidden' : 'visible';
+    if (nextBtn) nextBtn.style.visibility = (currentArticleIndex === window.ALL_ARTICLES.length - 1) ? 'hidden' : 'visible';
 }
 
-window.toggleLanguage = function() {
-    const currentLang = localStorage.getItem('lang') === 'en' ? 'en' : 'ar';
-    const newLang = currentLang === 'en' ? 'ar' : 'en';
-    localStorage.setItem('lang', newLang);
-    updateArticleUI();
-    if (typeof updateMailInterface === 'function') updateMailInterface();
-};
-
 document.addEventListener('DOMContentLoaded', () => {
+    // معالجة معلمات الرابط عند التحميل (Deep Linking)
     const urlParams = new URLSearchParams(window.location.search);
     const pParam = urlParams.get('p');
     if (pParam && pParam.startsWith('article-')) {
@@ -836,8 +817,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const nBtn = document.getElementById('next-btn');
     const pBtn = document.getElementById('prev-btn');
-    const lBtn = document.getElementById('lang-btn');
-    const contentDiv = document.getElementById('article-content'); // تعريف محلي هنا للإصلاح
+    const contentDiv = document.getElementById('article-content');
 
     if(nBtn) nBtn.addEventListener('click', () => {
         if (currentArticleIndex < window.ALL_ARTICLES.length - 1) {
@@ -854,8 +834,6 @@ document.addEventListener('DOMContentLoaded', () => {
             if (contentDiv) window.scrollTo({ top: contentDiv.parentElement.offsetTop - 20, behavior: 'smooth' });
         }
     });
-
-    if(lBtn) lBtn.addEventListener('click', window.toggleLanguage);
 
     updateArticleUI();
 });
