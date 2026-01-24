@@ -769,7 +769,7 @@ const ARTICLE_10 = {
 window.ALL_ARTICLES = [ARTICLE_1, ARTICLE_2, ARTICLE_3, ARTICLE_4, ARTICLE_5, ARTICLE_6, ARTICLE_7, ARTICLE_8, ARTICLE_9, ARTICLE_10];
 
 /* ============================================================
-   إدارة التنقل والترجمة - النسخة النهائية المصلحة
+   إدارة المحتوى، العداد، والترجمة - Temp-BoxMail
    ============================================================ */
 
 let currentArticleIndex = 0;
@@ -779,60 +779,49 @@ function updateArticleUI() {
     const contentDiv = document.getElementById('article-content');
     const currentNumSpan = document.getElementById('current-article-num');
     const totalNumSpan = document.getElementById('total-articles-num');
-    
-    // حل مشكلة ترجمة "اختر رسالة لعرضها" وزر اللغة
-    const msgSub = document.getElementById('msg-sub');
     const langBtn = document.getElementById('lang-btn');
+    const faqTitle = document.getElementById('faq-main-title');
 
     if (!contentDiv || !window.ALL_ARTICLES) return;
 
-    // 1. تحديث محتوى المقال
+    // 1. تحديث المقال والعداد
     const articleData = window.ALL_ARTICLES[currentArticleIndex];
     contentDiv.innerHTML = articleData[lang];
-
-    // 2. تحديث العداد (إصلاح مشكلة الاختفاء)
+    
     if (currentNumSpan) currentNumSpan.textContent = currentArticleIndex + 1;
     if (totalNumSpan) totalNumSpan.textContent = window.ALL_ARTICLES.length;
 
-    // 3. ترجمة النصوص الثابتة المفقودة
-    if (msgSub) {
-        msgSub.textContent = (lang === 'en') ? "Select a message to view" : "اختر رسالة لعرضها";
-    }
-    if (langBtn) {
-        langBtn.textContent = (lang === 'en') ? "العربية" : "English";
-    }
+    // 2. ترجمة واجهة المستخدم (إصلاح مشكلة عدم التغير)
+    if (langBtn) langBtn.textContent = (lang === 'en') ? "العربية" : "English";
+    if (faqTitle) faqTitle.textContent = (lang === 'en') ? "Frequently Asked Questions (FAQ)" : "الأسئلة الشائعة (FAQ)";
 
-    // 4. التحكم في الأزرار
+    // 3. التحكم في ظهور الأزرار
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
     if (prevBtn) prevBtn.style.visibility = currentArticleIndex === 0 ? 'hidden' : 'visible';
     if (nextBtn) nextBtn.style.visibility = currentArticleIndex === window.ALL_ARTICLES.length - 1 ? 'hidden' : 'visible';
 }
 
-// الدوال العالمية
-window.nextArticle = function() {
-    if (currentArticleIndex < window.ALL_ARTICLES.length - 1) {
-        currentArticleIndex++;
-        updateArticleUI();
-        window.scrollTo({ top: document.querySelector('.article-container').offsetTop - 20, behavior: 'smooth' });
-    }
-};
-
-window.prevArticle = function() {
-    if (currentArticleIndex > 0) {
-        currentArticleIndex--;
-        updateArticleUI();
-        window.scrollTo({ top: document.querySelector('.article-container').offsetTop - 20, behavior: 'smooth' });
-    }
-};
-
-// تشغيل لمرة واحدة عند التحميل
+// ربط الأزرار برمجياً (حل مشكلة حظر CSP)
 document.addEventListener('DOMContentLoaded', () => {
     const nBtn = document.getElementById('next-btn');
     const pBtn = document.getElementById('prev-btn');
-    
-    if(nBtn) nBtn.addEventListener('click', window.nextArticle);
-    if(pBtn) pBtn.addEventListener('click', window.prevArticle);
-    
+
+    if(nBtn) nBtn.addEventListener('click', () => {
+        if (currentArticleIndex < window.ALL_ARTICLES.length - 1) {
+            currentArticleIndex++;
+            updateArticleUI();
+            window.scrollTo({ top: document.querySelector('.article-container').offsetTop - 20, behavior: 'smooth' });
+        }
+    });
+
+    if(pBtn) pBtn.addEventListener('click', () => {
+        if (currentArticleIndex > 0) {
+            currentArticleIndex--;
+            updateArticleUI();
+            window.scrollTo({ top: document.querySelector('.article-container').offsetTop - 20, behavior: 'smooth' });
+        }
+    });
+
     updateArticleUI();
 });
