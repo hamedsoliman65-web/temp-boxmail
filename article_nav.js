@@ -768,61 +768,61 @@ const ARTICLE_10 = {
 // 2. تهيئة المصفوفة العامة (Logic)
 // -----------------------------------------
 window.ALL_ARTICLES = [ARTICLE_1, ARTICLE_2, ARTICLE_3, ARTICLE_4, ARTICLE_5, ARTICLE_6, ARTICLE_7, ARTICLE_8, ARTICLE_9, ARTICLE_10];
-window.currentArticleIndex = 0;
+/* ============================================================
+   إدارة التنقل بين المقالات وتحديث العداد
+   ============================================================ */
 
-// 3. الدوال البرمجية (Functions)
-// -----------------------------------------
+let currentArticleIndex = 0;
 
-function updateArticleCounter() {
-    const currentSpan = document.getElementById('current-article-num');
-    const totalSpan = document.getElementById('total-articles-num');
-    
-    if (currentSpan) currentSpan.textContent = window.currentArticleIndex + 1;
-    if (totalSpan) totalSpan.textContent = window.ALL_ARTICLES.length;
+// دالة تحديث الواجهة (المحتوى + العداد)
+function updateArticleUI() {
+    const lang = localStorage.getItem('lang') === 'en' ? 'en' : 'ar';
+    const contentDiv = document.getElementById('article-content');
+    const currentNumSpan = document.getElementById('current-article-num');
+    const totalNumSpan = document.getElementById('total-articles-num');
+
+    if (!contentDiv || !articles[lang]) return;
+
+    // 1. تحديث المحتوى (مع التطهير باستخدام DOMPurify)
+    const rawHTML = articles[lang][currentArticleIndex];
+    contentDiv.innerHTML = typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(rawHTML) : rawHTML;
+
+    // 2. تحديث العداد
+    if (currentNumSpan) currentNumSpan.textContent = currentArticleIndex + 1;
+    if (totalNumSpan) totalNumSpan.textContent = articles[lang].length;
+
+    // 3. التحكم في ظهور الأزرار (إخفاء السابق في أول مقال والتالي في آخر مقال)
+    document.getElementById('prev-btn').style.visibility = currentArticleIndex === 0 ? 'hidden' : 'visible';
+    document.getElementById('next-btn').style.visibility = currentArticleIndex === articles[lang].length - 1 ? 'hidden' : 'visible';
 }
 
-function renderCurrentArticle() {
-    const container = document.getElementById('article-content');
-    
-    // صمام أمان: التحقق من وجود الحاوية والبيانات قبل التنفيذ
-    if (!container || !window.ALL_ARTICLES || window.ALL_ARTICLES.length === 0) return;
-
-    const lang = localStorage.getItem('lang') || 'ar';
-    const articleData = window.ALL_ARTICLES[window.currentArticleIndex];
-
-    if (articleData && articleData[lang]) {
-        // حقن المحتوى
-        container.innerHTML = articleData[lang];
-        
-        // تحديث العداد
-        updateArticleCounter();
-        
-        // ضمان ظهور الحاوية
-        container.style.display = 'block'; 
-        
-        // التمرير بسلاسة لأعلى المقال
-        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-}
-
-function prevArticle() {
-    if (window.currentArticleIndex > 0) {
-        window.currentArticleIndex--;
-        renderCurrentArticle();
-    }
-}
-
+// دالة المقال التالي
 function nextArticle() {
-    if (window.currentArticleIndex < window.ALL_ARTICLES.length - 1) {
-        window.currentArticleIndex++;
-        renderCurrentArticle();
+    const lang = localStorage.getItem('lang') === 'en' ? 'en' : 'ar';
+    if (currentArticleIndex < articles[lang].length - 1) {
+        currentArticleIndex++;
+        updateArticleUI();
+        window.scrollTo({ top: document.querySelector('.article-container').offsetTop - 20, behavior: 'smooth' });
     }
 }
 
-// 4. التشغيل النهائي عند التحميل
-// -----------------------------------------
-document.addEventListener('DOMContentLoaded', () => {
-    if (document.getElementById('article-content')) {
-        renderCurrentArticle();
+// دالة المقال السابق
+function prevArticle() {
+    if (currentArticleIndex > 0) {
+        currentArticleIndex--;
+        updateArticleUI();
+        window.scrollTo({ top: document.querySelector('.article-container').offsetTop - 20, behavior: 'smooth' });
     }
+}
+
+// تشغيل النظام عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', () => {
+    updateArticleUI();
+
+    // ربط الأزرار برمجياً (حل مشكلة الـ CSP والعداد)
+    const nBtn = document.getElementById('next-btn');
+    const pBtn = document.getElementById('prev-btn');
+
+    if (nBtn) nBtn.addEventListener('click', nextArticle);
+    if (pBtn) pBtn.addEventListener('click', prevArticle);
 });
