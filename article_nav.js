@@ -769,51 +769,55 @@ const ARTICLE_10 = {
 window.ALL_ARTICLES = [ARTICLE_1, ARTICLE_2, ARTICLE_3, ARTICLE_4, ARTICLE_5, ARTICLE_6, ARTICLE_7, ARTICLE_8, ARTICLE_9, ARTICLE_10];
 
 /* ============================================================
-   إدارة التنقل بين المقالات وتحديث العداد
+   إدارة التنقل والترجمة - النسخة النهائية المصلحة
    ============================================================ */
 
 let currentArticleIndex = 0;
 
-// دالة تحديث الواجهة (المحتوى + العداد)
 function updateArticleUI() {
     const lang = localStorage.getItem('lang') === 'en' ? 'en' : 'ar';
     const contentDiv = document.getElementById('article-content');
     const currentNumSpan = document.getElementById('current-article-num');
     const totalNumSpan = document.getElementById('total-articles-num');
+    
+    // حل مشكلة ترجمة "اختر رسالة لعرضها" وزر اللغة
+    const msgSub = document.getElementById('msg-sub');
+    const langBtn = document.getElementById('lang-btn');
 
-    // التأكد من وجود العناصر في الصفحة والمقالات في المصفوفة
-    if (!contentDiv || !window.ALL_ARTICLES[currentArticleIndex]) return;
+    if (!contentDiv || !window.ALL_ARTICLES) return;
 
-    // 1. جلب المقال الحالي بناءً على اللغة
-    // بما أن كل مقال هو Object يحتوي على {ar: '...', en: '...'}
+    // 1. تحديث محتوى المقال
     const articleData = window.ALL_ARTICLES[currentArticleIndex];
-    const htmlContent = articleData[lang]; // يسحب النص بناءً على lang (ar أو en)
+    contentDiv.innerHTML = articleData[lang];
 
-    // 2. عرض المحتوى في الصفحة
-    contentDiv.innerHTML = htmlContent;
-
-    // 3. تحديث أرقام العداد
+    // 2. تحديث العداد (إصلاح مشكلة الاختفاء)
     if (currentNumSpan) currentNumSpan.textContent = currentArticleIndex + 1;
     if (totalNumSpan) totalNumSpan.textContent = window.ALL_ARTICLES.length;
 
-    // 4. التحكم في ظهور الأزرار (إخفاء السابق في البداية والتالي في النهاية)
+    // 3. ترجمة النصوص الثابتة المفقودة
+    if (msgSub) {
+        msgSub.textContent = (lang === 'en') ? "Select a message to view" : "اختر رسالة لعرضها";
+    }
+    if (langBtn) {
+        langBtn.textContent = (lang === 'en') ? "العربية" : "English";
+    }
+
+    // 4. التحكم في الأزرار
     const prevBtn = document.getElementById('prev-btn');
     const nextBtn = document.getElementById('next-btn');
     if (prevBtn) prevBtn.style.visibility = currentArticleIndex === 0 ? 'hidden' : 'visible';
     if (nextBtn) nextBtn.style.visibility = currentArticleIndex === window.ALL_ARTICLES.length - 1 ? 'hidden' : 'visible';
 }
 
-// دالة الانتقال للمقال التالي
+// الدوال العالمية
 window.nextArticle = function() {
     if (currentArticleIndex < window.ALL_ARTICLES.length - 1) {
         currentArticleIndex++;
         updateArticleUI();
-        // العودة لأعلى المقال بسلاسة
         window.scrollTo({ top: document.querySelector('.article-container').offsetTop - 20, behavior: 'smooth' });
     }
 };
 
-// دالة الانتقال للمقال السابق
 window.prevArticle = function() {
     if (currentArticleIndex > 0) {
         currentArticleIndex--;
@@ -822,5 +826,13 @@ window.prevArticle = function() {
     }
 };
 
-// تشغيل الدالة فور تحميل الـ DOM
-document.addEventListener('DOMContentLoaded', updateArticleUI);
+// تشغيل لمرة واحدة عند التحميل
+document.addEventListener('DOMContentLoaded', () => {
+    const nBtn = document.getElementById('next-btn');
+    const pBtn = document.getElementById('prev-btn');
+    
+    if(nBtn) nBtn.addEventListener('click', window.nextArticle);
+    if(pBtn) pBtn.addEventListener('click', window.prevArticle);
+    
+    updateArticleUI();
+});
