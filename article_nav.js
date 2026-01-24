@@ -769,16 +769,12 @@ const ARTICLE_10 = {
 window.ALL_ARTICLES = [ARTICLE_1, ARTICLE_2, ARTICLE_3, ARTICLE_4, ARTICLE_5, ARTICLE_6, ARTICLE_7, ARTICLE_8, ARTICLE_9, ARTICLE_10];
 
 /* ============================================================
-   إدارة المحتوى، العداد، والترجمة - Temp-BoxMail
+   نظام إدارة المحتوى والترجمة الذكي - Temp-BoxMail
    ============================================================ */
 
-/* ============================================================
-   إدارة المحتوى المتقدمة - Temp-BoxMail
-   ============================================================ */
-
-// تأكد أن currentArticleIndex معرف عالمياً خارج الدوال
+// استخدام var لضمان بقاء المتغير متاحاً عند التبديل
 if (typeof currentArticleIndex === 'undefined') {
-    var currentArticleIndex = 0;
+    var currentArticleIndex = 0; 
 }
 
 function updateArticleUI() {
@@ -787,62 +783,55 @@ function updateArticleUI() {
     const currentNumSpan = document.getElementById('current-article-num');
     const totalNumSpan = document.getElementById('total-articles-num');
     
-    // العناصر التي طلبت ترجمتها
-    const msgSub = document.getElementById('msg-sub'); // كلمة "اختر رسالة لعرضها"
+    // العناصر المطلوب ترجمتها فوراً
+    const msgSub = document.getElementById('msg-sub'); 
     const langBtn = document.getElementById('lang-btn');
     const nextBtn = document.getElementById('next-btn');
     const prevBtn = document.getElementById('prev-btn');
 
     if (!contentDiv || !window.ALL_ARTICLES) return;
 
-    // 1. تحديث المحتوى مع الحفاظ على المقالة الحالية
+    // 1. تحديث محتوى المقالة الحالية (بدون العودة للأولى)
     const articleData = window.ALL_ARTICLES[currentArticleIndex];
     contentDiv.innerHTML = articleData[lang];
 
-    // 2. تنسيق الألوان برمجياً لضمان الوضوح في الوضع الداكن
+    // 2. تنسيق الألوان برمجياً ليناسب القالب الداكن
     contentDiv.style.color = "#e0e0e0"; 
-    const headers = contentDiv.querySelectorAll('h1, h2, h3');
-    headers.forEach(h => h.style.color = "#ffffff");
+    contentDiv.querySelectorAll('h1, h2, h3').forEach(h => h.style.color = "#ffffff");
+    contentDiv.querySelectorAll('p').forEach(p => p.style.lineHeight = "1.8");
 
     // 3. تحديث العداد
     if (currentNumSpan) currentNumSpan.textContent = currentArticleIndex + 1;
     if (totalNumSpan) totalNumSpan.textContent = window.ALL_ARTICLES.length;
 
-    // 4. ترجمة الأزرار والنصوص الثابتة (إصلاح طلبك)
-    if (msgSub) {
-        msgSub.textContent = (lang === 'en') ? "Select a message to view" : "اختر رسالة لعرضها";
-    }
-    if (langBtn) {
-        langBtn.textContent = (lang === 'en') ? "العربية" : "English";
-    }
-    if (nextBtn) {
-        nextBtn.textContent = (lang === 'en') ? "Next ›" : "التالي ›";
-    }
-    if (prevBtn) {
-        prevBtn.textContent = (lang === 'en') ? "‹ Previous" : "‹ السابق";
-    }
+    // 4. ترجمة الأزرار والنصوص الثابتة
+    if (msgSub) msgSub.textContent = (lang === 'en') ? "Select a message to view" : "اختر رسالة لعرضها";
+    if (langBtn) langBtn.textContent = (lang === 'en') ? "العربية" : "English";
+    if (nextBtn) nextBtn.textContent = (lang === 'en') ? "Next ›" : "التالي ›";
+    if (prevBtn) prevBtn.textContent = (lang === 'en') ? "‹ Previous" : "‹ السابق";
 
-    // 5. التحكم في ظهور الأزرار
-    if (prevBtn) prevBtn.style.visibility = currentArticleIndex === 0 ? 'hidden' : 'visible';
-    if (nextBtn) nextBtn.style.visibility = currentArticleIndex === window.ALL_ARTICLES.length - 1 ? 'hidden' : 'visible';
+    // 5. تحديث اتجاه الصفحة (RTL/LTR)
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = lang;
 }
 
-// تعديل دالة تبديل اللغة لكي لا تعيد المقال للأول
+// دالة تغيير اللغة "الذكية" التي تحافظ على مكانك
 window.toggleLanguage = function() {
     const currentLang = localStorage.getItem('lang') === 'en' ? 'en' : 'ar';
     const newLang = currentLang === 'en' ? 'ar' : 'en';
-    localStorage.setItem('lang', newLang);
-    document.documentElement.lang = newLang;
-    document.documentElement.dir = newLang === 'ar' ? 'rtl' : 'ltr';
     
-    // تحديث الواجهة فوراً دون إعادة تحميل الصفحة
+    localStorage.setItem('lang', newLang);
+    
+    // تحديث واجهة المقالات فوراً
     updateArticleUI();
     
-    // إذا كان لديك دالة ترجمة أخرى للبريد، استدعها هنا أيضاً
-    if (typeof updateMailInterface === 'function') updateMailInterface();
+    // تحديث واجهة البريد (إذا كانت هناك دالة في mail.js)
+    if (typeof updateMailInterface === 'function') {
+        updateMailInterface();
+    }
 };
 
-// ربط الأزرار
+// ربط الأزرار عند التحميل
 document.addEventListener('DOMContentLoaded', () => {
     const nBtn = document.getElementById('next-btn');
     const pBtn = document.getElementById('prev-btn');
@@ -862,8 +851,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // ربط زر اللغة بالدالة الجديدة
-    if(lBtn) lBtn.addEventListener('click', window.toggleLanguage);
+    // ربط زر اللغة بالدالة الجديدة لضمان عدم إعادة التحميل
+    if(lBtn) {
+        lBtn.onclick = null; // إزالة أي ربط قديم
+        lBtn.addEventListener('click', window.toggleLanguage);
+    }
 
     updateArticleUI();
 });
