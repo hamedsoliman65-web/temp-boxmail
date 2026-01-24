@@ -182,82 +182,87 @@ async function syncInbox() {
         location.reload();
     }
 
-  /* ============================================================
-       5. البدء والتشغيل (Initialization) - نسخة مصححة
-       ============================================================ */
-    document.addEventListener('DOMContentLoaded', () => {
-        // تحديث النصوص والترجمة عند التحميل
-        refreshDynamicContent();
+ /* ============================================================
+   5. البدء والتشغيل (Initialization) - النسخة المحدثة (No Reload)
+   ============================================================ */
+document.addEventListener('DOMContentLoaded', () => {
+    // تحديث النصوص والترجمة عند التحميل الأولي
+    refreshDynamicContent();
 
-        // 1. ربط زر "جديد" (إصلاح مشكلة تحميل الصفحة)
-        const btnNew = document.getElementById('btn-new');
-        if (btnNew) {
-            btnNew.onclick = (e) => {
-                e.preventDefault(); // يمنع إعادة تحميل الصفحة
-                if (confirm(getLang() === 'ar' ? "هل تريد إنشاء بريد جديد؟" : "Create a new email?")) {
-                    localStorage.removeItem('tb_v3_session');
-                    // تصفير الواجهة فوراً لتحسين تجربة المستخدم
-                    document.getElementById('address').textContent = "...";
-                    document.getElementById('inbox').innerHTML = "";
-                    createNewAccount(); // إنشاء حساب جديد مباشرة
-                }
-            };
-        }
-
-        // 2. ربط زر الحذف
-        const btnDelete = document.getElementById('btn-delete');
-        if (btnDelete) btnDelete.onclick = deleteAccount;
-
-        // 3. ربط زر النسخ
-        const btnCopy = document.getElementById('btn-copy');
-        if (btnCopy) {
-            btnCopy.onclick = () => {
-                const addr = document.getElementById('address').textContent;
-                navigator.clipboard.writeText(addr);
-                alert(getLang() === 'ar' ? 'تم نسخ العنوان!' : 'Address Copied!');
-            };
-        }
-
-        // 4. ربط زر التحديث اليدوي
-        const btnRefresh = document.getElementById('btn-refresh');
-        if (btnRefresh) btnRefresh.onclick = () => syncInbox();
-
-        // 5. إدارة الجلسة (الاستمرارية)
-        const saved = localStorage.getItem('tb_v3_session');
-        if (saved) {
-            const data = JSON.parse(saved);
-            App.token = data.token;
-            App.address = data.address;
-            if(document.getElementById('address')) {
-                document.getElementById('address').textContent = App.address;
+    // 1. ربط زر "جديد"
+    const btnNew = document.getElementById('btn-new');
+    if (btnNew) {
+        btnNew.onclick = (e) => {
+            e.preventDefault();
+            if (confirm(getLang() === 'ar' ? "هل تريد إنشاء بريد جديد؟" : "Create a new email?")) {
+                localStorage.removeItem('tb_v3_session');
+                const addrEl = document.getElementById('address');
+                const inboxEl = document.getElementById('inbox');
+                if(addrEl) addrEl.textContent = "...";
+                if(inboxEl) inboxEl.innerHTML = "";
+                createNewAccount();
             }
-            syncInbox(); // جلب الرسائل فوراً
-            setInterval(syncInbox, 10000); // تحديث تلقائي كل 10 ثوانٍ
-        } else {
-            createNewAccount(); // إذا لم توجد جلسة، أنشئ حساباً فوراً
-        }
-
-        // 6. زر تبديل اللغة
-        const langToggle = document.getElementById('langToggle');
-        if (langToggle) {
-            langToggle.onclick = () => {
-                localStorage.setItem('lang', getLang() === 'ar' ? 'en' : 'ar');
-                location.reload(); // تغيير اللغة يتطلب إعادة تحميل لتحديث القوالب
-            };
-        }
-    });
-
-    // لا تنسَ التأكد من وجود هذه الدالة لعرض الأسئلة
-    function renderFAQ() {
-        const lang = getLang();
-        const faqContainer = document.getElementById('faq-list');
-        if (faqContainer && App.faq[lang]) {
-            faqContainer.innerHTML = App.faq[lang].map(item => `
-                <div class="faq-item" style="margin-bottom: 20px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 8px;">
-                    <h3 style="color: var(--accent); font-size: 1rem;">${item.q}</h3>
-                    <p style="color: #ccc; font-size: 0.9rem;">${item.a}</p>
-                </div>
-            `).join('');
-        }
+        };
     }
-})(); // إغلاق الدالة الأساسية للملف
+
+    // 2. ربط زر الحذف
+    const btnDelete = document.getElementById('btn-delete');
+    if (btnDelete) btnDelete.onclick = deleteAccount;
+
+    // 3. ربط زر النسخ
+    const btnCopy = document.getElementById('btn-copy');
+    if (btnCopy) {
+        btnCopy.onclick = () => {
+            const addr = document.getElementById('address').textContent;
+            navigator.clipboard.writeText(addr);
+            alert(getLang() === 'ar' ? 'تم نسخ العنوان!' : 'Address Copied!');
+        };
+    }
+
+    // 4. ربط زر التحديث اليدوي
+    const btnRefresh = document.getElementById('btn-refresh');
+    if (btnRefresh) btnRefresh.onclick = () => syncInbox();
+
+    // 5. إدارة الجلسة
+    const saved = localStorage.getItem('tb_v3_session');
+    if (saved) {
+        const data = JSON.parse(saved);
+        App.token = data.token;
+        App.address = data.address;
+        if(document.getElementById('address')) {
+            document.getElementById('address').textContent = App.address;
+        }
+        syncInbox();
+        setInterval(syncInbox, 10000);
+    } else {
+        createNewAccount();
+    }
+
+    /* ------------------------------------------------------------
+       تعديل زر اللغة: الحل النهائي لمشكلة المقالات والزر
+       ------------------------------------------------------------ */
+    const langToggle = document.getElementById('langToggle') || document.getElementById('lang-btn');
+    if (langToggle) {
+        langToggle.onclick = (e) => {
+            e.preventDefault();
+            // 1. تبديل اللغة في السجل
+            const newLang = getLang() === 'ar' ? 'en' : 'ar';
+            localStorage.setItem('lang', newLang);
+            
+            // 2. تحديث الخصائص البصرية فوراً
+            document.documentElement.lang = newLang;
+            document.documentElement.dir = newLang === 'ar' ? 'rtl' : 'ltr';
+
+            // 3. تحديث نصوص الواجهة والزر والـ SEO دون إعادة تحميل الصفحة
+            refreshDynamicContent(); 
+            
+            // 4. تحديث نص الزر نفسه (إصلاح طلبك)
+            langToggle.textContent = (newLang === 'ar') ? "English" : "العربية";
+
+            // 5. تحديث المقال الحالي (سيستدعي دالة التحديث في article_nav.js)
+            if (typeof updateArticleUI === 'function') {
+                updateArticleUI();
+            }
+        };
+    }
+}();
