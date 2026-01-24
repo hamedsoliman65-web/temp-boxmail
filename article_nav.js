@@ -823,3 +823,39 @@ function updateArticleUI() {
     document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
     document.documentElement.lang = lang;
 }
+// تأكد أن المؤشر معرف عالمياً
+if (typeof currentArticleIndex === 'undefined') {
+    var currentArticleIndex = 0; 
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. جلب العناصر مرة واحدة عند التحميل
+    const nBtn = document.getElementById('next-btn');
+    const pBtn = document.getElementById('prev-btn');
+    const contentDiv = document.getElementById('article-content');
+
+    // 2. مستمع حدث لزر "التالي"
+    if (nBtn) {
+        nBtn.addEventListener('click', () => {
+            if (currentArticleIndex < window.ALL_ARTICLES.length - 1) {
+                currentArticleIndex++;
+                updateArticleUI(); // هذه الدالة ستحدث المحتوى والعداد
+                if (contentDiv) window.scrollTo({ top: contentDiv.parentElement.offsetTop - 20, behavior: 'smooth' });
+            }
+        });
+    }
+
+    // 3. مستمع حدث لزر "السابق"
+    if (pBtn) {
+        pBtn.addEventListener('click', () => {
+            if (currentArticleIndex > 0) {
+                currentArticleIndex--;
+                updateArticleUI();
+                if (contentDiv) window.scrollTo({ top: contentDiv.parentElement.offsetTop - 20, behavior: 'smooth' });
+            }
+        });
+    }
+
+    // تشغيل الواجهة لأول مرة
+    updateArticleUI();
+});
