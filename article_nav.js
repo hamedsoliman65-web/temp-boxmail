@@ -777,63 +777,38 @@ function updateArticleUI() {
     const lang = localStorage.getItem('lang') === 'en' ? 'en' : 'ar';
     const contentDiv = document.getElementById('article-content');
     
-    // فحص وجود العناصر قبل التنفيذ لمنع أخطاء ReferenceError
+    // 1. جلب عناصر العداد والأزرار
+    const currentNumSpan = document.getElementById('current-article-num');
+    const totalNumSpan = document.getElementById('total-articles-num');
+    const nextBtn = document.getElementById('next-btn');
+    const prevBtn = document.getElementById('prev-btn');
+
     if (!contentDiv || !window.ALL_ARTICLES) return;
 
+    // 2. تحديث محتوى المقال
     const articleData = window.ALL_ARTICLES[currentArticleIndex];
     if (articleData) {
         contentDiv.innerHTML = articleData[lang];
-        
-        // تحسين الألوان والمظهر للوضع الداكن
         contentDiv.style.color = "#e0e0e0"; 
         contentDiv.querySelectorAll('h1, h2, h3').forEach(h => h.style.color = "#ffffff");
 
-        // ميزة الأرشفة: تحديث الرابط في المتصفح بصيغة متوافقة مع الـ Sitemap
+        // تحديث الرابط للأرشفة
         const articleSlug = `article-${currentArticleIndex + 1}`;
         history.pushState({index: currentArticleIndex}, "", `?p=${articleSlug}`);
     }
-    
-    // تحديث اتجاه الصفحة والنصوص
-    document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-    document.documentElement.lang = lang;
-    
-    // تحديث حالة الأزرار (إخفاء السابق في أول مقال والتالي في آخر مقال)
-    const nextBtn = document.getElementById('next-btn');
-    const prevBtn = document.getElementById('prev-btn');
+
+    // 3. تحديث العداد (الإصلاح هنا)
+    if (currentNumSpan) currentNumSpan.textContent = currentArticleIndex + 1;
+    if (totalNumSpan) totalNumSpan.textContent = window.ALL_ARTICLES.length;
+
+    // 4. ترجمة الأزرار فوراً (الإصلاح هنا)
+    if (nextBtn) nextBtn.textContent = (lang === 'en') ? "Next ›" : "التالي ›";
+    if (prevBtn) prevBtn.textContent = (lang === 'en') ? "‹ Previous" : "‹ السابق";
+
+    // 5. التحكم في الظهور
     if (prevBtn) prevBtn.style.visibility = (currentArticleIndex === 0) ? 'hidden' : 'visible';
     if (nextBtn) nextBtn.style.visibility = (currentArticleIndex === window.ALL_ARTICLES.length - 1) ? 'hidden' : 'visible';
+
+    document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+    document.documentElement.lang = lang;
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    // معالجة معلمات الرابط عند التحميل (Deep Linking)
-    const urlParams = new URLSearchParams(window.location.search);
-    const pParam = urlParams.get('p');
-    if (pParam && pParam.startsWith('article-')) {
-        const articleNum = parseInt(pParam.split('-')[1]);
-        if (!isNaN(articleNum) && articleNum > 0 && articleNum <= window.ALL_ARTICLES.length) {
-            currentArticleIndex = articleNum - 1;
-        }
-    }
-
-    const nBtn = document.getElementById('next-btn');
-    const pBtn = document.getElementById('prev-btn');
-    const contentDiv = document.getElementById('article-content');
-
-    if(nBtn) nBtn.addEventListener('click', () => {
-        if (currentArticleIndex < window.ALL_ARTICLES.length - 1) {
-            currentArticleIndex++;
-            updateArticleUI();
-            if (contentDiv) window.scrollTo({ top: contentDiv.parentElement.offsetTop - 20, behavior: 'smooth' });
-        }
-    });
-
-    if(pBtn) pBtn.addEventListener('click', () => {
-        if (currentArticleIndex > 0) {
-            currentArticleIndex--;
-            updateArticleUI();
-            if (contentDiv) window.scrollTo({ top: contentDiv.parentElement.offsetTop - 20, behavior: 'smooth' });
-        }
-    });
-
-    updateArticleUI();
-});
