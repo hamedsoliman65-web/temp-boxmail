@@ -262,7 +262,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // 5. تحديث المقال الحالي (سيستدعي دالة التحديث في article_nav.js)
             if (typeof updateArticleUI === 'function') {
                 updateArticleUI();
-            }
+        }
         };
     }
+}); // إغلاق DOMContentLoaded
 })();
