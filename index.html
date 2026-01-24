@@ -70,7 +70,10 @@
         #btn-refresh { background: var(--orange); }
         #btn-new { background: var(--success); }
         #btn-delete { background: var(--danger); }
-        .ghost-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; text-decoration: none; }
+.ghost-btn {
+    min-width: 100px;
+    transition: all 0.3s ease;
+}
         .main-grid { display: grid; grid-template-columns: 320px 1fr; gap: 20px; margin-top: 20px; }
         .panel { background: var(--card); border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); height: 550px; display: flex; flex-direction: column; overflow: hidden; }
         .panel h2 { padding: 15px; font-size: 16px; border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.2); }
@@ -82,8 +85,21 @@
         .article-container { background: var(--card); padding: 25px; border-radius: 12px; margin-top: 30px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; }
         .article-content img { max-width: 100% !important; height: auto !important; display: block; margin: 15px auto; border-radius: 10px; }
         
-        .article-nav { display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 25px; }
-        #articleCounter { color: var(--accent); font-weight: 800; }
+.article-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    margin-top: 30px;
+}       
+#articleCounter {
+    font-weight: bold;
+    color: var(--accent);
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+}
         #consent-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 9998; display: none; }
         #cookie-banner { position: fixed; top: 0; left: 0; width: 100%; background: #1a1a1a; padding: 20px; display: none; justify-content: space-between; align-items: center; z-index: 9999; border-bottom: 2px solid var(--accent); }
         
@@ -217,6 +233,7 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 </body>
 </html>
+
 
 
 
