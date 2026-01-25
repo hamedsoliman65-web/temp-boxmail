@@ -1,4 +1,20 @@
+# توجيهات لكافة محركات البحث
 User-agent: *
+
+# السماح بأرشفة الأقسام الرئيسية
 Allow: /
 Allow: /blog/
+Allow: /pages/
+
+# منع أرشفة ملفات النظام والسكربتات لزيادة الأمان وتركيز الزحف
+Disallow: /article_nav.js
+Disallow: /mail.js
+Disallow: /purify.min.js
+Disallow: /vercel.json
+
+# منع أرشفة روابط معينة قد تسبب تكرار (اختياري)
+Disallow: /*?lang=
+Disallow: /index.html
+
+# ربط خريطة الموقع رسمياً
 Sitemap: https://www.temp-boxmail.org/sitemap.xml
