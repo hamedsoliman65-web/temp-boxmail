@@ -7,7 +7,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://api.mail.tm https://www.googletagmanager.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://cdnjs.cloudflare.com https://www.google-analytics.com;"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://api.mail.tm https://www.googletagmanager.com https://pagead2.googlesyndication.com https://googleads.g.doubleclick.net https://cdnjs.cloudflare.com https://www.google-analytics.com; img-src 'self' data: https: http: blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; connect-src 'self' https://api.mail.tm https://www.google-analytics.com https://googleads.g.doubleclick.net https://pagead2.googlesyndication.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com; frame-src 'self' https://googleads.g.doubleclick.net https://www.googletagmanager.com https://tpc.googlesyndication.com; font-src 'self' https://fonts.gstatic.com;"
         },
         { "key": "X-Content-Type-Options", "value": "nosniff" },
         { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
@@ -17,6 +17,7 @@
   ],
   "rewrites": [
     { "source": "/ads.txt", "destination": "/ads.txt" },
+    { "source": "/og.webp", "destination": "/og.webp" },
     { "source": "/index", "destination": "/index.html" },
     { "source": "/blog", "destination": "/blog/index.html" }
   ]
