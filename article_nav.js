@@ -824,7 +824,13 @@ function updateArticleUI() {
     // تحديث محتوى المقال
     const articleData = window.ALL_ARTICLES[currentArticleIndex];
     if (articleData) {
-        contentDiv.innerHTML = articleData[lang];
+        // تم دمج الشرط وحذف التكرار لضمان الأمان والتوافق مع CSP
+        if (window.DOMPurify) {
+            contentDiv.innerHTML = DOMPurify.sanitize(articleData[lang]);
+        } else {
+            contentDiv.innerHTML = articleData[lang];
+        }
+
         contentDiv.style.color = "#e0e0e0"; 
         contentDiv.querySelectorAll('h1, h2, h3').forEach(h => h.style.color = "#ffffff");
 
@@ -845,7 +851,7 @@ function updateArticleUI() {
     if (prevBtn) prevBtn.style.visibility = (currentArticleIndex === 0) ? 'hidden' : 'visible';
     if (nextBtn) nextBtn.style.visibility = (currentArticleIndex === window.ALL_ARTICLES.length - 1) ? 'hidden' : 'visible';
 
-    // تحديث قسم FAQ (العنوان والمحتوى)
+    // تحديث قسم FAQ
     updateFAQTitle(lang);
     renderFAQ(lang);
 
