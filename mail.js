@@ -52,8 +52,7 @@
         const metaDesc = document.querySelector('meta[name="description"]');
         if (metaDesc) metaDesc.content = descriptions[lang];
     }
-
-    function refreshDynamicContent() {
+function refreshDynamicContent() {
         const lang = getLang();
         updateSEO(lang);
 
@@ -65,7 +64,8 @@
                 'btn-refresh': 'تحديث',
                 'btn-delete': 'حذف',
                 'msg-status': 'لا توجد رسائل بعد',
-                'select-msg-text': 'اختر رسالة لعرضها'
+                'select-msg-text': 'اختر رسالة لعرضها',
+                'site-desc': 'استقبل رسائل التفعيل و OTP فوراً' // إضافة الجملة المفقودة
             },
             en: {
                 'inbox-title': 'Inbox',
@@ -74,7 +74,8 @@
                 'btn-refresh': 'Refresh',
                 'btn-delete': 'Delete',
                 'msg-status': 'No messages yet',
-                'select-msg-text': 'Select a message to view'
+                'select-msg-text': 'Select a message to view',
+                'site-desc': 'Receive activation and OTP messages instantly' // إضافة الترجمة الإنجليزية
             }
         };
 
@@ -84,10 +85,8 @@
         });
 
         renderFAQ();
-        // استدعاء تحديث المقال إذا كانت الدالة موجودة
         if (typeof updateArticleUI === 'function') updateArticleUI();
     }
-
     /* ============================================================
        4. وظائف البريد الإلكتروني
        ============================================================ */
