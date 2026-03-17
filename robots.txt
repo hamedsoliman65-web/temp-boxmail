@@ -12,9 +12,5 @@ Allow: /pages/
 Disallow: /vercel.json
 Disallow: /package.json
 Disallow: /README.md
-
-# منع روابط الترجمة المتكررة لتجنب المحتوى المكرر
-Disallow: /*?lang=
-
 # ربط خريطة الموقع رسمياً
 Sitemap: https://www.temp-boxmail.org/sitemap.xml
