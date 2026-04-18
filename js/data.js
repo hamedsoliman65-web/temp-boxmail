@@ -1291,10 +1291,7 @@ window.ARTICLES = [
     ar: "الدليل الشامل لحماية البريد الإلكتروني في عصر الذكاء الاصطناعي والهجمات السيبرانية (2026)"
   },
 
-  cat: {
-    en: "Cybersecurity & Privacy",
-    ar: "الأمن السيبراني والخصوصية"
-  },
+  cat: { en: "Cybersecurity", ar: "الأمن السيبراني" },
 
   meta: {
     en: "Pillar Content 2026",
