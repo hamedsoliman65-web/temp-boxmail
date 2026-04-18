@@ -1563,194 +1563,246 @@ allow you to create temporary email addresses instantly.</p>
 `
   }
 },
-  {
+{
   id: 15,
 
+  img: "https://images.pexels.com/photos/5380642/pexels-photo-5380642.jpeg?auto=compress&cs=tinysrgb&w=1200",
+
   title: {
-    en: "Part 1: Digital Identity Core — How Your Email Becomes Your Entire Online Identity",
-    ar: "الجزء الأول: جوهر الهوية الرقمية — كيف يتحول بريدك الإلكتروني إلى هويتك الكاملة على الإنترنت"
+    en: "The Complete AI Cybercrime Intelligence Report: Email Identity & Digital Privacy 2026",
+    ar: "التقرير الشامل لجرائم الذكاء الاصطناعي: الهوية الرقمية وحماية البريد الإلكتروني 2026"
   },
 
-    cat: { en: "Cybersecurity", ar: "الأمن السيبراني" },
+  cat: {
+    en: "Cybersecurity & AI",
+    ar: "الأمن السيبراني والذكاء الاصطناعي"
+  },
 
+  meta: {
+    en: "Pillar Content 2026",
+    ar: "محتوى مرجعي 2026"
+  },
 
   content: {
 
     en: `
-<h1>Part 1: Digital Identity Core — How Your Email Becomes Your Entire Online Identity</h1>
 
-<p>Most people think of their email as a simple communication tool.</p>
+<!-- ================= PART 1 ================= -->
 
-<p>But in reality, your email is not just a mailbox — it is the <strong>central identity key</strong> that connects your entire digital existence.</p>
+<h2>PART 1 — Digital Identity Graph</h2>
 
-<p>Every account you create, every service you use, and every login you perform builds around one invisible structure:</p>
+<img src="https://images.pexels.com/photos/5474293/pexels-photo-5474293.jpeg?auto=compress&cs=tinysrgb&w=1200"
+alt="AI digital identity network">
 
-<p><strong>The Digital Identity Graph.</strong></p>
+<p>
+Your digital identity is no longer just an email or account. It is a full network of connected systems that define who you are online.
+</p>
 
-<hr>
-
-<h2>1. What is a Digital Identity Graph?</h2>
-
-<p>A Digital Identity Graph is a hidden data structure that companies and AI systems build around you.</p>
-
-<p>It connects:</p>
-
-<ul>
-<li>Your email addresses</li>
-<li>Your social media accounts</li>
-<li>Your device fingerprints</li>
-<li>Your browsing behavior</li>
-<li>Your purchase history</li>
-</ul>
-
-<p>Individually, these seem harmless.</p>
-
-<p>But when combined, they form a complete digital version of you.</p>
+<p>
+AI systems collect and merge data from emails, devices, and behavior patterns to create a complete identity graph.
+</p>
 
 <hr>
 
-<h2>2. Why Email is the Core Node</h2>
+<h2>PART 1 — الهوية الرقمية</h2>
 
-<p>Your email acts as the primary linking point in this graph.</p>
+<p>
+لم يعد البريد الإلكتروني مجرد وسيلة تواصل، بل أصبح يمثل الهوية الرقمية الكاملة للمستخدم.
+</p>
 
-<p>Why?</p>
-
-<ul>
-<li>It is used for login verification</li>
-<li>It is used for password recovery</li>
-<li>It is used across multiple platforms</li>
-</ul>
-
-<p>This means your email is often the <strong>first and strongest identifier</strong> of your identity online.</p>
-
-<p>Once it is exposed, everything connected to it becomes vulnerable.</p>
+<p>
+تقوم أنظمة الذكاء الاصطناعي بربط البيانات من مختلف المصادر لبناء خريطة كاملة لهويتك.
+</p>
 
 <hr>
 
-<h2>3. How AI Builds Your Digital Profile</h2>
+<!-- ================= PART 2 ================= -->
 
-<p>Modern AI systems don’t just store data — they analyze and interpret it.</p>
+<h2>PART 2 — AI Behavioral Profiling</h2>
 
-<p>They build behavioral models based on:</p>
+<img src="https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=1200"
+alt="AI behavioral analysis">
 
-<ul>
-<li>When you are active online</li>
-<li>What links you click</li>
-<li>What emails you open</li>
-<li>How fast you respond</li>
-</ul>
+<p>
+Artificial intelligence analyzes user behavior such as clicks, browsing time, and interaction patterns to predict future actions.
+</p>
 
-<p>Over time, this creates a predictive model of your behavior.</p>
-
-<p>This is often called:</p>
-
-<p><strong>Behavioral Fingerprinting</strong></p>
+<p>
+This creates a digital twin of every user online.
+</p>
 
 <hr>
 
-<h2>4. The Silent Expansion of Your Identity</h2>
+<h2>PART 2 — تحليل السلوك بالذكاء الاصطناعي</h2>
 
-<p>Every time you sign up for a new service, your identity graph expands.</p>
+<p>
+يقوم الذكاء الاصطناعي بتحليل سلوك المستخدم مثل التصفح والنقرات لبناء نموذج متوقع لسلوكه.
+</p>
 
-<p>Even if you forget about that service, your data does not disappear.</p>
-
-<p>It remains stored in:</p>
-
-<ul>
-<li>Databases</li>
-<li>Analytics systems</li>
-<li>Third-party marketing platforms</li>
-</ul>
-
-<p>This creates a long-term accumulation of digital exposure.</p>
+<p>
+هذا يؤدي إلى إنشاء نسخة رقمية لكل مستخدم.
+</p>
 
 <hr>
 
-<h2>5. The Real Risk Most People Ignore</h2>
+<!-- ================= PART 3 ================= -->
 
-<p>The danger is not one single breach.</p>
+<h2>PART 3 — Email as the Central Target</h2>
 
-<p>The real danger is:</p>
+<img src="https://images.pexels.com/photos/5380667/pexels-photo-5380667.jpeg?auto=compress&cs=tinysrgb&w=1200"
+alt="email cybersecurity">
 
-<p><strong>Aggregation over time.</strong></p>
+<p>
+Email is the core of digital identity because it controls login, recovery, and verification systems.
+</p>
 
-<p>Even if each platform is “safe”, the combination of all platforms creates a complete profile of your identity.</p>
+<p>
+If email is compromised, all connected accounts become vulnerable.
+</p>
 
-<p>This profile can be used for:</p>
+<hr>
+
+<h2>PART 3 — البريد الإلكتروني كهدف رئيسي</h2>
+
+<p>
+يعتبر البريد الإلكتروني المحور الأساسي لكل الحسابات الرقمية لأنه يتحكم في تسجيل الدخول والاستعادة.
+</p>
+
+<p>
+في حال اختراقه، تصبح جميع الحسابات المرتبطة معرضة للخطر.
+</p>
+
+<hr>
+
+<!-- ================= PART 4 ================= -->
+
+<h2>PART 4 — AI Cybercrime Engine</h2>
+
+<p>
+Cyber attacks now follow a fully automated AI pipeline:
+</p>
 
 <ul>
-<li>Targeted phishing</li>
-<li>Behavior prediction</li>
-<li>Identity reconstruction</li>
+<li>Data harvesting</li>
+<li>Identity mapping</li>
+<li>Behavior modeling</li>
+<li>Phishing generation</li>
+<li>Execution</li>
 </ul>
 
 <hr>
 
-<h2>6. How Attackers Think About Email</h2>
+<h2>PART 4 — محرك الجرائم السيبرانية</h2>
 
-<p>Hackers and AI systems do not see your email as communication.</p>
-
-<p>They see it as:</p>
-
-<p><strong>A universal access key.</strong></p>
-
-<p>With one email, they can attempt:</p>
-
-<ul>
-<li>Password resets</li>
-<li>Account takeovers</li>
-<li>Social engineering attacks</li>
-</ul>
-
-<p>This is why email is the primary target in most cyberattacks today.</p>
+<p>
+تعتمد الهجمات الحديثة على سلسلة عمليات آلية تشمل جمع البيانات وتحليلها وتنفيذ الهجمات بشكل ذكي.
+</p>
 
 <hr>
 
-<h2>7. Identity Exposure vs Identity Control</h2>
+<!-- ================= PART 5 ================= -->
 
-<p>There are two states of digital identity:</p>
+<h2>PART 5 — Hidden Data Economy</h2>
 
-<ul>
-<li><strong>Exposure:</strong> your data is spread across platforms</li>
-<li><strong>Control:</strong> your data is segmented and isolated</li>
-</ul>
+<img src="https://images.pexels.com/photos/5475750/pexels-photo-5475750.jpeg?auto=compress&cs=tinysrgb&w=1200"
+alt="dark data network">
 
-<p>Most users live in exposure mode without realizing it.</p>
-
-<p>The goal of modern privacy is to move toward control.</p>
+<p>
+User data is part of a global economy where emails and identities are collected and traded.
+</p>
 
 <hr>
 
-<h2>8. The First Principle of Digital Privacy</h2>
+<h2>PART 5 — اقتصاد البيانات الخفي</h2>
 
-<p>If there is one rule that defines modern cybersecurity, it is this:</p>
-
-<p><strong>Reduce identity linkage points.</strong></p>
-
-<p>The fewer connections your email has, the safer you are.</p>
+<p>
+تعتبر بيانات المستخدمين جزءاً من اقتصاد عالمي يتم فيه جمع وبيع المعلومات.
+</p>
 
 <hr>
 
-<h2>9. Why This Matters More in 2026</h2>
+<!-- ================= PART 6 ================= -->
 
-<p>With AI systems becoming more advanced, identity reconstruction is easier than ever.</p>
+<h2>PART 6 — Psychological Attacks</h2>
 
-<p>Even partial data is enough to rebuild a full user profile.</p>
-
-<p>This means:</p>
-
-<p><strong>You don’t need to be fully exposed to be vulnerable.</strong></p>
+<p>
+Modern cybercrime uses psychological manipulation like urgency, fear, and trust exploitation.
+</p>
 
 <hr>
 
-<h2>10. Transition to the Next Layer</h2>
+<h2>PART 6 — الهجمات النفسية</h2>
 
-<p>Now that we understand how digital identity is built, the next question is more important:</p>
+<p>
+تعتمد الهجمات الحديثة على التلاعب النفسي مثل الخوف والإلحاح لخداع المستخدمين.
+</p>
 
-<p><strong>How exactly is this identity exploited?</strong></p>
+<hr>
 
-<p>In Part 2, we will break down the AI Cybercrime Engine — step by step.</p>
+<!-- ================= PART 7 ================= -->
+
+<h2>PART 7 — Identity Isolation Strategy</h2>
+
+<p>
+Security today is based on reducing identity exposure and separating digital accounts.
+</p>
+
+<hr>
+
+<h2>PART 7 — استراتيجية العزل الرقمي</h2>
+
+<p>
+تعتمد الحماية الحديثة على تقليل الربط بين الحسابات الرقمية المختلفة.
+</p>
+
+<hr>
+
+<!-- ================= PART 8 ================= -->
+
+<h2>PART 8 — Temporary Email Layer</h2>
+
+<img src="https://images.pexels.com/photos/60504/security-protection-privacy-lock-60504.jpeg?auto=compress&cs=tinysrgb&w=1200"
+alt="privacy lock">
+
+<p>
+Temporary email services help reduce tracking and protect identity exposure.</p>
+
+<p>
+Example: https://temp-boxmail.org
+</p>
+
+<hr>
+
+<h2>PART 8 — البريد المؤقت</h2>
+
+<p>
+تساعد خدمات البريد المؤقت في تقليل التتبع وحماية الهوية الرقمية.
+</p>
+
+<hr>
+
+<!-- ================= FINAL ================= -->
+
+<h2>FINAL CONCLUSION</h2>
+
+<p>
+Your email is not just a tool — it is your identity key in the digital world.
+</p>
+
+<p>
+Protecting it is essential in the age of AI.
+</p>
+
+<hr>
+
+<h2>الخلاصة</h2>
+
+<p>
+البريد الإلكتروني لم يعد مجرد وسيلة تواصل بل هو مفتاح هويتك الرقمية.
+</p>
+
 `
+
   }
 }
 ];
