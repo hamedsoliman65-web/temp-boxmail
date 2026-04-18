@@ -1587,8 +1587,6 @@ allow you to create temporary email addresses instantly.</p>
 
     en: `
 
-<!-- ================= PART 1 ================= -->
-
 <h2>PART 1 — Digital Identity Graph</h2>
 
 <img src="https://images.pexels.com/photos/5474293/pexels-photo-5474293.jpeg?auto=compress&cs=tinysrgb&w=1200"
@@ -1616,8 +1614,6 @@ AI systems collect and merge data from emails, devices, and behavior patterns to
 
 <hr>
 
-<!-- ================= PART 2 ================= -->
-
 <h2>PART 2 — AI Behavioral Profiling</h2>
 
 <img src="https://images.pexels.com/photos/8386440/pexels-photo-8386440.jpeg?auto=compress&cs=tinysrgb&w=1200"
@@ -1644,9 +1640,6 @@ This creates a digital twin of every user online.
 </p>
 
 <hr>
-
-<!-- ================= PART 3 ================= -->
-
 <h2>PART 3 — Email as the Central Target</h2>
 
 <img src="https://images.pexels.com/photos/5380667/pexels-photo-5380667.jpeg?auto=compress&cs=tinysrgb&w=1200"
@@ -1673,9 +1666,6 @@ If email is compromised, all connected accounts become vulnerable.
 </p>
 
 <hr>
-
-<!-- ================= PART 4 ================= -->
-
 <h2>PART 4 — AI Cybercrime Engine</h2>
 
 <p>
@@ -1699,9 +1689,6 @@ Cyber attacks now follow a fully automated AI pipeline:
 </p>
 
 <hr>
-
-<!-- ================= PART 5 ================= -->
-
 <h2>PART 5 — Hidden Data Economy</h2>
 
 <img src="https://images.pexels.com/photos/5475750/pexels-photo-5475750.jpeg?auto=compress&cs=tinysrgb&w=1200"
@@ -1720,9 +1707,6 @@ User data is part of a global economy where emails and identities are collected 
 </p>
 
 <hr>
-
-<!-- ================= PART 6 ================= -->
-
 <h2>PART 6 — Psychological Attacks</h2>
 
 <p>
@@ -1738,9 +1722,6 @@ Modern cybercrime uses psychological manipulation like urgency, fear, and trust 
 </p>
 
 <hr>
-
-<!-- ================= PART 7 ================= -->
-
 <h2>PART 7 — Identity Isolation Strategy</h2>
 
 <p>
@@ -1756,9 +1737,6 @@ Security today is based on reducing identity exposure and separating digital acc
 </p>
 
 <hr>
-
-<!-- ================= PART 8 ================= -->
-
 <h2>PART 8 — Temporary Email Layer</h2>
 
 <img src="https://images.pexels.com/photos/60504/security-protection-privacy-lock-60504.jpeg?auto=compress&cs=tinysrgb&w=1200"
@@ -1780,9 +1758,6 @@ Example: https://temp-boxmail.org
 </p>
 
 <hr>
-
- <!-- ================= FINAL ================= -->
-
 <h2>FINAL CONCLUSION</h2>
 
 <p>
