@@ -1572,8 +1572,6 @@ allow you to create temporary email addresses instantly.</p>
     en: "Cybersecurity: The Digital Fortress of the Modern Era",
     ar: "الأمن السيبراني: الحصن الرقمي للعصر الحديث"
   },
-
-  cat: {
    cat: { en: "Cybersecurity", ar: "الأمن السيبراني" },
   },
 
