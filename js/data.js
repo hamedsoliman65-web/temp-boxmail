@@ -2726,6 +2726,9 @@ window.ARTICLES = [
 <p>Building digital awareness, reducing exposure, and using smarter protection tools such as temporary email services can dramatically reduce risks.</p>
 
 <p>The future belongs to digitally aware individuals who understand how to use technology safely and responsibly.</p>
+<p>
+<a href="https://temp-boxmail.org" target="_blank">Temp Box Mail</a>
+</p>
 `,
 
     ar: `
