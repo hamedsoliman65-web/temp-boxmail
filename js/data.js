@@ -1128,7 +1128,7 @@ window.ARTICLES = [
   },
   {
   "id": 13,
-  "img": "https://images.pexels.com/photos/5380673/pexels-photo-5380673.jpeg?auto=compress&cs=tinysrgb&w=800",
+  "img": "https://images.pexels.com/photos/8294677/pexels-photo-8294677.jpeg?auto=compress&cs=tinysrgb&w=800",
   "title": {
     "en": "AI in Education 2025: The Ultimate Guide to Smart Learning & Data Protection",
     "ar": "الذكاء الاصطناعي في التعليم 2025: الدليل الشامل للتعلم الذكي وحماية البيانات"
@@ -1566,7 +1566,7 @@ allow you to create temporary email addresses instantly.</p>
   {
   id: 15,
 
-  img: "https://images.pexels.com/photos/5380642/pexels-photo-5380642.jpeg?auto=compress&cs=tinysrgb&w=800",
+  img: "https://images.pexels.com/photos/5380673/pexels-photo-5380673.jpe?auto=compress&cs=tinysrgb&w=800",
 
   title: {
     en: "Cybersecurity: The Digital Fortress of the Modern Era",
