@@ -1566,7 +1566,7 @@ allow you to create temporary email addresses instantly.</p>
   {
   id: 15,
 
-  img: "https://images.pexels.com/photos/5380673/pexels-photo-5380673.jpe?auto=compress&cs=tinysrgb&w=800",
+  img: "https://images.pexels.com/photos/5380673/pexels-photo-5380673.jpeg?auto=compress&cs=tinysrgb&w=800",
 
   title: {
     en: "Cybersecurity: The Digital Fortress of the Modern Era",
