@@ -1574,8 +1574,7 @@ allow you to create temporary email addresses instantly.</p>
   },
 
   cat: {
-    en: "Cybersecurity",
-    ar: "الأمن السيبراني"
+   cat: { en: "Cybersecurity", ar: "الأمن السيبراني" },
   },
 
   meta: {
