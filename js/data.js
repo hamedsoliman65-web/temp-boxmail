@@ -1128,7 +1128,7 @@ window.ARTICLES = [
   },
   {
   "id": 13,
-  "img": "https://images.pexels.com/photos/4145190/pexels-photo-4145190.jpeg?auto=compress&cs=tinysrgb&w=800",
+  "img": "https://images.pexels.com/photos/5380673/pexels-photo-5380673.jpeg?auto=compress&cs=tinysrgb&w=800",
   "title": {
     "en": "AI in Education 2025: The Ultimate Guide to Smart Learning & Data Protection",
     "ar": "الذكاء الاصطناعي في التعليم 2025: الدليل الشامل للتعلم الذكي وحماية البيانات"
