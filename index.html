@@ -6,36 +6,6 @@
     <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4901985375072472" crossorigin="anonymous"></script>
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-10997329046"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'AW-10997329046');
-        gtag('consent','default',{'ad_storage':'denied','analytics_storage':'denied'});
-
-        function setConsent(status){
-            if(status==='granted'){
-                gtag('consent','update',{'ad_storage':'granted','analytics_storage':'granted'});
-                loadAnalytics();
-            } else {
-                gtag('consent','update',{'ad_storage':'denied','analytics_storage':'denied'});
-            }
-        }
-
-        function loadAnalytics() {
-            if (window.analyticsLoaded) return;
-            window.analyticsLoaded = true;
-            const s = document.createElement('script');
-            const url = "https://www.googletagmanager.com/gtag/js?id=G-NR4CFG9TFJ";
-            if (window.trustedTypes && window.trustedTypes.createPolicy) {
-                const scriptPolicy = window.trustedTypes.createPolicy('analytics-policy', { createScriptURL: (src) => src });
-                s.src = scriptPolicy.createScriptURL(url);
-            } else { s.src = url; }
-            s.async = true; 
-            document.head.appendChild(s);
-            s.onload = () => { gtag('js', new Date()); gtag('config', 'G-NR4CFG9TFJ'); };
-        }
-    </script>
 
     <title>Temp BoxMail - بريد مؤقت لإستقبال الرسائل و OTP | Temporary Email</title>
     <meta name="description" content="خدمة بريد مؤقت مجانية لاستقبال رسائل التفعيل وOTP دون تسجيل | Temporary free email service to receive verification codes and OTP.">
@@ -206,9 +176,11 @@
     </footer>
 </div>
 
-<script nonce="rAnd0m123" src="/purify.min.js"></script>
-<script nonce="rAnd0m123" src="/article_nav.js"></script>
-<script nonce="rAnd0m123" src="/mail.js"></script>
+<script src="/analytics.js" defer></script>
+<script src="/consent.js" defer></script>
+<script src="/mail.js" defer></script>
+<script src="/article_nav.js" defer></script>
+<script src="/purify.min.js" defer></script>
 
 <script nonce="rAnd0m123">
 document.addEventListener("DOMContentLoaded", function() {
