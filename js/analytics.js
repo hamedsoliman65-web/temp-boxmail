@@ -1,3 +1,9 @@
+<script async
+src="https://www.googletagmanager.com/gtag/js?id=AW-10997329046">
+</script>
+
+<script>
+
 window.dataLayer = window.dataLayer || [];
 
 function gtag() {
@@ -6,12 +12,16 @@ function gtag() {
 
 gtag('js', new Date());
 
-gtag('config', 'AW-10997329046');
-
+/* Consent الافتراضي */
 gtag('consent', 'default', {
   ad_storage: 'denied',
-  analytics_storage: 'denied'
+  analytics_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied'
 });
+
+/* Google Ads */
+gtag('config', 'AW-10997329046');
 
 window.setConsent = function(status) {
 
@@ -19,7 +29,9 @@ window.setConsent = function(status) {
 
     gtag('consent', 'update', {
       ad_storage: 'granted',
-      analytics_storage: 'granted'
+      analytics_storage: 'granted',
+      ad_user_data: 'granted',
+      ad_personalization: 'granted'
     });
 
     loadAnalytics();
@@ -28,7 +40,9 @@ window.setConsent = function(status) {
 
     gtag('consent', 'update', {
       ad_storage: 'denied',
-      analytics_storage: 'denied'
+      analytics_storage: 'denied',
+      ad_user_data: 'denied',
+      ad_personalization: 'denied'
     });
 
   }
@@ -41,22 +55,8 @@ function loadAnalytics() {
 
   window.analyticsLoaded = true;
 
-  const s = document.createElement('script');
-
-  s.src = 'https://www.googletagmanager.com/gtag/js?id=G-NR4CFG9TFJ';
-
-  s.async = true;
-
-  s.referrerPolicy = 'strict-origin-when-cross-origin';
-
-  document.head.appendChild(s);
-
-  s.onload = function () {
-
-    gtag('js', new Date());
-
-    gtag('config', 'G-NR4CFG9TFJ');
-
-  };
+  gtag('config', 'G-NR4CFG9TFJ');
 
 }
+
+</script>
