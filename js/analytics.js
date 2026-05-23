@@ -12,17 +12,27 @@ function gtag() {
 
 gtag('js', new Date());
 
-/* Consent الافتراضي */
+/* الوضع الافتراضي قبل موافقة المستخدم */
 gtag('consent', 'default', {
   ad_storage: 'denied',
   analytics_storage: 'denied',
   ad_user_data: 'denied',
-  ad_personalization: 'denied'
+  ad_personalization: 'denied',
+  wait_for_update: 500
 });
 
 /* Google Ads */
 gtag('config', 'AW-10997329046');
 
+/* Google Analytics */
+gtag('config', 'G-NR4CFG9TFJ', {
+  anonymize_ip: true
+});
+
+/* منع التحميل المتكرر */
+window.analyticsLoaded = false;
+
+/* تغيير حالة الموافقة */
 window.setConsent = function(status) {
 
   if (status === 'granted') {
@@ -34,7 +44,15 @@ window.setConsent = function(status) {
       ad_personalization: 'granted'
     });
 
-    loadAnalytics();
+    if (!window.analyticsLoaded) {
+
+      window.analyticsLoaded = true;
+
+      gtag('event', 'page_view', {
+        page_path: location.pathname
+      });
+
+    }
 
   } else {
 
@@ -48,15 +66,5 @@ window.setConsent = function(status) {
   }
 
 };
-
-function loadAnalytics() {
-
-  if (window.analyticsLoaded) return;
-
-  window.analyticsLoaded = true;
-
-  gtag('config', 'G-NR4CFG9TFJ');
-
-}
 
 </script>
