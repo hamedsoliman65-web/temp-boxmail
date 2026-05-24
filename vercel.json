@@ -25,6 +25,8 @@
     }
   ],
   "rewrites": [
+    { "source": "/analytics.js", "destination": "/js/analytics.js" },
+    { "source": "/consent.js", "destination": "/js/consent.js" },
     { "source": "/ads.txt", "destination": "/ads.txt" },
     { "source": "/og.webp", "destination": "/og.webp" },
     { "source": "/purify.min.js", "destination": "/purify.min.js" },
