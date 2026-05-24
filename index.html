@@ -184,7 +184,13 @@
 document.addEventListener("DOMContentLoaded", function() {
     const banner = document.getElementById("cookie-banner");
     const overlay = document.getElementById("consent-overlay");
-    if (localStorage.getItem("user-consent")) return;
+    
+    // التحقق إذا كان المستخدم قد اختار سابقاً لمنع ظهور الشريط مجدداً
+    if (localStorage.getItem("user-consent")) {
+        if (banner) banner.style.display = "none";
+        if (overlay) overlay.style.display = "none";
+        return;
+    }
 
     const translations = {
         'ar': { msg: 'نستخدم ملفات تعريف الارتباط لتحسين تجربتك. هل توافق؟', yes: 'أوافق', no: 'أرفض' },
@@ -192,19 +198,39 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     const lang = localStorage.getItem('lang') === 'en' ? 'en' : 'ar';
-    document.getElementById('cookie-message').textContent = translations[lang].msg;
-    document.getElementById('accept-btn').textContent = translations[lang].yes;
-    document.getElementById('reject-btn').textContent = translations[lang].no;
     
-    banner.style.display = "flex";
-    overlay.style.display = "block";
+    if(document.getElementById('cookie-message')) document.getElementById('cookie-message').textContent = translations[lang].msg;
+    if(document.getElementById('accept-btn')) document.getElementById('accept-btn').textContent = translations[lang].yes;
+    if(document.getElementById('reject-btn')) document.getElementById('reject-btn').textContent = translations[lang].no;
+    
+    if (banner) banner.style.display = "flex";
+    if (overlay) overlay.style.display = "block";
 
-    document.getElementById('accept-btn').onclick = () => { setConsent("granted"); closeB(); };
-    document.getElementById('reject-btn').onclick = () => { setConsent("denied"); closeB(); };
-    function closeB() { 
-        banner.style.display="none"; 
-        overlay.style.display="none"; 
-        localStorage.setItem("user-consent","true"); 
+    // تشغيل دالة القبول بربطها بـ window للتأكد من وصولها لكود جوجل المدمج
+    document.getElementById('accept-btn').onclick = () => { 
+        if (typeof window.setConsent === 'function') {
+            window.setConsent("granted"); 
+        } else {
+            console.log("تم قبول ملفات الارتباط");
+        }
+        closeB("granted"); 
+    };
+
+    // تشغيل دالة الرفض
+    document.getElementById('reject-btn').onclick = () => { 
+        if (typeof window.setConsent === 'function') {
+            window.setConsent("denied"); 
+        } else {
+            console.log("تم رفض ملفات الارتباط");
+        }
+        closeB("denied"); 
+    };
+
+    function closeB(status) { 
+        if (banner) banner.style.display = "none"; 
+        if (overlay) overlay.style.display = "none"; 
+        // حفظ خيار المستخدم الفعلي (granted أو denied) لمنع قفل الكود التلقائي
+        localStorage.setItem("user-consent", status); 
     }
 
     // ربط أزرار المقالات برمجياً لمنع أخطاء CSP
