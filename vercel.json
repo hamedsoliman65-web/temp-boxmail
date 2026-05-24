@@ -9,7 +9,7 @@
           "key": "Content-Security-Policy",
           "value": "default-src 'self' https: data: blob:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https: https://*.google.com https://*.googlesyndication.com https://www.googletagmanager.com https://www.google-analytics.com https://tpc.googlesyndication.com https://cdnjs.cloudflare.com https://googleads.g.doubleclick.net; script-src-elem 'self' 'unsafe-inline' 'unsafe-eval' https: https://*.google.com https://*.googlesyndication.com https://www.googletagmanager.com https://www.google-analytics.com https://tpc.googlesyndication.com https://cdnjs.cloudflare.com https://googleads.g.doubleclick.net; style-src 'self' 'unsafe-inline' https: https://fonts.googleapis.com; img-src 'self' data: blob: https:; font-src 'self' data: https: https://fonts.gstatic.com; connect-src 'self' https: wss:; frame-src 'self' https:; object-src 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;"
         },
-        {
+       {
           "key": "X-Content-Type-Options",
           "value": "nosniff"
         },
@@ -24,13 +24,14 @@
       ]
     }
   ],
- "rewrites": [
+  "rewrites": [
     { "source": "/ads.txt", "destination": "/ads.txt" },
     { "source": "/og.webp", "destination": "/og.webp" },
     { "source": "/purify.min.js", "destination": "/purify.min.js" },
     { "source": "/article_nav.js", "destination": "/article_nav.js" },
     { "source": "/mail.js", "destination": "/mail.js" },
     { "source": "/analytics.js", "destination": "/js/analytics.js" },
+    { "source": "/consent.js", "destination": "/js/consent.js" },
     { "source": "/index", "destination": "/index.html" },
     { "source": "/blog", "destination": "/blog/index.html" },
     { "source": "/favicon.ico", "destination": "/favicon.ico" }
