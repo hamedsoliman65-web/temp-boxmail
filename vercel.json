@@ -1,7 +1,6 @@
 {
   "version": 2,
   "cleanUrls": true,
-
   "headers": [
     {
       "source": "/(.*)",
@@ -25,7 +24,6 @@
       ]
     }
   ],
-
   "rewrites": [
     { "source": "/ads.txt", "destination": "/ads.txt" },
     { "source": "/og.webp", "destination": "/og.webp" },
