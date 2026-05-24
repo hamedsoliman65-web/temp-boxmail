@@ -24,14 +24,13 @@
       ]
     }
   ],
-  "rewrites": [
-    { "source": "/analytics.js", "destination": "/js/analytics.js" },
-    { "source": "/consent.js", "destination": "/js/consent.js" },
+ "rewrites": [
     { "source": "/ads.txt", "destination": "/ads.txt" },
     { "source": "/og.webp", "destination": "/og.webp" },
     { "source": "/purify.min.js", "destination": "/purify.min.js" },
     { "source": "/article_nav.js", "destination": "/article_nav.js" },
     { "source": "/mail.js", "destination": "/mail.js" },
+    { "source": "/analytics.js", "destination": "/js/analytics.js" },
     { "source": "/index", "destination": "/index.html" },
     { "source": "/blog", "destination": "/blog/index.html" },
     { "source": "/favicon.ico", "destination": "/favicon.ico" }
