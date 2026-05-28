@@ -58,8 +58,15 @@
   </div>
 </footer>
 
-<script src="../js/data.js"></script>
-<script src="../js/index.js"></script>
-<script src="../js/consent.js" defer></script>
+<script src="/js/data.js"></script>
+
+<script>
+  if (window.ARTICLES && !window.blogArticles) {
+    window.blogArticles = window.ARTICLES;
+  }
+</script>
+
+<script src="/js/index.js"></script>
+<script src="/js/consent.js" defer></script>
 </body>
 </html>
