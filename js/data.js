@@ -1,4 +1,4 @@
-window.ARTICLES = [
+window.blogArticles = [
   {
     id: 1,
     img: "https://images.pexels.com/photos/4262308/pexels-photo-4262308.jpeg?auto=compress&cs=tinysrgb&w=1200",
