@@ -66,10 +66,30 @@
 <script src="../js/data.js"></script>
 
 <script>
-  if (window.ARTICLES && window.ARTICLES.length > 0) {
-    window.blogArticles = window.ARTICLES.filter(art => art && art.title && art.title.ar && art.content);
-  } else if (window.blogArticles && window.blogArticles.length > 0) {
-    window.ARTICLES = window.blogArticles.filter(art => art && art.title && art.title.ar && art.content);
+  // 1. تحديد المصفوفة النشطة التي تحتوي على البيانات
+  let rawArticles = window.ARTICLES && window.ARTICLES.length > 0 ? window.ARTICLES : window.blogArticles;
+
+  if (rawArticles && rawArticles.length > 0) {
+    // 2. تنظيف المقالات والتأكد من بناء حقل excerpt ديناميكياً لتفادي خطأ index.js
+    const cleanArticles = rawArticles
+      .filter(art => art && art.title && art.title.ar && art.content)
+      .map(art => {
+        // إذا كان المقال لا يحتوي على مقتطف (excerpt)، نقوم بصناعته من المحتوى (content) تلقائياً
+        if (!art.excerpt) {
+          art.excerpt = {
+            en: art.content.en ? art.content.en.replace(/<[^>]*>/g, '').substring(0, 120) + '...' : '',
+            ar: art.content.ar ? art.content.ar.replace(/<[^>]*>/g, '').substring(0, 120) + '...' : ''
+          };
+        }
+        return art;
+      });
+
+    // 3. تمرير المقالات النظيفة والكاملة للمتغيرين المعتمدين في الموقع
+    window.ARTICLES = cleanArticles;
+    window.blogArticles = cleanArticles;
+  } else {
+    window.ARTICLES = [];
+    window.blogArticles = [];
   }
 </script>
 
