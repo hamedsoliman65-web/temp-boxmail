@@ -67,9 +67,9 @@
 
 <script>
   if (window.ARTICLES && window.ARTICLES.length > 0) {
-    window.blogArticles = window.ARTICLES;
+    window.blogArticles = window.ARTICLES.filter(art => art && art.title && art.title.ar && art.content);
   } else if (window.blogArticles && window.blogArticles.length > 0) {
-    window.ARTICLES = window.blogArticles;
+    window.ARTICLES = window.blogArticles.filter(art => art && art.title && art.title.ar && art.content);
   }
 </script>
 
