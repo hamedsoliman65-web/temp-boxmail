@@ -1,3 +1,4 @@
+window.blogArticles = window.ARTICLES;
 window.ARTICLES = [
   {
     id: 1,
