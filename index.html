@@ -172,10 +172,15 @@
 
     <article class="article-container" id="faq-section">
         <h2 id="faq-main-title" style="color: var(--accent); margin-bottom: 20px;">الأسئلة الشائعة (FAQ)</h2>
-        <div id="faq-list"></div>
+<div id="faq-list">
+    <details>
+        <summary>هل خدمة البريد المؤقت مجانية؟</summary>
+        <p>نعم، خدمة Temp BoxMail مجانية تماماً...</p>
+    </details>
+</div>
     </article>
 
-    <footer class="site-footer">
+  <footer class="site-footer">
         <div id="footer-text">جميع الحقوق محفوظة - © Temp-BoxMail</div>
         <div class="footer-links" style="margin-top: 15px;">
             <a href="pages/privacy.html" class="footer-link">الخصوصية</a>
@@ -183,9 +188,7 @@
             <a href="pages/contact.html" class="footer-link">تواصل معنا</a>
         </div>
     </footer>
-</div>
-
-<script src="/js/analytics.js"></script> 
+</div> <script src="/js/analytics.js"></script> 
 <script src="/mail.js" defer></script>
 <script src="/article_nav.js" defer></script>
 <script src="/purify.min.js" defer></script>
@@ -201,7 +204,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (banner) banner.style.display = "none";
         if (overlay) overlay.style.display = "none";
         
-        // [تعديل هام]: تفعيل التحليلات فوراً للمستخدم القديم إذا كان قد وافق سابقاً
+        // تفعيل التحليلات فوراً للميقات القديم إذا كان قد وافق سابقاً
         if (savedConsent === "granted" && typeof window.setConsent === "function") {
             window.setConsent("granted");
         }
@@ -222,7 +225,7 @@ document.addEventListener("DOMContentLoaded", function() {
     if (banner) banner.style.display = "flex";
     if (overlay) overlay.style.display = "block";
 
-    // تشغيل دالة القبول
+    // تشغيل دالة القبول بربطها بـ window
     const acceptBtn = document.getElementById('accept-btn');
     if (acceptBtn) {
         acceptBtn.onclick = () => { 
@@ -261,17 +264,3 @@ document.addEventListener("DOMContentLoaded", function() {
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
