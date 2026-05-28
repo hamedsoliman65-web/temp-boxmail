@@ -58,15 +58,18 @@
   </div>
 </footer>
 
-<script src="/js/data.js"></script>
+<script src="../js/data.js"></script>
 
 <script>
-  if (window.ARTICLES && !window.blogArticles) {
+  // فحص مزدوج للتأكد من نقل البيانات لأي مسمى يبحث عنه index.js
+  if (window.ARTICLES) {
     window.blogArticles = window.ARTICLES;
+  } else if (window.blogArticles) {
+    window.ARTICLES = window.blogArticles;
   }
 </script>
 
-<script src="/js/index.js"></script>
-<script src="/js/consent.js" defer></script>
+<script src="../js/index.js"></script>
+<script src="../js/consent.js" defer></script>
 </body>
 </html>
