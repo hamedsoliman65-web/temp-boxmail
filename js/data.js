@@ -1,7 +1,3 @@
-Object.defineProperty(window, 'blogArticles', {
-    get: function() { return window.ARTICLES; },
-    configurable: true
-});
 window.ARTICLES = [
   {
     id: 1,
