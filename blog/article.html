@@ -19,7 +19,7 @@
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4901985375072472" crossorigin="anonymous"></script>
 
-    <script src="/js/analytics.js"></script>
+    <script src="../js/analytics.js"></script>
 </head>
 <body>
 
@@ -67,8 +67,32 @@
   </div>
 </footer>
 
-<script src="/js/data.js"></script>
-<script src="/js/article.js"></script>
-<script src="/js/consent.js" defer></script>
+<script>
+  window.ARTICLES = window.ARTICLES || [];
+  window.blogArticles = window.blogArticles || [];
+</script>
+
+<script src="../js/data.js"></script>
+
+<script>
+  let rawArticles = window.ARTICLES && window.ARTICLES.length > 0 ? window.ARTICLES : window.blogArticles;
+
+  if (rawArticles && rawArticles.length > 0) {
+    const cleanArticles = rawArticles
+      .filter(art => art && art.title && art.title.ar && art.content)
+      .map(art => {
+        // تأمين حقول الصور لضمان عدم ظهور أي صورة مكسورة داخل المقال الفردي
+        if (art.img && !art.image) art.image = art.img;
+        if (art.image && !art.img) art.img = art.image;
+        return art;
+      });
+
+    window.ARTICLES = cleanArticles;
+    window.blogArticles = cleanArticles;
+  }
+</script>
+
+<script src="../js/article.js"></script>
+<script src="../js/consent.js" defer></script>
 </body>
 </html>
