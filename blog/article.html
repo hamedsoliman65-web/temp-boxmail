@@ -58,12 +58,12 @@
     </div>
   </div>
   
-  <div class="copy">© 2026 Temp Box Mail. All rights reserved.</div>
+  <div class="copy" id="footerCopy">© 2026 Temp Box Mail. All rights reserved.</div>
   
   <div class="copy-links" style="margin-top: 10px; font-size: 14px;">
-      <a href="../pages/privacy.html" class="footer-link">🔒 الخصوصية | privacy</a> • 
-      <a href="../pages/terms.html" class="footer-link">📄 الشروط والأحكام | Terms & Conditions</a> • 
-      <a href="../pages/contact.html" class="footer-link">📩 تواصل معنا | Contact</a>
+      <a href="../pages/privacy.html" class="footer-link" id="linkPrivacy">🔒 الخصوصية | privacy</a> • 
+      <a href="../pages/terms.html" class="footer-link" id="linkTerms">📄 الشروط والأحكام | Terms & Conditions</a> • 
+      <a href="../pages/contact.html" class="footer-link" id="linkContact">📩 تواصل معنا | Contact</a>
   </div>
 </footer>
 
@@ -79,9 +79,8 @@
 
   if (rawArticles && rawArticles.length > 0) {
     const cleanArticles = rawArticles
-      .filter(art => art && art.title && art.title.ar && art.content)
+      .filter(art => art && art.title && art.content)
       .map(art => {
-        // تأمين حقول الصور لضمان عدم ظهور أي صورة مكسورة داخل المقال الفردي
         if (art.img && !art.image) art.image = art.img;
         if (art.image && !art.img) art.img = art.image;
         return art;
@@ -90,6 +89,56 @@
     window.ARTICLES = cleanArticles;
     window.blogArticles = cleanArticles;
   }
+</script>
+
+<script>
+(() => {
+  const translations = {
+    ar: {
+      home: "الرئيسية", ai: "الذكاء الاصطناعي", cyber: "الأمن السيبراني", tech: "التكنولوجيا",
+      title: "مدونة Temp Box Mail",
+      desc: "مصدرك لأحدث الرؤى والمقالات حول الذكاء الاصطناعي، الأمن السيبراني، والتكنولوجيا.",
+      privacy: "🔒 الخصوصية", terms: "📄 الشروط والأحكام", contact: "📩 تواصل معنا"
+    },
+    en: {
+      home: "Home", ai: "AI", cyber: "Cybersecurity", tech: "Technology",
+      title: "Temp Box Mail Blog",
+      desc: "Your source for the latest insights on AI, cybersecurity, and technology.",
+      privacy: "🔒 Privacy", terms: "📄 Terms & Conditions", contact: "📩 Contact"
+    }
+  };
+
+  const currentLang = localStorage.getItem("lang") === "en" ? "en" : "ar";
+  document.documentElement.lang = currentLang;
+  document.documentElement.dir = currentLang === "ar" ? "rtl" : "ltr";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const t = translations[currentLang];
+    
+    // ترجمة أزرار الهيدر
+    document.querySelectorAll(".menu-link").forEach(link => {
+      const attr = link.getAttribute("data-text");
+      if(attr && t[attr]) link.textContent = t[attr];
+    });
+
+    // ترجمة عناصر الفوتر
+    if(document.getElementById("footerTitle")) document.getElementById("footerTitle").textContent = t.title;
+    if(document.getElementById("footerDesc")) document.getElementById("footerDesc").textContent = t.desc;
+    if(document.getElementById("linkPrivacy")) document.getElementById("linkPrivacy").textContent = t.privacy;
+    if(document.getElementById("linkTerms")) document.getElementById("linkTerms").textContent = t.terms;
+    if(document.getElementById("linkContact")) document.getElementById("linkContact").textContent = t.contact;
+
+    // تشغيل زر اللغة لتحديث الصفحة دون فقدان الـ ID الخاص بالمقال الحالي
+    const langBtn = document.getElementById("langBtn");
+    if (langBtn) {
+      langBtn.textContent = currentLang === "en" ? "AR" : "EN";
+      langBtn.onclick = () => {
+        localStorage.setItem("lang", currentLang === "en" ? "ar" : "en");
+        window.location.reload();
+      };
+    }
+  });
+})();
 </script>
 
 <script src="../js/article.js"></script>
