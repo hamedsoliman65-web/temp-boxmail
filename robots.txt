@@ -1,16 +1,17 @@
 # توجيهات لكافة محركات البحث
 User-agent: *
 
-# السماح بأرشفة كل شيء بشكل عام
-Allow: /
-
-# السماح بالوصول للمجلدات الهامة
-Allow: /blog/
-Allow: /pages/
-
-# منع ملفات الإعدادات والملفات التي لا يحتاج الزائر لرؤيتها
+# منع ملفات الإعدادات والمشروع الداخلية (أمنياً)
 Disallow: /vercel.json
 Disallow: /package.json
 Disallow: /README.md
-# ربط خريطة الموقع رسمياً
+Disallow: /node_modules/
+
+# السماح بأرشفة كافة المجلدات والصفحات العامة
+Allow: /
+Allow: /blog/
+Allow: /pages/
+Allow: /js/
+
+# ربط خريطة الموقع رسمياً بمحركات البحث
 Sitemap: https://www.temp-boxmail.org/sitemap.xml
