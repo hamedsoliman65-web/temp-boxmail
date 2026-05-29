@@ -115,20 +115,17 @@
   document.addEventListener("DOMContentLoaded", () => {
     const t = translations[currentLang];
     
-    // ترجمة أزرار الهيدر
     document.querySelectorAll(".menu-link").forEach(link => {
       const attr = link.getAttribute("data-text");
       if(attr && t[attr]) link.textContent = t[attr];
     });
 
-    // ترجمة عناصر الفوتر
     if(document.getElementById("footerTitle")) document.getElementById("footerTitle").textContent = t.title;
     if(document.getElementById("footerDesc")) document.getElementById("footerDesc").textContent = t.desc;
     if(document.getElementById("linkPrivacy")) document.getElementById("linkPrivacy").textContent = t.privacy;
     if(document.getElementById("linkTerms")) document.getElementById("linkTerms").textContent = t.terms;
     if(document.getElementById("linkContact")) document.getElementById("linkContact").textContent = t.contact;
 
-    // تشغيل زر اللغة لتحديث الصفحة دون فقدان الـ ID الخاص بالمقال الحالي
     const langBtn = document.getElementById("langBtn");
     if (langBtn) {
       langBtn.textContent = currentLang === "en" ? "AR" : "EN";
@@ -141,7 +138,7 @@
 })();
 </script>
 
-<script src="../js/article.js"></script>
+<script src="../js/article.js?v=1.2"></script>
 <script src="../js/consent.js" defer></script>
 </body>
 </html>
