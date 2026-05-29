@@ -1,3 +1,5 @@
+// ================= GOOGLE CONSENT MODE V2 & ANALYTICS =================
+
 // 1. تهيئة الـ dataLayer والدوال الأساسية فوراً لمنع أي تأخير
 window.dataLayer = window.dataLayer || [];
 function gtag() { dataLayer.push(arguments); }
@@ -11,6 +13,9 @@ gtag('consent', 'default', {
   'wait_for_update': 500
 });
 
+// إعداد توقيت البدء الأساسي للجافا سكريبت الخاصة بجوجل
+gtag('js', new Date());
+
 // 3. تعريف دالة الموافقة وجعلها متاحة فوراً في الـ window للأزرار في أسفل الموقع
 window.analyticsLoaded = false;
 window.setConsent = function(status) {
@@ -22,12 +27,12 @@ window.setConsent = function(status) {
       'ad_personalization': 'granted'
     });
 
+    // تحديث الإعدادات لتبدأ تجميع البيانات فوراً بعد موافقة المستخدم
     if (!window.analyticsLoaded) {
       window.analyticsLoaded = true;
-      // إرسال حدث مشاهدة الصفحة يدوياً بعد تفعيل الموافقة
-      gtag('event', 'page_view', {
-        page_path: location.pathname
-      });
+      // إعادة تهيئة الحسابات للتأكيد على تفعيل التتبع بعد تحديث الـ Consent
+      gtag('config', 'G-NR4CFG9TFJ', { 'anonymize_ip': true });
+      gtag('config', 'AW-10997329046');
     }
   } else {
     gtag('consent', 'update', {
@@ -39,15 +44,14 @@ window.setConsent = function(status) {
   }
 };
 
-// 4. إعداد التتبع الخاص بالحسابات
-gtag('js', new Date());
-gtag('config', 'AW-10997329046');
+// 4. إعداد التتبع الافتراضي للحسابات (يتم إرساله كـ Pings مشفرة بدون كوكيز حتى يوافق المستخدم)
 gtag('config', 'G-NR4CFG9TFJ', { 'anonymize_ip': true });
+gtag('config', 'AW-10997329046');
 
-// 5. تحميل سكريبت جوجل برمجياً لضمان أنه لن يشتغل إلا بعد ترتيب الأوامر السابقة بالكامل
+// 5. تحميل سكريبت جوجل برمجياً باستخدام معرف الإحصائيات الشامل (G-) لضمان عمل كافة الأدوات بالتوازي
 (function() {
   const script = document.createElement('script');
   script.async = true;
-  script.src = "https://www.googletagmanager.com/gtag/js?id=AW-10997329046";
+  script.src = "https://www.googletagmanager.com/gtag/js?id=G-NR4CFG9TFJ";
   document.head.appendChild(script);
 })();
