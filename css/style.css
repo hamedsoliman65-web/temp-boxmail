@@ -14,14 +14,15 @@
 
 *{
   box-sizing:border-box;
-  font-family:Inter,system-ui,Arial;
+  font-family:Inter,system-ui,Arial,sans-serif;
 }
 
-html{font-size:16px}
+html{font-size:16px; scroll-behavior: smooth;}
 body{
   margin:0;
   background:var(--bg);
   color:var(--text);
+  line-height: 1.5;
 }
 
 a{text-decoration:none;color:inherit}
@@ -48,7 +49,7 @@ header{
 .logo {
   display: flex;
   align-items: center;
-  gap: 8px; /* مسافة بين الصورة والنص */
+  gap: 8px;
   font-size: 18px;
   font-weight: bold;
 }
@@ -117,7 +118,7 @@ header{
 }
 
 /* =====================
-   ARTICLES
+   ARTICLES GRID
 ===================== */
 .container{
   max-width:1200px;
@@ -138,23 +139,33 @@ header{
 
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:20px;
+  grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+  gap:25px;
+  justify-items: center;
 }
 
-.card{
+/* إصلاح هيكل كرت المقال وضمان مرونة الطول والعرض بداخل الـ Grid */
+.card, .article-card {
   background:var(--card);
   border:1px solid var(--border);
   border-radius:14px;
   overflow:hidden;
   display:flex;
   flex-direction:column;
+  width: 100%;
+  max-width: 360px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.card img{
-  width:100%;
-  height:clamp(140px,30vw,180px);
-  object-fit:cover;
+.card:hover, .article-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+}
+
+.card img, .article-card img{
+  width:100% !important;
+  height: 180px !important;
+  object-fit:cover !important;
 }
 
 .card-body{
@@ -168,39 +179,32 @@ header{
   font-size:12px;
   color:#f97316;
   margin-bottom:6px;
+  font-weight: 600;
 }
 
-.card h3{
-  margin:0 0 8px;
-  font-size:clamp(15px,3vw,17px);
+.card h3, .article-card h3{
+  margin:0 0 8px 0;
+  font-size:1.15rem;
   line-height:1.4;
+  color: #fff;
 }
 
-.card p{
+.card p, .article-card p{
   color:var(--muted);
-  font-size:clamp(13px,2.8vw,14px);
+  font-size:14px;
   line-height:1.6;
   flex:1;
+  margin-bottom: 15px;
 }
 
 .meta{
-  margin-top:12px;
+  margin-top:auto;
   font-size:12px;
   color:var(--green);
 }
 
-/* ===== FIX SINGLE ARTICLE SIZE ===== */
-.grid {
-  justify-items: center;
-}
-
-.card {
-  width: 100%;
-  max-width: 360px;
-}
-
 /* =====================
-   ARTICLE CONTENT
+   ARTICLE CONTENT VIEW
 ===================== */
 .article-content{
   max-width:800px;
@@ -237,7 +241,7 @@ header{
 }
 
 /* =====================
-   FOOTER (التصميم الأساسي للكمبيوتر)
+   FOOTER (توسيط كامل وهندسي للكمبيوتر والموبايل)
 ===================== */
 footer {
   margin-top: 60px;
@@ -248,33 +252,59 @@ footer {
 .footer-inner {
   max-width: 1200px;
   margin: auto;
-  padding: 30px 16px;
-  display: grid;
-  /* على الكمبيوتر: العناصر بجانب بعضها طالما العرض يسمح بـ 220px */
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+  padding: 40px 16px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: flex-start;
+  flex-wrap: wrap;
   gap: 30px;
   text-align: center;
 }
 
+.footer-inner > div {
+  flex: 1;
+  min-width: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
 footer h4 {
-  margin: 0 0 10px;
-  font-size: 15px;
+  margin: 0 0 12px 0;
+  font-size: 16px;
+  color: #fff;
 }
 
 footer p,
 footer a {
   font-size: 13px;
   color: var(--muted);
-  /* نزيل الـ block هنا ليبقى التصميم عرضياً في الشاشات الكبيرة */
   text-decoration: none; 
+  margin: 0;
 }
 
 .copy {
   text-align: center;
   border-top: 1px solid var(--border);
-  padding: 14px;
+  padding: 18px;
   font-size: 12px;
   color: var(--muted);
+}
+
+.copy-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.footer-link {
+  display: inline-block;
+  font-size: 14px;
 }
 
 /* =====================
@@ -289,27 +319,20 @@ footer a {
   .cta { padding: 6px 12px; font-size: 13px; }
   .container { margin: 30px auto; }
 
-  /* الحل الجذري لمشكلة السطور المتداخلة في الموبايل */
   .footer-inner {
-    grid-template-columns: 1fr; /* تحويل الفوتر لعمود واحد فقط */
-    gap: 40px; /* مسافة كبيرة بين كل قسم (Section) والآخر */
+    flex-direction: column;
+    align-items: center;
+    gap: 35px;
   }
-
-  footer h4 {
-    font-size: 16px;
-    margin-bottom: 15px;
-  }
-
-  footer p, 
-  footer a {
-    display: block;  /* الآن نجعلها Block فقط في الموبايل لسهولة اللمس */
-    font-size: 14px;
-    margin-bottom: 12px;
-    padding: 5px 0; /* مساحة إضافية للضغط بالإصبع */
+  
+  .copy-links {
+    flex-direction: column;
+    gap: 12px;
   }
 }
+
 /* =====================
-   TABS (DESKTOP + MOBILE)
+   TABS & UTILITIES
 ===================== */
 .tab-btn{
   cursor:pointer;
@@ -324,12 +347,10 @@ footer a {
 .tab-content.active{
   display:block;
 }
+
 img {
-    max-width: 100%;
-    height: auto;
-    display: block;
-    margin: 0 auto; /* لتوسيط الصورة إذا كانت أصغر من العرض الكامل */
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
 }
-
-
-
