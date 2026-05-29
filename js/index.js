@@ -1,25 +1,25 @@
 document.addEventListener("DOMContentLoaded", () => {
   const articlesContainer = document.getElementById("articles");
   
-  // جلب اللغة الحالية (الافتراضية العربية)
+  // جلب اللغة الحالية المحددة في الموقع (الافتراضية العربية)
   const currentLang = localStorage.getItem("lang") === "en" ? "en" : "ar";
 
-  // حل مشكلة تسمية المصفوفة: التأكد من جلب المصفوفة الصحيحة من الـ window
+  // حل مشكلة مصفوفة المقالات والتأكد من تهيئتها بأي مسمى قادم من الداتا
   const blogArticles = window.ARTICLES || window.blogArticles || [];
 
   function renderArticles(categoryFilter = "all") {
     if (!articlesContainer) return;
-    articlesContainer.innerHTML = ""; // تصفية الحاوية أولاً
+    articlesContainer.innerHTML = ""; // تنظيف الحاوية لمنع التداخل
 
-    // تصفية المقالات بناءً على التصنيف المختار (يدعم نظام الـ Object في حقل cat أو السلسلة النصية العادية)
+    // تصفية المقالات برمجياً وحمايتها من الأخطاء
     const filtered = blogArticles.filter(art => {
       if (categoryFilter === "all") return true;
       
-      // إذا كان التصنيف كائن يحتوي على لغات (cat.en)
+      // التحقق إذا كان التصنيف كائن يحتوي على لغات مترجمة
       if (art.cat && typeof art.cat === 'object') {
         return art.cat.en.toLowerCase() === categoryFilter.toLowerCase();
       }
-      // إذا كان التصنيف نصاً عادياً (category)
+      
       const currentCategory = art.category || art.cat;
       return currentCategory && currentCategory.toLowerCase() === categoryFilter.toLowerCase();
     });
@@ -29,31 +29,32 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    // بناء الكروت ديناميكياً بناءً على مفاتيح ملف data.js الفعلي
+    // بناء كروت المقالات برمجياً بشكل صارم وآمن
     filtered.forEach(article => {
       const card = document.createElement("div");
-      card.className = "article-card card"; // إضافة الكلاسات المتوافقة مع الـ CSS
+      card.className = "card article-card"; 
 
-      // استخراج النصوص المترجمة بأمان لعدم ضرب الكود في حال غياب أحد الحقول
+      // استخراج العنوان بشكل آمن جداً لمنع الـ undefined
       const title = article.title ? (article.title[currentLang] || article.title.en || "") : "";
       
-      // جلب الوصف من حقل الـ seo.desc أو حقل excerpt المتوفر
+      // استخراج حقل الوصف أو الـ Excerpt المتوافق مع بيانات السيرفر والداتا لديك
       let description = "";
       if (article.seo && article.seo[currentLang] && article.seo[currentLang].desc) {
         description = article.seo[currentLang].desc;
       } else if (article.excerpt) {
-        description = article.excerpt[currentLang] || article.excerpt;
+        description = typeof article.excerpt === 'object' ? (article.excerpt[currentLang] || article.excerpt.en) : article.excerpt;
       }
 
-      // جلب اسم التصنيف الظاهري حسب لغة المتصفح الحالية
+      // جلب اسم القسم
       const categoryName = article.cat ? (article.cat[currentLang] || article.cat.en) : (article.category || "");
       
-      // جلب رابط الصورة الصحيح (الداتا تستخدم img)
+      // جلب رابط الصورة (الداتا تستخدم مفتاح img)
       const imageUrl = article.img || article.image || "https://images.unsplash.com/photo-1550751827-4bd374c3f58b";
       
-      // جلب الميتا أو التاريخ الحالي
+      // جلب التاريخ
       const metaDate = article.meta ? (article.meta[currentLang] || article.date || "") : (article.date || "");
 
+      // حقن البيانات داخل الكارت
       card.innerHTML = `
         <img src="${imageUrl}" alt="${title}" loading="lazy">
         <div class="card-body">
@@ -64,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       `;
 
-      // عند الضغط على الكارت يتم التوجيه لصفحة المقال الفردي داخل مجلد الـ blog
+      // إصلاح مسار المقال الفردي ليتجه مباشرة لصفحة المقال داخل مجلد الـ blog
       card.onclick = () => {
         window.location.href = `article.html?id=${article.id}`;
       };
@@ -72,18 +73,18 @@ document.addEventListener("DOMContentLoaded", () => {
       articlesContainer.appendChild(card);
     });
 
-    // 🚀 [حل مشكلة الإعلانات]: إعادة تشغيل وحدات أدسنس المضمنة ديناميكياً
+    // تحديث إعلانات أدسنس المضمنة ديناميكياً تلقائياً بعد الفلترة
     try {
       (window.adsbygoogle = window.adsbygoogle || []).push({});
     } catch (e) {
-      console.log("AdSense refresh triggered");
+      // تفادي إخراج خطأ إذا لم تكن الأكواد الخارجية محملة بالكامل بعد
     }
   }
 
-  // تشغيل العرض الأولي للمقالات فوراً
+  // الاستدعاء الأولي لعرض كافة المقالات فور فتح الصفحة
   renderArticles();
 
-  // ربط أزرار القائمة العلوية بالتصنيفات وفلترتها برمجياً
+  // فلترة المقالات التفاعلية من خلال أزرار القائمة العلوية Navigation
   const menuLinks = document.querySelectorAll(".menu-link");
   menuLinks.forEach(link => {
     link.addEventListener("click", (e) => {
@@ -99,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const category = link.getAttribute("data-category");
       renderArticles(category);
       
-      // إعادة التمرير لأعلى الصفحة بسلاسة ليظهر المحتوى الجديد بشكل مريح
+      // صعود ناعم لأعلى الصفحة لرؤية المحتوى الجديد المفلتر
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   });
