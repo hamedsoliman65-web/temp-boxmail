@@ -70,11 +70,16 @@
   let rawArticles = window.ARTICLES && window.ARTICLES.length > 0 ? window.ARTICLES : window.blogArticles;
 
   if (rawArticles && rawArticles.length > 0) {
-    // 2. تنظيف المقالات والتأكد من بناء حقل excerpt ديناميكياً لتفادي خطأ index.js
+    // 2. تنظيف المقالات والتأكد من بناء حقل excerpt وتوحيد مسارات الصور ديناميكياً
     const cleanArticles = rawArticles
       .filter(art => art && art.title && art.title.ar && art.content)
       .map(art => {
-        // إذا كان المقال لا يحتوي على مقتطف (excerpt)، نقوم بصناعته من المحتوى (content) تلقائياً
+        
+        // خَدعة الصُّوَر: تأمين حقل الصورة أياً كان المسمى الذي يبحث عنه ملف index.js
+        if (art.img && !art.image) art.image = art.img;
+        if (art.image && !art.img) art.img = art.image;
+
+        // إذا كان المقال لا يحتوي على مقتطف (excerpt)، نقوم بصناعته تلقائياً
         if (!art.excerpt) {
           art.excerpt = {
             en: art.content.en ? art.content.en.replace(/<[^>]*>/g, '').substring(0, 120) + '...' : '',
