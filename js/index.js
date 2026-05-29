@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // التوجيه النسبي الصحيح لفتح المقال داخل مجلد الـ blog نفسه
       card.onclick = () => {
-        window.location.href = `article.html?id=${article.id}`;
+window.location.href = `article.html?id=${article.id}`;
       };
 
       articlesContainer.appendChild(card);
