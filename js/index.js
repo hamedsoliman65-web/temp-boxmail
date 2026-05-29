@@ -54,10 +54,10 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
       `;
 
-      // التوجيه النسبي الصحيح لفتح المقال داخل مجلد الـ blog نفسه
-      card.onclick = () => {
-window.location.href = `article.html?id=${article.id}`;
-      };
+     // التوجيه الصريح والكامل لكسر أي تحويل خاطئ من السيرفر
+card.onclick = () => {
+  window.location.href = `/blog/article.html?id=${article.id}`;
+};
 
       articlesContainer.appendChild(card);
     });
