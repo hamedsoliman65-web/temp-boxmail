@@ -29,7 +29,7 @@
       <a href="#" class="menu-link" data-category="Cybersecurity" data-text="cyber">Cybersecurity</a>
       <a href="#" class="menu-link" data-category="Technology" data-text="tech">Technology</a>
     </nav>
-    <a href="../index.html" id="ctaBtn" class="cta">Get Temp Mail</a>
+    <a href="../index.html" id="ctaBtn" class="cta" data-text="cta">Get Temp Mail</a>
   </div>
 </header>
 
@@ -45,16 +45,16 @@
     </div>
     <div>
       <h4>Connect</h4>
-      <p id="footerConnect"> Email: support@temp-boxmail.org </p>
+      <p id="footerConnect">Email: support@temp-boxmail.org</p>
     </div>
   </div>
   
-  <div class="copy">© 2026 Temp Box Mail. All rights reserved.</div>
+  <div class="copy" id="footerCopy">© 2026 Temp Box Mail. All rights reserved.</div>
   
   <div class="copy-links" style="margin-top: 10px; font-size: 14px;">
-      <a href="../pages/privacy.html" class="footer-link">🔒 الخصوصية | privacy</a> • 
-      <a href="../pages/terms.html" class="footer-link">📄 الشروط والأحكام | Terms & Conditions</a> • 
-      <a href="../pages/contact.html" class="footer-link">📩 تواصل معنا | Contact</a>
+      <a href="../pages/privacy.html" class="footer-link" id="linkPrivacy">🔒 الخصوصية | privacy</a> • 
+      <a href="../pages/terms.html" class="footer-link" id="linkTerms">📄 الشروط والأحكام | Terms & Conditions</a> • 
+      <a href="../pages/contact.html" class="footer-link" id="linkContact">📩 تواصل معنا | Contact</a>
   </div>
 </footer>
 
@@ -66,39 +66,93 @@
 <script src="../js/data.js"></script>
 
 <script>
-  // 1. تحديد المصفوفة النشطة التي تحتوي على البيانات
-  let rawArticles = window.ARTICLES && window.ARTICLES.length > 0 ? window.ARTICLES : window.blogArticles;
-
-  if (rawArticles && rawArticles.length > 0) {
-    // 2. تنظيف المقالات والتأكد من بناء حقل excerpt وتوحيد مسارات الصور ديناميكياً
-    const cleanArticles = rawArticles
-      .filter(art => art && art.title && art.title.ar && art.content)
-      .map(art => {
-        
-        // خَدعة الصُّوَر: تأمين حقل الصورة أياً كان المسمى الذي يبحث عنه ملف index.js
-        if (art.img && !art.image) art.image = art.img;
-        if (art.image && !art.img) art.img = art.image;
-
-        // إذا كان المقال لا يحتوي على مقتطف (excerpt)، نقوم بصناعته تلقائياً
-        if (!art.excerpt) {
-          art.excerpt = {
-            en: art.content.en ? art.content.en.replace(/<[^>]*>/g, '').substring(0, 120) + '...' : '',
-            ar: art.content.ar ? art.content.ar.replace(/<[^>]*>/g, '').substring(0, 120) + '...' : ''
-          };
-        }
-        return art;
-      });
-
-    // 3. تمرير المقالات النظيفة والكاملة للمتغيرين المعتمدين في الموقع
-    window.ARTICLES = cleanArticles;
-    window.blogArticles = cleanArticles;
-  } else {
-    window.ARTICLES = [];
-    window.blogArticles = [];
+  if (window.ARTICLES && window.ARTICLES.length > 0) {
+    window.blogArticles = window.ARTICLES;
+  } else if (window.blogArticles && window.blogArticles.length > 0) {
+    window.ARTICLES = window.blogArticles;
   }
 </script>
 
+<script>
+(function() {
+  const translations = {
+    ar: {
+      home: "الرئيسية",
+      ai: "الذكاء الاصطناعي",
+      cyber: "الأمن السيبراني",
+      tech: "التكنولوجيا",
+      cta: "احصل على بريد مؤقت",
+      title: "مدونة Temp Box Mail",
+      desc: "مصدرك لأحدث الرؤى والمقالات حول الذكاء الاصطناعي، الأمن السيبراني، والتكنولوجيا.",
+      privacy: "🔒 الخصوصية",
+      terms: "📄 الشروط والأحكام",
+      contact: "📩 تواصل معنا"
+    },
+    en: {
+      home: "Home",
+      ai: "AI",
+      cyber: "Cybersecurity",
+      tech: "Technology",
+      cta: "Get Temp Mail",
+      title: "Temp Box Mail Blog",
+      desc: "Your source for the latest insights on AI, cybersecurity, and technology.",
+      privacy: "🔒 Privacy",
+      terms: "📄 Terms & Conditions",
+      contact: "📩 Contact"
+    }
+  };
+
+  const currentLang = localStorage.getItem("lang") === "en" ? "en" : "ar";
+  
+  // تحديث اتجاه الموقع العام هندسياً ورسمياً ليتوافق مع اللغة
+  document.documentElement.lang = currentLang;
+  document.documentElement.dir = currentLang === "ar" ? "rtl" : "ltr";
+
+  // ترجمة عناصر النوافذ فوراً قبل معالجة الكروت
+  document.addEventListener("DOMContentLoaded", () => {
+    const t = translations[currentLang];
+    
+    // ترجمة أزرار المنيو
+    document.querySelectorAll(".menu-link").forEach(link => {
+      const attr = link.getAttribute("data-text");
+      if(attr && t[attr]) link.textContent = t[attr];
+    });
+
+    // ترجمة العناصر الثابتة بالـ ID
+    const ctaBtn = document.getElementById("ctaBtn");
+    if(ctaBtn) ctaBtn.textContent = t.cta;
+
+    const footerTitle = document.getElementById("footerTitle");
+    if(footerTitle) footerTitle.textContent = t.title;
+
+    const footerDesc = document.getElementById("footerDesc");
+    if(footerDesc) footerDesc.textContent = t.desc;
+
+    const linkPrivacy = document.getElementById("linkPrivacy");
+    if(linkPrivacy) linkPrivacy.textContent = t.privacy;
+
+    const linkTerms = document.getElementById("linkTerms");
+    if(linkTerms) linkTerms.textContent = t.terms;
+
+    const linkContact = document.getElementById("linkContact");
+    if(linkContact) linkContact.textContent = t.contact;
+
+    // معالجة سلوك زر اللغة وتحديث المظهر
+    const langBtn = document.getElementById("langBtn");
+    if (langBtn) {
+      langBtn.textContent = currentLang === "en" ? "AR" : "EN";
+      langBtn.addEventListener("click", () => {
+        const nextLang = currentLang === "en" ? "ar" : "en";
+        localStorage.setItem("lang", nextLang);
+        window.location.reload();
+      });
+    }
+  });
+})();
+</script>
+
 <script src="../js/index.js"></script>
+
 <script src="../js/consent.js" defer></script>
 </body>
 </html>
