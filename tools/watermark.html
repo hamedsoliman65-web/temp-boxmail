@@ -283,9 +283,10 @@
         if(fileInput.files.length) handleUpload(fileInput.files[0]);
     };
 
-    // الدالة المطورة لرفع وتلقي الصور الثقيلة عالية الجودة بدون تعليق المتصفح
+    // الدالة المطورة والآمنة لرفع ومعالجة الصور
     async function handleUpload(file) {
-        if(!file.type.startswith("image/")) { 
+        // تصحيح السطر الحرج (استخدام startsWith بحروف صحيحة)
+        if(!file || !file.type || !file.type.startsWith("image/")) { 
             alert(currentLang === "ar" ? "برجاء رفع ملف صورة صحيح." : "Please upload a valid image file."); 
             return; 
         }
@@ -305,7 +306,7 @@
         formData.append("image", file);
 
         try {
-            // إرسال الصورة مع إلغاء قيود الكاش والمهلة لانتظار الـ AI المزدوج بثبات
+            // إرسال الطلب للسيرفر بثبات وبدون مهلة قصيرة
             const response = await fetch(BACKEND_URL, {
                 method: "POST",
                 body: formData,
@@ -317,7 +318,7 @@
                 throw new Error(`Server status: ${response.status} - Details: ${errText}`);
             }
 
-            // استقبال محتوى بايتات الصورة الصافية عالية الجودة
+            // استقبال البيانات الثنائية للصورة الصافية
             const imageBlob = await response.blob();
             
             processedBlobUrl = URL.createObjectURL(imageBlob);
@@ -326,16 +327,16 @@
             loadingZone.style.display = "none";
             resultZone.style.display = "block";
             
-            // تفعيل زر التحميل للصورة الناتجة
+            // تفعيل زر تحميل النتيجة بجودة ممتازة
             downloadBtn.onclick = () => {
                 const a = document.createElement("a");
                 a.href = processedBlobUrl;
-                a.download = "ai_cleared_high_res_" + file.name;
+                a.download = "ai_cleared_" + file.name;
                 a.click();
             };
 
         } catch (error) {
-            console.error("[CRITICAL FRONTEND ERROR] فشل استقبال الصورة التوليدية:", error);
+            console.error("[CRITICAL FRONTEND ERROR] فشل استقبال الصورة المعالجة:", error);
             alert(currentLang === "ar" ? "حدث خطأ أثناء معالجة الصورة، يرجى المحاولة لاحقاً." : "Error processing image, please try again.");
             resetPage();
         }
