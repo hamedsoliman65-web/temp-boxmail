@@ -279,33 +279,28 @@ const BACKEND_URL = "https://hamedabdelmoez-watermark-remover.hf.space/api/remov
         if(fileInput.files.length) handleUpload(fileInput.files[0]);
     };
 
-   async function handleUpload(file) {
-    // ... (نفس البداية)
+  async function handleUpload(file) {
     const formData = new FormData();
-    formData.append('image', file); 
+    formData.append('image', file);
+    
+    loadingZone.style.display = "block"; // أظهر شاشة التحميل
 
     try {
-        const response = await fetch(BACKEND_URL, {
+        const response = await fetch("URL_YOUR_HUGGING_FACE_SPACE/api/remove-watermark", {
             method: "POST",
             body: formData
         });
-
         const data = await response.json();
-        console.log("البيانات القادمة من السيرفر:", data); // <-- هذا السطر هو مفتاح الحل
 
-        // البحث عن الرابط في أي مكان داخل الـ JSON
-        const resultImageUrl = data.image?.url || data.url || data;
-
-        if (resultImageUrl) {
-            document.getElementById("resultPreview").src = resultImageUrl;
+        if (data.image) {
+            document.getElementById("resultPreview").src = data.image;
             loadingZone.style.display = "none";
             resultZone.style.display = "block";
         } else {
-            throw new Error("لم يتم العثور على رابط الصورة في الرد.");
+            alert("حدث خطأ أثناء المعالجة: " + data.error);
         }
     } catch (error) {
-        console.error("خطأ:", error);
-        alert("حدث خطأ تقني، راجع الـ Console لمعرفة السبب.");
+        alert("فشل الاتصال بالخادم، تأكد من تشغيل الـ Space.");
     }
 }
 
