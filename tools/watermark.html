@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.temp-boxmail.org/tools/watermark.html">
+    
+    <title id="pageTitle">إزالة العلامة المائية من الصور مجاناً بالذكاء الاصطناعي</title>   
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" href="/og.webp" type="image/webp">
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4901985375072472" crossorigin="anonymous"></script>
+
+    <style>
+        .tool-container {
+            max-width: 800px;
+            margin: 40px auto;
+            background: var(--card-bg, #1e293b);
+            border: 1px solid var(--border-color, #334155);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+        }
+        /* منطقة السحب والإفلات */
+        .drop-zone {
+            border: 2px dashed #00ffcc;
+            border-radius: 12px;
+            padding: 50px 20px;
+            cursor: pointer;
+            transition: background 0.3s, border-color 0.3s;
+            background: rgba(0, 255, 204, 0.02);
+        }
+        .drop-zone:hover, .drop-zone.drag-over {
+            background: rgba(0, 255, 204, 0.08);
+            border-color: #00a3ff;
+        }
+        .drop-zone-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+        }
+        .drop-zone-text {
+            font-size: 18px;
+            color: var(--text-color, #ffffff);
+            margin-bottom: 8px;
+        }
+        .drop-zone-hint {
+            font-size: 13px;
+            color: var(--muted-color, #94a3b8);
+        }
+        /* شاشة التحميل والانتظار */
+        .loading-zone {
+            display: none;
+            padding: 40px 20px;
+        }
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #334155;
+            border-top: 5px solid #00ffcc;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* شاشة المعاينة والتحميل */
+        .result-zone {
+            display: none;
+            padding: 20px 0;
+        }
+        .preview-box {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+        .preview-card {
+            background: #0d1117;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            max-width: 45%;
+            min-width: 260px;
+        }
+        .preview-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+            max-height: 300px;
+        }
+        .preview-card span {
+            display: block;
+            margin-top: 8px;
+            font-size: 14px;
+            color: #94a3b8;
+        }
+        .download-btn {
+            background: linear-gradient(135deg, #00ffcc, #00a3ff);
+            color: #0d1117;
+            border: none;
+            padding: 14px 40px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .download-btn:hover {
+            transform: scale(1.03);
+            opacity: 0.9;
+        }
+        .reset-btn {
+            background: transparent;
+            color: #94a3b8;
+            border: 1px solid #334155;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        .reset-btn:hover {
+            color: #ffffff;
+            border-color: #94a3b8;
+        }
+        .ad-container {
+            margin: 25px 0;
+            min-height: 90px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo" onclick="window.location.href='/'" style="cursor:pointer;">📧 Temp Box Mail</div>
+    <button id="langBtn" class="lang-btn">EN</button>
+    <nav class="menu">
+      <a href="/" class="menu-link">الرئيسية</a>
+      <a href="/blog/index.html" class="menu-link">المدونة</a>
+      <a href="/tools/index.html" class="menu-link active">الأدوات الذكية</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+    
+    <div class="tool-container">
+        <h2 id="toolHeading" style="margin-bottom: 10px; font-size: 24px;">✨ إزالة العلامة المائية بالذكاء الاصطناعي</h2>
+        <p id="toolSubheading" style="color: #94a3b8; font-size: 15px; margin-bottom: 30px;">ارفع صورتك الآن ليقوم النظام بحذف النصوص والشعارات المائية وترميم الخلفية مجاناً وبجودتها الأصلية.</p>
+
+        <div class="ad-container">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4901985375072472" data-ad-slot="YOUR_SLOT_ID_1" data-ad-format="horizontal" data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+
+        <div class="drop-zone" id="dropZone">
+            <input type="file" id="fileInput" accept="image/*" style="display: none;">
+            <div class="drop-zone-icon">📥</div>
+            <div class="drop-zone-text" id="dzText">اسحب وأسقط الصورة هنا أو اضغط للتصفح</div>
+            <div class="drop-zone-hint" id="dzHint">يدعم صيغ PNG, JPG, JPEG, WebP (بحد أقصى 10 ميجابايت)</div>
+        </div>
+
+        <div class="loading-zone" id="loadingZone">
+            <div class="spinner"></div>
+            <h3 id="loadingText" style="color: #00ffcc;">جاري معالجة الصورة وإزالة العلامة المائية...</h3>
+            <p style="color: #94a3b8; font-size: 14px; margin-top: 5px;">يرجى عدم إغلاق الصفحة، تستغرق العملية من 2 لـ 5 ثوانٍ فقط.</p>
+            
+            <div class="ad-container">
+                <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-4901985375072472" data-ad-slot="YOUR_SLOT_ID_2" data-ad-format="rectangle" data-full-width-responsive="true"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+            </div>
+        </div>
+
+        <div class="result-zone" id="resultZone">
+            <div class="preview-box">
+                <div class="preview-card">
+                    <img id="originalPreview" src="" alt="Original">
+                    <span id="lblOriginal">الصورة الأصلية</span>
+                </div>
+                <div class="preview-card" style="border-color: #00ffcc;">
+                    <img id="resultPreview" src="" alt="Result">
+                    <span id="lblResult" style="color: #00ffcc;">بدون علامة مائية ✨</span>
+                </div>
+            </div>
+            
+            <button class="download-btn" id="downloadBtn">
+                <span>📥 تحميل الصورة بجودة عالية</span>
+            </button>
+            <br>
+            <button class="reset-btn" id="resetBtn">تحويل صورة أخرى</button>
+        </div>
+    </div>
+
+</main>
+
+<footer>
+  <div class="copy">© 2026 Temp Box Mail. All rights reserved.</div>
+</footer>
+
+<script>
+(() => {
+  // عنوان سيرفر بايثون (Render) المستضيف للباكيند مجاناً
+  const BACKEND_URL = "https://your-python-server.onrender.com/remove-watermark"; 
+
+  const translations = {
+    ar: {
+      heading: "✨ إزالة العلامة المائية بالذكاء الاصطناعي",
+      subheading: "ارفع صورتك الآن ليقوم النظام بحذف النصوص والشعارات المائية وترميم الخلفية مجاناً وبجودتها الأصلية.",
+      dz_text: "اسحب وأسقط الصورة هنا أو اضغط للتصفح",
+      dz_hint: "يدعم صيغ PNG, JPG, JPEG, WebP (بحد أقصى 10 ميجابايت)",
+      loading: "جاري معالجة الصورة وإزالة العلامة المائية...",
+      lbl_orig: "الصورة الأصلية",
+      lbl_res: "بدون علامة مائية ✨",
+      btn_dl: "📥 تحميل الصورة بجودة عالية",
+      btn_again: "تحويل صورة أخرى"
+    },
+    en: {
+      heading: "✨ AI Watermark Remover",
+      subheading: "Upload your image now, and our system will remove watermarks and logos, restoring the background in original quality for free.",
+      dz_text: "Drag & drop your image here or click to browse",
+      dz_hint: "Supports PNG, JPG, JPEG, WebP (Max size: 10MB)",
+      loading: "Processing image and removing watermark...",
+      lbl_orig: "Original Image",
+      lbl_res: "Watermark Removed ✨",
+      btn_dl: "📥 Download High Quality",
+      btn_again: "Convert Another Image"
+    }
+  };
+
+  const currentLang = localStorage.getItem("lang") === "en" ? "en" : "ar";
+  document.documentElement.lang = currentLang;
+  document.documentElement.dir = currentLang === "ar" ? "rtl" : "ltr";
+
+  const dropZone = document.getElementById("dropZone");
+  const fileInput = document.getElementById("fileInput");
+  const loadingZone = document.getElementById("loadingZone");
+  const resultZone = document.getElementById("resultZone");
+  const downloadBtn = document.getElementById("downloadBtn");
+  let processedBlobUrl = null;
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const t = translations[currentLang];
+    document.getElementById("toolHeading").textContent = t.heading;
+    document.getElementById("toolSubheading").textContent = t.subheading;
+    document.getElementById("dzText").textContent = t.dz_text;
+    document.getElementById("dzHint").textContent = t.dz_hint;
+    document.getElementById("loadingText").textContent = t.loading;
+    document.getElementById("lblOriginal").textContent = t.lbl_orig;
+    document.getElementById("lblResult").textContent = t.lbl_res;
+    document.getElementById("downloadBtn").querySelector("span").textContent = t.btn_dl;
+    document.getElementById("resetBtn").textContent = t.btn_again;
+
+    const langBtn = document.getElementById("langBtn");
+    if(langBtn) {
+        langBtn.textContent = currentLang === "en" ? "AR" : "EN";
+        langBtn.onclick = () => {
+            localStorage.setItem("lang", currentLang === "en" ? "ar" : "en");
+            window.location.reload();
+        };
+    }
+  });
+
+  // إدارة عمليات السحب والإفلات والرفع
+  dropZone.onclick = () => fileInput.click();
+  
+  dropZone.ondragover = (e) => { e.preventDefault(); dropZone.classList.add("drag-over"); };
+  dropZone.ondragleave = () => dropZone.classList.remove("drag-over");
+  dropZone.ondrop = (e) => {
+    e.preventDefault();
+    dropZone.classList.remove("drag-over");
+    if(e.dataTransfer.files.length) handleUpload(e.dataTransfer.files[0]);
+  };
+  
+  fileInput.onchange = () => {
+    if(fileInput.files.length) handleUpload(fileInput.files[0]);
+  };
+
+  function handleUpload(file) {
+    if(!file.type.startsWith("image/")) { alert("Please upload a valid image file."); return; }
+    if(file.size > 10 * 1024 * 1024) { alert("File size exceeds 10MB limit."); return; }
+
+    // عرض شاشة الانتظار وإخفاء الرفع
+    dropZone.style.display = "none";
+    loadingZone.style.display = "block";
+    
+    // عرض المعاينة للصورة الأصلية فوراً
+    document.getElementById("originalPreview").src = URL.createObjectURL(file);
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    // إرسال الصورة خلف الكواليس لسيرفر بايثون
+    fetch(BACKEND_URL, { method: "POST", body: formData })
+    .then(res => { if(!res.ok) throw new Error(); return res.blob(); })
+    .then(blob => {
+        processedBlobUrl = URL.createObjectURL(blob);
+        document.getElementById("resultPreview").src = processedBlobUrl;
+        
+        loadingZone.style.display = "none";
+        resultZone.style.display = "block";
+        
+        // تفعيل زر التحميل
+        downloadBtn.onclick = () => {
+            const a = document.createElement("a");
+            a.href = processedBlobUrl;
+            a.download = "cleared_" + file.name;
+            a.click();
+        };
+    })
+    .catch(() => {
+        alert(currentLang === "ar" ? "حدث خطأ أثناء معالجة الصورة، يرجى المحاولة لاحقاً." : "Error processing image, please try again.");
+        resetPage();
+    });
+  }
+
+  document.getElementById("resetBtn").onclick = resetPage;
+
+  function resetPage() {
+    resultZone.style.display = "none";
+    loadingZone.style.display = "none";
+    dropZone.style.display = "block";
+    fileInput.value = "";
+    if(processedBlobUrl) URL.revokeObjectURL(processedBlobUrl);
+  }
+})();
+</script>
+</body>
+</html>

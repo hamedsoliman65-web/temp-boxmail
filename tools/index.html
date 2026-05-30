@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.temp-boxmail.org/tools/index.html">
+    
+    <title id="pageTitle">الأدوات الذكية المجانية - Temp Box Mail</title>   
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" href="/og.webp" type="image/webp">
+
+    <meta name="description" content="مجموعة أدوات مجانية لمعالجة الصور والمستندات بالذكاء الاصطناعي: تفريغ الخلفية، إزالة العلامة المائية، وتحويل ملفات PDF والـ Word بجودة عالية.">
+    <meta name="keywords" content="تفريغ الخلفية, إزالة العلامة المائية, تحويل pdf الى word, تكبير الصور بالذكاء الاصطناعي, أدوات ويب مجانية">
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4901985375072472" crossorigin="anonymous"></script>
+    <script src="../js/analytics.js"></script>
+
+    <style>
+        /* تنسيق شبكة كروت الأدوات لتتماشى تماماً مع ستايل المدونة والموقع الرئيسي */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 40px 0;
+        }
+        .tool-card {
+            background: var(--card-bg, #1e293b);
+            border: 1px solid var(--border-color, #334155);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .tool-card:hover {
+            transform: translateY(-5px);
+            border-color: #00ffcc;
+            box-shadow: 0 10px 20px rgba(0, 255, 204, 0.1);
+        }
+        .tool-icon {
+            font-size: 45px;
+            margin-bottom: 15px;
+        }
+        .tool-card h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+            color: var(--text-color, #ffffff);
+        }
+        .tool-card p {
+            font-size: 14px;
+            color: var(--muted-color, #94a3b8);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .tool-btn {
+            background: linear-gradient(135deg, #00ffcc, #00a3ff);
+            color: #0d1117;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            transition: opacity 0.2s;
+        }
+        .tool-card:hover .tool-btn {
+            opacity: 0.9;
+        }
+        .section-title {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 28px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: #00ffcc;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo" id="logo" onclick="window.location.href='/'" style="cursor:pointer;">📧 Temp Box Mail</div>
+    <button id="langBtn" class="lang-btn">EN</button>
+    <nav class="menu">
+      <a href="/" class="menu-link" data-text="nav_home">الرئيسية</a>
+      <a href="/blog/index.html" class="menu-link" data-text="nav_blog">المدونة</a>
+      <a href="/tools/index.html" class="menu-link active" data-text="nav_tools">الأدوات الذكية</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  
+  <h2 class="section-title" id="imgSectionTitle">🎨 أدوات معالجة وتعديل الصور</h2>
+  <div class="tools-grid">
+    
+    <div class="tool-card" onclick="window.location.href='watermark.html'">
+      <div>
+        <div class="tool-icon">✨</div>
+        <h3 data-text="tool_wm_title">إزالة العلامة المائية</h3>
+        <p data-text="tool_wm_desc">احذف الشعارات والنصوص المائية من صورك بدقة شديدة بالذكاء الاصطناعي وبدون تقليل الجودة الأصلية.</p>
+      </div>
+      <button class="tool-btn" data-text="btn_open">افتح الأداة</button>
+    </div>
+
+    <div class="tool-card" onclick="window.location.href='bg-remover.html'">
+      <div>
+        <div class="tool-icon">🎭</div>
+        <h3 data-text="tool_bg_title">تفريغ خلفية الصورة</h3>
+        <p data-text="tool_bg_desc">قص وتفريغ خلفيات الصور تلقائياً في ثانيتين واجعلها شفافة تماماً بأعلى جودة بكسل.</p>
+      </div>
+      <button class="tool-btn" data-text="btn_open">افتح الأداة</button>
+    </div>
+
+    <div class="tool-card" onclick="window.location.href='upscaler.html'">
+      <div>
+        <div class="tool-icon">🔍</div>
+        <h3 data-text="tool_up_title">تكبير وتحسين الصور</h3>
+        <p data-text="tool_up_desc">ضاعف أبعاد وجودة صورك الضعيفة أو المشوشة واجعل ملامحها حادة وممتازة عبر تقنية الـ Upscaling.</p>
+      </div>
+      <button class="tool-btn" data-text="btn_open">افتح الأداة</button>
+    </div>
+
+    <div class="tool-card" onclick="window.location.href='img-converter.html'">
+      <div>
+        <div class="tool-icon">🔄</div>
+        <h3 data-text="tool_conv_title">تحويل صيغ الصور</h3>
+        <p data-text="tool_conv_desc">حوّل صورك فوراً بين كافة الصيغ العالمية الشهيرة مثل PNG, JPG, WebP, AVIF مع التحكم في حجم وضغط الصورة.</p>
+      </div>
+      <button class="tool-btn" data-text="btn_open">افتح الأداة</button>
+    </div>
+
+  </div>
+
+  <h2 class="section-title" id="docSectionTitle">📄 أدوات إدارة وتحويل المستندات</h2>
+  <div class="tools-grid">
+
+    <div class="tool-card" onclick="window.location.href='word-to-pdf.html'">
+      <div>
+        <div class="tool-icon">📘</div>
+        <h3 data-text="tool_w2p_title">تحويل Word إلى PDF</h3>
+        <p data-text="tool_w2p_desc">حوّل ملفات المايكروسوفت وورد Docx إلى مستندات PDF منسقة ومحمية مع الحفاظ الصارم على الخطوط العربية.</p>
+      </div>
+      <button class="tool-btn" data-text="btn_open">افتح الأداة</button>
+    </div>
+
+    <div class="tool-card" onclick="window.location.href='excel-to-pdf.html'">
+      <div>
+        <div class="tool-icon">💚</div>
+        <h3 data-text="tool_e2p_title">تحويل Excel إلى PDF</h3>
+        <p data-text="tool_e2p_desc">قم بتحويل جداول وبيانات الإكسيل Xlsx إلى جداول PDF منسقة وجاهزة للطباعة والعرض فوراً.</p>
+      </div>
+      <button class="tool-btn" data-text="btn_open">افتح الأداة</button>
+    </div>
+
+    <div class="tool-card" onclick="window.location.href='pdf-to-img.html'">
+      <div>
+        <div class="tool-icon">🖼️</div>
+        <h3 data-text="tool_p2i_title">تحويل PDF إلى صور</h3>
+        <p data-text="tool_p2i_desc">استخرج كافة صفحات ملف الـ PDF وحوّلها إلى صور منفصلة بجودة عالية ووضوح فائق (PNG / JPG).</p>
+      </div>
+      <button class="tool-btn" data-text="btn_open">افتح الأداة</button>
+    </div>
+
+    <div class="tool-card" onclick="window.location.href='pdf-manage.html'">
+      <div>
+        <div class="tool-icon">🗂️</div>
+        <h3 data-text="tool_pdfm_title">دمج وتقسيم ملفات PDF</h3>
+        <p data-text="tool_pdfm_desc">اجمع عدة ملفات PDF في ملف واحد منظم، أو قم بفصل واستخراج صفحات معينة من مستنداتك بسهولة.</p>
+      </div>
+      <button class="tool-btn" data-text="btn_open">افتح الأداة</button>
+    </div>
+
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4 id="footerTitle">Temp Box Mail Tools</h4>
+      <p id="footerDesc">منصتك المتكاملة والمجانية تماماً لمعالجة الصور بالذكاء الاصطناعي وتحويل المستندات والملفات بلمحة بصر.</p>
+    </div>
+    <div>
+      <h4>Connect</h4>
+      <p id="footerConnect"> Email: support@temp-boxmail.org </p>
+    </div>
+  </div>
+  
+  <div class="copy" id="footerCopy">© 2026 Temp Box Mail. All rights reserved.</div>
+  
+  <div class="copy-links" style="margin-top: 10px; font-size: 14px;">
+      <a href="../pages/privacy.html" class="footer-link" id="linkPrivacy">🔒 الخصوصية | privacy</a> • 
+      <a href="../pages/terms.html" class="footer-link" id="linkTerms">📄 الشروط والأحكام | Terms & Conditions</a> • 
+      <a href="../pages/contact.html" class="footer-link" id="linkContact">📩 تواصل معنا | Contact</a>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const translations = {
+    ar: {
+      page_title: "الأدوات الذكية المجانية - Temp Box Mail",
+      nav_home: "الرئيسية", nav_blog: "المدونة", nav_tools: "الأدوات الذكية",
+      img_title: "🎨 أدوات معالجة وتعديل الصور",
+      doc_title: "📄 أدوات إدارة وتحويل المستندات",
+      btn_open: "افتح الأداة",
+      footer_title: "أدوات Temp Box Mail",
+      footer_desc: "منصتك المتكاملة والمجانية تماماً لمعالجة الصور بالذكاء الاصطناعي وتحويل المستندات والملفات بلمحة بصر.",
+      
+      tool_wm_title: "إزالة العلامة المائية",
+      tool_wm_desc: "احذف الشعارات والنصوص المائية من صورك بدقة شديدة بالذكاء الاصطناعي وبدون تقليل الجودة الأصلية.",
+      tool_bg_title: "تفريغ خلفية الصورة",
+      tool_bg_desc: "قص وتفريغ خلفيات الصور تلقائياً في ثانيتين واجعلها شفافة تماماً بأعلى جودة بكسل.",
+      tool_up_title: "تكبير وتحسين الصور",
+      tool_up_desc: "ضاعف أبعاد وجودة صورك الضعيفة أو المشوشة واجعل ملامحها حادة وممتازة عبر تقنية الـ Upscaling.",
+      tool_conv_title: "تحويل صيغ الصور",
+      tool_conv_desc: "حوّل صورك فوراً بين كافة الصيغ العالمية الشهيرة مثل PNG, JPG, WebP, AVIF مع التحكم في حجم وضغط الصورة.",
+      
+      tool_w2p_title: "تحويل Word إلى PDF",
+      tool_w2p_desc: "حوّل ملفات المايكروسوفت وورد Docx إلى مستندات PDF منسقة ومحمية مع الحفاظ الصارم على الخطوط العربية.",
+      tool_e2p_title: "تحويل Excel إلى PDF",
+      tool_e2p_desc: "قم بتحويل جداول وبيانات الإكسيل Xlsx إلى جداول PDF منسقة وجاهزة للطباعة والعرض فوراً.",
+      tool_p2i_title: "تحويل PDF إلى صور",
+      tool_p2i_desc: "استخرج كافة صفحات ملف الـ PDF وحوّلها إلى صور منفصلة بجودة عالية ووضوح فائق (PNG / JPG).",
+      tool_pdfm_title: "دمج وتقسيم ملفات PDF",
+      tool_pdfm_desc: "اجمع عدة ملفات PDF في ملف واحد منظم، أو قم بفصل واستخراج صفحات معينة من مستنداتك بسهولة."
+    },
+    en: {
+      page_title: "Free Smart Tools - Temp Box Mail",
+      nav_home: "Home", nav_blog: "Blog", nav_tools: "Smart Tools",
+      img_title: "🎨 Image Processing & AI Tools",
+      doc_title: "📄 Document Management & Converters",
+      btn_open: "Open Tool",
+      footer_title: "Temp Box Mail Tools",
+      footer_desc: "Your comprehensive and completely free platform for AI image processing and instant document conversion.",
+      
+      tool_wm_title: "Watermark Remover",
+      tool_wm_desc: "Remove logos and text watermarks from your images accurately using AI without losing original quality.",
+      tool_bg_title: "Background Remover",
+      tool_bg_desc: "Automatically cut and remove image backgrounds in two seconds, making them completely transparent with top-notch quality.",
+      tool_up_title: "AI Image Upscaler",
+      tool_up_desc: "Double the size and quality of your low-res or blurry photos, making details sharp using AI upscaling techniques.",
+      tool_conv_title: "Image Converter",
+      tool_conv_desc: "Instantly convert your images between global formats like PNG, JPG, WebP, AVIF with full size and compression control.",
+      
+      tool_w2p_title: "Word to PDF",
+      tool_w2p_desc: "Convert Microsoft Word Docx files into fully formatted, secure PDF documents with precise layouts.",
+      tool_e2p_title: "Excel to PDF",
+      tool_e2p_desc: "Convert your spreadsheets and Excel Xlsx data into perfectly aligned PDF files ready for printing and viewing.",
+      tool_p2i_title: "PDF to Images",
+      tool_p2i_desc: "Extract all pages from a PDF file and transform them into separate, ultra-clear high-quality images (PNG / JPG).",
+      tool_pdfm_title: "Merge & Split PDF",
+      tool_pdfm_desc: "Combine multiple PDF files into one structured document, or split and extract specific pages from your files effortlessly."
+    }
+  };
+
+  const currentLang = localStorage.getItem("lang") === "en" ? "en" : "ar";
+  document.documentElement.lang = currentLang;
+  document.documentElement.dir = currentLang === "ar" ? "rtl" : "ltr";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const t = translations[currentLang];
+    
+    document.getElementById("pageTitle").textContent = t.page_title;
+    document.getElementById("imgSectionTitle").textContent = t.img_title;
+    document.getElementById("docSectionTitle").textContent = t.doc_title;
+    document.getElementById("footerTitle").textContent = t.footer_title;
+    document.getElementById("footerDesc").textContent = t.footer_desc;
+
+    document.querySelectorAll("[data-text]").forEach(el => {
+      const attr = el.getAttribute("data-text");
+      if(attr && t[attr]) el.textContent = t[attr];
+    });
+
+    const langBtn = document.getElementById("langBtn");
+    if (langBtn) {
+      langBtn.textContent = currentLang === "en" ? "AR" : "EN";
+      langBtn.onclick = () => {
+        localStorage.setItem("lang", currentLang === "en" ? "ar" : "en");
+        window.location.reload();
+      };
+    }
+  });
+})();
+</script>
+
+<script src="../js/consent.js" defer></script>
+</body>
+</html>
