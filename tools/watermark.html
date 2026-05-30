@@ -207,129 +207,149 @@
 
 <script>
 (() => {
-  // عنوان سيرفر بايثون (Render) المستضيف للباكيند مجاناً
-// التعديل الصحيح للسطر 211
-const BACKEND_URL = "https://hamedabdelmoez-watermark-remover.hf.space/remove-watermark";
-    const translations = {
-    ar: {
-      heading: "✨ إزالة العلامة المائية بالذكاء الاصطناعي",
-      subheading: "ارفع صورتك الآن ليقوم النظام بحذف النصوص والشعارات المائية وترميم الخلفية مجاناً وبجودتها الأصلية.",
-      dz_text: "اسحب وأسقط الصورة هنا أو اضغط للتصفح",
-      dz_hint: "يدعم صيغ PNG, JPG, JPEG, WebP (بحد أقصى 10 ميجابايت)",
-      loading: "جاري معالجة الصورة وإزالة العلامة المائية...",
-      lbl_orig: "الصورة الأصلية",
-      lbl_res: "بدون علامة مائية ✨",
-      btn_dl: "📥 تحميل الصورة بجودة عالية",
-      btn_again: "تحويل صورة أخرى"
-    },
-    en: {
-      heading: "✨ AI Watermark Remover",
-      subheading: "Upload your image now, and our system will remove watermarks and logos, restoring the background in original quality for free.",
-      dz_text: "Drag & drop your image here or click to browse",
-      dz_hint: "Supports PNG, JPG, JPEG, WebP (Max size: 10MB)",
-      loading: "Processing image and removing watermark...",
-      lbl_orig: "Original Image",
-      lbl_res: "Watermark Removed ✨",
-      btn_dl: "📥 Download High Quality",
-      btn_again: "Convert Another Image"
-    }
-  };
-
-  const currentLang = localStorage.getItem("lang") === "en" ? "en" : "ar";
-  document.documentElement.lang = currentLang;
-  document.documentElement.dir = currentLang === "ar" ? "rtl" : "ltr";
-
-  const dropZone = document.getElementById("dropZone");
-  const fileInput = document.getElementById("fileInput");
-  const loadingZone = document.getElementById("loadingZone");
-  const resultZone = document.getElementById("resultZone");
-  const downloadBtn = document.getElementById("downloadBtn");
-  let processedBlobUrl = null;
-
-  document.addEventListener("DOMContentLoaded", () => {
-    const t = translations[currentLang];
-    document.getElementById("toolHeading").textContent = t.heading;
-    document.getElementById("toolSubheading").textContent = t.subheading;
-    document.getElementById("dzText").textContent = t.dz_text;
-    document.getElementById("dzHint").textContent = t.dz_hint;
-    document.getElementById("loadingText").textContent = t.loading;
-    document.getElementById("lblOriginal").textContent = t.lbl_orig;
-    document.getElementById("lblResult").textContent = t.lbl_res;
-    document.getElementById("downloadBtn").querySelector("span").textContent = t.btn_dl;
-    document.getElementById("resetBtn").textContent = t.btn_again;
-
-    const langBtn = document.getElementById("langBtn");
-    if(langBtn) {
-        langBtn.textContent = currentLang === "en" ? "AR" : "EN";
-        langBtn.onclick = () => {
-            localStorage.setItem("lang", currentLang === "en" ? "ar" : "en");
-            window.location.reload();
-        };
-    }
-  });
-
-  // إدارة عمليات السحب والإفلات والرفع
-  dropZone.onclick = () => fileInput.click();
-  
-  dropZone.ondragover = (e) => { e.preventDefault(); dropZone.classList.add("drag-over"); };
-  dropZone.ondragleave = () => dropZone.classList.remove("drag-over");
-  dropZone.ondrop = (e) => {
-    e.preventDefault();
-    dropZone.classList.remove("drag-over");
-    if(e.dataTransfer.files.length) handleUpload(e.dataTransfer.files[0]);
-  };
-  
-  fileInput.onchange = () => {
-    if(fileInput.files.length) handleUpload(fileInput.files[0]);
-  };
-
-  function handleUpload(file) {
-    if(!file.type.startsWith("image/")) { alert("Please upload a valid image file."); return; }
-    if(file.size > 10 * 1024 * 1024) { alert("File size exceeds 10MB limit."); return; }
-
-    // عرض شاشة الانتظار وإخفاء الرفع
-    dropZone.style.display = "none";
-    loadingZone.style.display = "block";
+    // عنوان سيرفر بايثون (Hugging Face) المستضيف للباكيند المزدوج
+    const BACKEND_URL = "https://hamedabdelmoez-watermark-remover.hf.space/remove-watermark";
     
-    // عرض المعاينة للصورة الأصلية فوراً
-    document.getElementById("originalPreview").src = URL.createObjectURL(file);
+    const translations = {
+        ar: {
+            heading: "✨ إزالة العلامة المائية بالذكاء الاصطناعي",
+            subheading: "ارفع صورتك الآن ليقوم النظام بحذف النصوص والشعارات المائية وترميم الخلفية مجاناً وبجودتها الأصلية.",
+            dz_text: "اسحب وأسقط الصورة هنا أو اضغط للتصفح",
+            dz_hint: "يدعم صيغ PNG, JPG, JPEG, WebP (بحد أقصى 10 ميجابايت)",
+            loading: "جاري معالجة الصورة وإزالة العلامة المائية وترقية الجودة...",
+            lbl_orig: "الصورة الأصلية",
+            lbl_res: "بدون علامة مائية ✨",
+            btn_dl: "📥 تحميل الصورة بجودة عالية",
+            btn_again: "تحويل صورة أخرى"
+        },
+        en: {
+            heading: "✨ AI Watermark Remover",
+            subheading: "Upload your image now, and our system will remove watermarks and logos, restoring the background in original quality for free.",
+            dz_text: "Drag & drop your image here or click to browse",
+            dz_hint: "Supports PNG, JPG, JPEG, WebP (Max size: 10MB)",
+            loading: "Processing image, removing watermark, and upscaling...",
+            lbl_orig: "Original Image",
+            lbl_res: "Watermark Removed ✨",
+            btn_dl: "📥 Download High Quality",
+            btn_again: "Convert Another Image"
+        }
+    };
 
-    const formData = new FormData();
-    formData.append("image", file);
+    const currentLang = localStorage.getItem("lang") === "en" ? "en" : "ar";
+    document.documentElement.lang = currentLang;
+    document.documentElement.dir = currentLang === "ar" ? "rtl" : "ltr";
 
-    // إرسال الصورة خلف الكواليس لسيرفر بايثون
-    fetch(BACKEND_URL, { method: "POST", body: formData })
-    .then(res => { if(!res.ok) throw new Error(); return res.blob(); })
-    .then(blob => {
-        processedBlobUrl = URL.createObjectURL(blob);
-        document.getElementById("resultPreview").src = processedBlobUrl;
-        
-        loadingZone.style.display = "none";
-        resultZone.style.display = "block";
-        
-        // تفعيل زر التحميل
-        downloadBtn.onclick = () => {
-            const a = document.createElement("a");
-            a.href = processedBlobUrl;
-            a.download = "cleared_" + file.name;
-            a.click();
-        };
-    })
-    .catch(() => {
-        alert(currentLang === "ar" ? "حدث خطأ أثناء معالجة الصورة، يرجى المحاولة لاحقاً." : "Error processing image, please try again.");
-        resetPage();
+    const dropZone = document.getElementById("dropZone");
+    const fileInput = document.getElementById("fileInput");
+    const loadingZone = document.getElementById("loadingZone");
+    const resultZone = document.getElementById("resultZone");
+    const downloadBtn = document.getElementById("downloadBtn");
+    let processedBlobUrl = null;
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const t = translations[currentLang];
+        document.getElementById("toolHeading").textContent = t.heading;
+        document.getElementById("toolSubheading").textContent = t.subheading;
+        document.getElementById("dzText").textContent = t.dz_text;
+        document.getElementById("dzHint").textContent = t.dz_hint;
+        document.getElementById("loadingText").textContent = t.loading;
+        document.getElementById("lblOriginal").textContent = t.lbl_orig;
+        document.getElementById("lblResult").textContent = t.lbl_res;
+        document.getElementById("downloadBtn").querySelector("span").textContent = t.btn_dl;
+        document.getElementById("resetBtn").textContent = t.btn_again;
+
+        const langBtn = document.getElementById("langBtn");
+        if(langBtn) {
+            langBtn.textContent = currentLang === "en" ? "AR" : "EN";
+            langBtn.onclick = () => {
+                localStorage.setItem("lang", currentLang === "en" ? "ar" : "en");
+                window.location.reload();
+            };
+        }
     });
-  }
 
-  document.getElementById("resetBtn").onclick = resetPage;
+    // إدارة عمليات السحب والإفلات والرفع
+    dropZone.onclick = () => fileInput.click();
+    
+    dropZone.ondragover = (e) => { e.preventDefault(); dropZone.classList.add("drag-over"); };
+    dropZone.ondragleave = () => dropZone.classList.remove("drag-over");
+    dropZone.ondrop = (e) => {
+        e.preventDefault();
+        dropZone.classList.remove("drag-over");
+        if(e.dataTransfer.files.length) handleUpload(e.dataTransfer.files[0]);
+    };
+    
+    fileInput.onchange = () => {
+        if(fileInput.files.length) handleUpload(fileInput.files[0]);
+    };
 
-  function resetPage() {
-    resultZone.style.display = "none";
-    loadingZone.style.display = "none";
-    dropZone.style.display = "block";
-    fileInput.value = "";
-    if(processedBlobUrl) URL.revokeObjectURL(processedBlobUrl);
-  }
+    // الدالة المطورة لرفع وتلقي الصور الثقيلة عالية الجودة بدون تعليق المتصفح
+    async function handleUpload(file) {
+        if(!file.type.startswith("image/")) { 
+            alert(currentLang === "ar" ? "برجاء رفع ملف صورة صحيح." : "Please upload a valid image file."); 
+            return; 
+        }
+        if(file.size > 10 * 1024 * 1024) { 
+            alert(currentLang === "ar" ? "حجم الصورة يتخطى الـ 10 ميجابايت المتوفرة." : "File size exceeds 10MB limit."); 
+            return; 
+        }
+
+        // عرض شاشة الانتظار وإخفاء الرفع
+        dropZone.style.display = "none";
+        loadingZone.style.display = "block";
+        
+        // عرض المعاينة للصورة الأصلية فوراً
+        document.getElementById("originalPreview").src = URL.createObjectURL(file);
+
+        const formData = new FormData();
+        formData.append("image", file);
+
+        try {
+            // إرسال الصورة مع إلغاء قيود الكاش والمهلة لانتظار الـ AI المزدوج بثبات
+            const response = await fetch(BACKEND_URL, {
+                method: "POST",
+                body: formData,
+                cache: "no-cache"
+            });
+
+            if (!response.ok) {
+                const errText = await response.text();
+                throw new Error(`Server status: ${response.status} - Details: ${errText}`);
+            }
+
+            // استقبال محتوى بايتات الصورة الصافية عالية الجودة
+            const imageBlob = await response.blob();
+            
+            processedBlobUrl = URL.createObjectURL(imageBlob);
+            document.getElementById("resultPreview").src = processedBlobUrl;
+            
+            loadingZone.style.display = "none";
+            resultZone.style.display = "block";
+            
+            // تفعيل زر التحميل للصورة الناتجة
+            downloadBtn.onclick = () => {
+                const a = document.createElement("a");
+                a.href = processedBlobUrl;
+                a.download = "ai_cleared_high_res_" + file.name;
+                a.click();
+            };
+
+        } catch (error) {
+            console.error("[CRITICAL FRONTEND ERROR] فشل استقبال الصورة التوليدية:", error);
+            alert(currentLang === "ar" ? "حدث خطأ أثناء معالجة الصورة، يرجى المحاولة لاحقاً." : "Error processing image, please try again.");
+            resetPage();
+        }
+    }
+
+    document.getElementById("resetBtn").onclick = resetPage;
+
+    function resetPage() {
+        resultZone.style.display = "none";
+        loadingZone.style.display = "none";
+        dropZone.style.display = "block";
+        fileInput.value = "";
+        if(processedBlobUrl) URL.revokeObjectURL(processedBlobUrl);
+    }
 })();
 </script>
 </body>
