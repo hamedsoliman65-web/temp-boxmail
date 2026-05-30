@@ -207,7 +207,7 @@
 
 <script>
 (() => {
-    // التعديل الأول: توجيه الرابط الصافي للمسار الرئيسي مباشرة لتخطي حظر الـ Proxy والـ 404
+    // توجيه الرابط الصافي للمسار الرئيسي مباشرة لتخطي حظر الـ Proxy والـ 404 نهائياً
     const BACKEND_URL = "https://hamedabdelmoez-watermark-remover.hf.space/";
     
     const translations = {
@@ -311,7 +311,7 @@
             loadingZone.style.display = "none";
             resultZone.style.display = "block";
 
-            // التعديل الثاني: تفعيل زر التحميل المباشر للصورة المعالجة بجودتها العالية
+            // تفعيل التحميل الفوري والمباشر بجودة عالية جداً
             downloadBtn.onclick = () => {
                 const a = document.createElement("a");
                 a.href = processedBlobUrl;
