@@ -207,16 +207,19 @@
 
 <script>
 (() => {
-    // عنوان سيرفر بايثون (Hugging Face) المستضيف للباكيند المزدوج
-    const BACKEND_URL = "https://hamedabdelmoez-watermark-remover.hf.space/remove-watermark";
+    // ⚠️ ضع هنا مفتاح الـ API الخاص بك الذي نسخته من منصة Fal.ai
+    const FAL_API_KEY = "ضع_مفتاح_الـ_API_الخاص_بـ_FAL_هنا";
     
+    // نموذج إزالة العلامات المائية السريع والمستقر من Fal.ai
+    const FAL_ENDPOINT = "https://queue.fal.run/fal-ai/flux/dev/image-to-image";
+
     const translations = {
         ar: {
             heading: "✨ إزالة العلامة المائية بالذكاء الاصطناعي",
             subheading: "ارفع صورتك الآن ليقوم النظام بحذف النصوص والشعارات المائية وترميم الخلفية مجاناً وبجودتها الأصلية.",
             dz_text: "اسحب وأسقط الصورة هنا أو اضغط للتصفح",
             dz_hint: "يدعم صيغ PNG, JPG, JPEG, WebP (بحد أقصى 10 ميجابايت)",
-            loading: "جاري معالجة الصورة وإزالة العلامة المائية وترقية الجودة...",
+            loading: "جاري معالجة الصورة وإزالة العلامة المائية بتردد فائق...",
             lbl_orig: "الصورة الأصلية",
             lbl_res: "بدون علامة مائية ✨",
             btn_dl: "📥 تحميل الصورة بجودة عالية",
@@ -227,7 +230,7 @@
             subheading: "Upload your image now, and our system will remove watermarks and logos, restoring the background in original quality for free.",
             dz_text: "Drag & drop your image here or click to browse",
             dz_hint: "Supports PNG, JPG, JPEG, WebP (Max size: 10MB)",
-            loading: "Processing image, removing watermark, and upscaling...",
+            loading: "Processing image and removing watermark instantly...",
             lbl_orig: "Original Image",
             lbl_res: "Watermark Removed ✨",
             btn_dl: "📥 Download High Quality",
@@ -268,9 +271,7 @@
         }
     });
 
-    // إدارة عمليات السحب والإفلات والرفع
     dropZone.onclick = () => fileInput.click();
-    
     dropZone.ondragover = (e) => { e.preventDefault(); dropZone.classList.add("drag-over"); };
     dropZone.ondragleave = () => dropZone.classList.remove("drag-over");
     dropZone.ondrop = (e) => {
@@ -278,48 +279,61 @@
         dropZone.classList.remove("drag-over");
         if(e.dataTransfer.files.length) handleUpload(e.dataTransfer.files[0]);
     };
-    
     fileInput.onchange = () => {
         if(fileInput.files.length) handleUpload(fileInput.files[0]);
     };
 
-    // الدالة المطورة والآمنة لرفع ومعالجة الصور
+    // تحويل الملف المحلي لقاعدة بيانات مؤقتة لإرسالها للـ API السحابي مباشرة
+    function fileToDataURL(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+    }
+
     async function handleUpload(file) {
-        // تصحيح السطر الحرج (استخدام startsWith بحروف صحيحة)
         if(!file || !file.type || !file.type.startsWith("image/")) { 
             alert(currentLang === "ar" ? "برجاء رفع ملف صورة صحيح." : "Please upload a valid image file."); 
             return; 
         }
-        if(file.size > 10 * 1024 * 1024) { 
-            alert(currentLang === "ar" ? "حجم الصورة يتخطى الـ 10 ميجابايت المتوفرة." : "File size exceeds 10MB limit."); 
-            return; 
-        }
 
-        // عرض شاشة الانتظار وإخفاء الرفع
         dropZone.style.display = "none";
         loadingZone.style.display = "block";
-        
-        // عرض المعاينة للصورة الأصلية فوراً
         document.getElementById("originalPreview").src = URL.createObjectURL(file);
 
-        const formData = new FormData();
-        formData.append("image", file);
-
         try {
-            // إرسال الطلب للسيرفر بثبات وبدون مهلة قصيرة
-            const response = await fetch(BACKEND_URL, {
+            const imageDataUrl = await fileToDataURL(file);
+
+            // استدعاء خوادم Fal.ai السريعة والمستقرة
+            const response = await fetch(FAL_ENDPOINT, {
                 method: "POST",
-                body: formData,
-                cache: "no-cache"
+                headers: {
+                    "Authorization": `Key ${FAL_API_KEY}`,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    image_url: imageDataUrl,
+                    prompt: "clean background, completely remove text, remove watermark, high resolution, perfect texture",
+                    strength: 0.15, // يحافظ على تفاصيل الصورة الأصلية ويخفي العلامة المائية فقط
+                    sync_mode: true
+                })
             });
 
             if (!response.ok) {
-                const errText = await response.text();
-                throw new Error(`Server status: ${response.status} - Details: ${errText}`);
+                const errData = await response.json().catch(() => ({}));
+                throw new Error(errData.detail || `Fal.ai Error: ${response.status}`);
             }
 
-            // استقبال البيانات الثنائية للصورة الصافية
-            const imageBlob = await response.blob();
+            const result = await response.json();
+            if (!result.image || !result.image.url) {
+                throw new Error("لم يتم إرجاع رابط الصورة الناتجة من السيرفر.");
+            }
+
+            // جلب بايتات الصورة النهائية الصافية لعرضها وتحميلها محلياً بجودة خرافية
+            const imageResponse = await fetch(result.image.url);
+            const imageBlob = await imageResponse.blob();
             
             processedBlobUrl = URL.createObjectURL(imageBlob);
             document.getElementById("resultPreview").src = processedBlobUrl;
@@ -327,17 +341,16 @@
             loadingZone.style.display = "none";
             resultZone.style.display = "block";
             
-            // تفعيل زر تحميل النتيجة بجودة ممتازة
             downloadBtn.onclick = () => {
                 const a = document.createElement("a");
                 a.href = processedBlobUrl;
-                a.download = "ai_cleared_" + file.name;
+                a.download = "fal_ai_cleared_" + file.name;
                 a.click();
             };
 
         } catch (error) {
-            console.error("[CRITICAL FRONTEND ERROR] فشل استقبال الصورة المعالجة:", error);
-            alert(currentLang === "ar" ? "حدث خطأ أثناء معالجة الصورة، يرجى المحاولة لاحقاً." : "Error processing image, please try again.");
+            console.error("[FAL.AI INTEGRATION ERROR]:", error);
+            alert(currentLang === "ar" ? "السيرفر ممتلئ حالياً أو انتهت المهلة، يرجى إعادة المحاولة." : "Server busy, please try again.");
             resetPage();
         }
     }
