@@ -207,11 +207,8 @@
 
 <script>
 (() => {
-    // ⚠️ ضع هنا مفتاح الـ API الخاص بك الذي نسخته من منصة Fal.ai
-    const FAL_API_KEY = "ضع_مفتاح_الـ_API_الخاص_بـ_FAL_هنا";
-    
-    // نموذج إزالة العلامات المائية السريع والمستقر من Fal.ai
-    const FAL_ENDPOINT = "https://queue.fal.run/fal-ai/flux/dev/image-to-image";
+    // رابط السيرفر الخاص بك على Hugging Face والذي سيتصل بـ Fal آلياً وبأمان
+    const BACKEND_URL = "https://hamedabdelmoez-watermark-remover.hf.space/remove-watermark";
 
     const translations = {
         ar: {
@@ -283,16 +280,6 @@
         if(fileInput.files.length) handleUpload(fileInput.files[0]);
     };
 
-    // تحويل الملف المحلي لقاعدة بيانات مؤقتة لإرسالها للـ API السحابي مباشرة
-    function fileToDataURL(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onloadend = () => resolve(reader.result);
-            reader.onerror = reject;
-            reader.readAsDataURL(file);
-        });
-    }
-
     async function handleUpload(file) {
         if(!file || !file.type || !file.type.startsWith("image/")) { 
             alert(currentLang === "ar" ? "برجاء رفع ملف صورة صحيح." : "Please upload a valid image file."); 
@@ -303,37 +290,21 @@
         loadingZone.style.display = "block";
         document.getElementById("originalPreview").src = URL.createObjectURL(file);
 
-        try {
-            const imageDataUrl = await fileToDataURL(file);
+        const formData = new FormData();
+        formData.append("image", file);
 
-            // استدعاء خوادم Fal.ai السريعة والمستقرة
-            const response = await fetch(FAL_ENDPOINT, {
+        try {
+            const response = await fetch(BACKEND_URL, {
                 method: "POST",
-                headers: {
-                    "Authorization": `Key ${FAL_API_KEY}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    image_url: imageDataUrl,
-                    prompt: "clean background, completely remove text, remove watermark, high resolution, perfect texture",
-                    strength: 0.15, // يحافظ على تفاصيل الصورة الأصلية ويخفي العلامة المائية فقط
-                    sync_mode: true
-                })
+                body: formData
             });
 
             if (!response.ok) {
-                const errData = await response.json().catch(() => ({}));
-                throw new Error(errData.detail || `Fal.ai Error: ${response.status}`);
+                const errText = await response.text();
+                throw new Error(`خطأ في خادم المعالجة: ${errText}`);
             }
 
-            const result = await response.json();
-            if (!result.image || !result.image.url) {
-                throw new Error("لم يتم إرجاع رابط الصورة الناتجة من السيرفر.");
-            }
-
-            // جلب بايتات الصورة النهائية الصافية لعرضها وتحميلها محلياً بجودة خرافية
-            const imageResponse = await fetch(result.image.url);
-            const imageBlob = await imageResponse.blob();
+            const imageBlob = await response.blob();
             
             processedBlobUrl = URL.createObjectURL(imageBlob);
             document.getElementById("resultPreview").src = processedBlobUrl;
@@ -344,13 +315,13 @@
             downloadBtn.onclick = () => {
                 const a = document.createElement("a");
                 a.href = processedBlobUrl;
-                a.download = "fal_ai_cleared_" + file.name;
+                a.download = "ai_cleared_" + file.name;
                 a.click();
             };
 
         } catch (error) {
-            console.error("[FAL.AI INTEGRATION ERROR]:", error);
-            alert(currentLang === "ar" ? "السيرفر ممتلئ حالياً أو انتهت المهلة، يرجى إعادة المحاولة." : "Server busy, please try again.");
+            console.error("[INTEGRATION ERROR]:", error);
+            alert(currentLang === "ar" ? "حدث خطأ أثناء الاتصال بسيرفر المعالجة الذكي، يرجى إعادة المحاولة." : "Processing error, please try again.");
             resetPage();
         }
     }
