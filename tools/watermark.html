@@ -208,8 +208,7 @@
 <script>
 (() => {
     // الرابط الموحد والمباشر للمسار الجديد
-    const BACKEND_URL = "https://hamedabdelmoez-watermark-remover.hf.space/api/remove-watermark";
-    
+const BACKEND_URL = "https://hamedabdelmoez-watermark-remover.hf.space/api/remove-watermark";    
     const translations = {
         ar: {
             heading: "✨ إزالة العلامة المائية بالذكاء الاصطناعي",
@@ -293,37 +292,38 @@
         const formData = new FormData();
         formData.append('image', file); 
 
-        try {
-            const response = await fetch(BACKEND_URL, {
-                method: "POST",
-                body: formData
-            });
+       try {
+    const response = await fetch(BACKEND_URL, {
+        method: "POST",
+        body: formData,
+        cache: "no-cache" // منع المتصفح من كاش الاستجابات الخطأ
+    });
 
-            if (!response.ok) {
-                throw new Error("حدث خطأ أثناء معالجة الصورة من الخادم.");
-            }
+    if (!response.ok) {
+        throw new Error("فشل المعالجة من الخادم.");
+    }
 
-            const imageBlob = await response.blob();
-            processedBlobUrl = URL.createObjectURL(imageBlob);
-            
-            document.getElementById("resultPreview").src = processedBlobUrl;
-            loadingZone.style.display = "none";
-            resultZone.style.display = "block";
+    const imageBlob = await response.blob();
+    processedBlobUrl = URL.createObjectURL(imageBlob);
+    
+    document.getElementById("resultPreview").src = processedBlobUrl;
+    loadingZone.style.display = "none";
+    resultZone.style.display = "block";
 
-            downloadBtn.onclick = () => {
-                const a = document.createElement("a");
-                a.href = processedBlobUrl;
-                a.download = `watermark_removed_${Date.now()}.png`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-            };
+    downloadBtn.onclick = () => {
+        const a = document.createElement("a");
+        a.href = processedBlobUrl;
+        a.download = `watermark_removed_${Date.now()}.png`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    };
 
-        } catch (error) {
-            console.error("Upload failed:", error);
-            alert(currentLang === "ar" ? "خوادم المعالجة تواجه ضغطاً مؤقتاً، يرجى المحاولة مرة أخرى لاحقاً." : "An error occurred during processing, please try again.");
-            resetPage();
-        }
+} catch (error) {
+    console.error("Upload failed:", error);
+    alert(currentLang === "ar" ? "خوادم المعالجة تواجه ضغطاً مؤقتاً، يرجى المحاولة مرة أخرى لاحقاً." : "An error occurred during processing, please try again.");
+    resetPage();
+}
     }
 
     document.getElementById("resetBtn").onclick = resetPage;
