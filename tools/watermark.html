@@ -207,15 +207,16 @@
 
 <script>
 (() => {
-    // رابط السيرفر الخاص بك على Hugging Face والذي سيتصل بـ Fal آلياً وبأمان
-const BACKEND_URL = "https://hamedabdelmoez-watermark-remover.hf.space/remove-watermark";
+    // التعديل الأول: توجيه الرابط الصافي للمسار الرئيسي مباشرة لتخطي حظر الـ Proxy والـ 404
+    const BACKEND_URL = "https://hamedabdelmoez-watermark-remover.hf.space/";
+    
     const translations = {
         ar: {
             heading: "✨ إزالة العلامة المائية بالذكاء الاصطناعي",
             subheading: "ارفع صورتك الآن ليقوم النظام بحذف النصوص والشعارات المائية وترميم الخلفية مجاناً وبجودتها الأصلية.",
             dz_text: "اسحب وأسقط الصورة هنا أو اضغط للتصفح",
             dz_hint: "يدعم صيغ PNG, JPG, JPEG, WebP (بحد أقصى 10 ميجابايت)",
-            loading: "جاري معالجة الصورة وإزالة العلامة المائية بتردد فائق...",
+            loading: "جاري معالجة الصورة وإزالة العلامة المائية...",
             lbl_orig: "الصورة الأصلية",
             lbl_res: "بدون علامة مائية ✨",
             btn_dl: "📥 تحميل الصورة بجودة عالية",
@@ -254,7 +255,7 @@ const BACKEND_URL = "https://hamedabdelmoez-watermark-remover.hf.space/remove-wa
         document.getElementById("loadingText").textContent = t.loading;
         document.getElementById("lblOriginal").textContent = t.lbl_orig;
         document.getElementById("lblResult").textContent = t.lbl_res;
-        document.getElementById("downloadBtn").querySelector("span").textContent = t.btn_dl;
+        downloadBtn.querySelector("span").textContent = t.btn_dl;
         document.getElementById("resetBtn").textContent = t.btn_again;
 
         const langBtn = document.getElementById("langBtn");
@@ -279,46 +280,53 @@ const BACKEND_URL = "https://hamedabdelmoez-watermark-remover.hf.space/remove-wa
         if(fileInput.files.length) handleUpload(fileInput.files[0]);
     };
 
-   async function handleUpload(file) {
-    // التعديل السحري هنا: تحويل startswith إلى startsWith الإلزامية
-    if(!file || !file.type || !file.type.startsWith("image/")) { 
-        alert(currentLang === "ar" ? "برجاء رفع ملف صورة صحيح." : "Please upload a valid image file."); 
-        return; 
+    async function handleUpload(file) {
+        if(!file || !file.type || !file.type.startsWith("image/")) { 
+            alert(currentLang === "ar" ? "برجاء رفع ملف صورة صحيح." : "Please upload a valid image file."); 
+            return; 
+        }
+
+        dropZone.style.display = "none";
+        loadingZone.style.display = "block";
+        document.getElementById("originalPreview").src = URL.createObjectURL(file);
+
+        const formData = new FormData();
+        formData.append('image', file); 
+
+        try {
+            const response = await fetch(BACKEND_URL, {
+                method: "POST",
+                body: formData
+            });
+
+            if (!response.ok) {
+                const errText = await response.text();
+                throw new Error(errText || "حدث خطأ أثناء معالجة الصورة.");
+            }
+
+            const imageBlob = await response.blob();
+            processedBlobUrl = URL.createObjectURL(imageBlob);
+            
+            document.getElementById("resultPreview").src = processedBlobUrl;
+            loadingZone.style.display = "none";
+            resultZone.style.display = "block";
+
+            // التعديل الثاني: تفعيل زر التحميل المباشر للصورة المعالجة بجودتها العالية
+            downloadBtn.onclick = () => {
+                const a = document.createElement("a");
+                a.href = processedBlobUrl;
+                a.download = `watermark_removed_${Date.now()}.png`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            };
+
+        } catch (error) {
+            console.error("Upload failed:", error);
+            alert(currentLang === "ar" ? "حدث خطأ أثناء المعالجة، يرجى المحاولة مرة أخرى." : "An error occurred during processing, please try again.");
+            resetPage();
+        }
     }
-
-    dropZone.style.display = "none";
-    loadingZone.style.display = "block";
-    document.getElementById("originalPreview").src = URL.createObjectURL(file);
-
-    const formData = new FormData();
-    formData.append('image', file); 
-
-   try {
-    const response = await fetch(BACKEND_URL, {
-        method: "POST",
-        body: formData
-    });
-
-    // إذا كان الرد غير سليم، نقرأ رسالة الخطأ النصية أولاً لمنع انهيار الكود
-    if (!response.ok) {
-        const errText = await response.text();
-        throw new Error(errText || "حدث خطأ أثناء معالجة الصورة.");
-    }
-
-    // إذا كان الرد سليماً، نستقبله كـ Blob ونعرض الصورة النظيفة
-    const imageBlob = await response.blob();
-    processedBlobUrl = URL.createObjectURL(imageBlob);
-    
-    document.getElementById("resultPreview").src = processedBlobUrl;
-    loadingZone.style.display = "none";
-    resultZone.style.display = "block";
-
-} catch (error) {
-    console.error("Upload failed:", error);
-    alert("حدث خطأ أثناء المعالجة، يرجى المحاولة مرة أخرى.");
-    resetPage();
-}
-}
 
     document.getElementById("resetBtn").onclick = resetPage;
 
@@ -327,7 +335,10 @@ const BACKEND_URL = "https://hamedabdelmoez-watermark-remover.hf.space/remove-wa
         loadingZone.style.display = "none";
         dropZone.style.display = "block";
         fileInput.value = "";
-        if(processedBlobUrl) URL.revokeObjectURL(processedBlobUrl);
+        if(processedBlobUrl) {
+            URL.revokeObjectURL(processedBlobUrl);
+            processedBlobUrl = null;
+        }
     }
 })();
 </script>
