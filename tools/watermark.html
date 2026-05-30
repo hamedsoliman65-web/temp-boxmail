@@ -279,52 +279,50 @@ const BACKEND_URL = "https://hamedabdelmoez-watermark-remover.hf.space/api/remov
         if(fileInput.files.length) handleUpload(fileInput.files[0]);
     };
 
-    async function handleUpload(file) {
-        if(!file || !file.type || !file.type.startsWith("image/")) { 
-            alert(currentLang === "ar" ? "برجاء رفع ملف صورة صحيح." : "Please upload a valid image file."); 
-            return; 
+   async function handleUpload(file) {
+    if(!file || !file.type || !file.type.startsWith("image/")) { 
+        alert(currentLang === "ar" ? "برجاء رفع ملف صورة صحيح." : "Please upload a valid image file."); 
+        return; 
+    }
+
+    dropZone.style.display = "none";
+    loadingZone.style.display = "block";
+    document.getElementById("originalPreview").src = URL.createObjectURL(file);
+
+    const formData = new FormData();
+    formData.append('image', file); 
+
+    try {
+        const response = await fetch(BACKEND_URL, {
+            method: "POST",
+            body: formData,
+            cache: "no-cache"
+        });
+
+        if (!response.ok) {
+            throw new Error("Server error");
         }
 
-        dropZone.style.display = "none";
-        loadingZone.style.display = "block";
-        document.getElementById("originalPreview").src = URL.createObjectURL(file);
+        // هنا التعديل المهم: استلام الـ JSON الذي يرسله السيرفر
+        const data = await response.json(); 
+        const resultImageUrl = data.url; // استلام الرابط
+        
+        // عرض النتيجة
+        document.getElementById("resultPreview").src = resultImageUrl;
+        loadingZone.style.display = "none";
+        resultZone.style.display = "block";
 
-        const formData = new FormData();
-        formData.append('image', file); 
+        // زر التحميل
+        downloadBtn.onclick = () => {
+            window.open(resultImageUrl, '_blank');
+        };
 
-       try {
-    const response = await fetch(BACKEND_URL, {
-        method: "POST",
-        body: formData,
-        cache: "no-cache" // منع المتصفح من كاش الاستجابات الخطأ
-    });
-
-    if (!response.ok) {
-        throw new Error("فشل المعالجة من الخادم.");
+    } catch (error) {
+        console.error("Upload failed:", error);
+        alert(currentLang === "ar" ? "حدث خطأ أثناء المعالجة، يرجى المحاولة لاحقاً." : "An error occurred, please try again.");
+        resetPage();
     }
-
-    const imageBlob = await response.blob();
-    processedBlobUrl = URL.createObjectURL(imageBlob);
-    
-    document.getElementById("resultPreview").src = processedBlobUrl;
-    loadingZone.style.display = "none";
-    resultZone.style.display = "block";
-
-    downloadBtn.onclick = () => {
-        const a = document.createElement("a");
-        a.href = processedBlobUrl;
-        a.download = `watermark_removed_${Date.now()}.png`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-    };
-
-} catch (error) {
-    console.error("Upload failed:", error);
-    alert(currentLang === "ar" ? "خوادم المعالجة تواجه ضغطاً مؤقتاً، يرجى المحاولة مرة أخرى لاحقاً." : "An error occurred during processing, please try again.");
-    resetPage();
 }
-    }
 
     document.getElementById("resetBtn").onclick = resetPage;
 
