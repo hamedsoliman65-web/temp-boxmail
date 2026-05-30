@@ -207,8 +207,8 @@
 
 <script>
 (() => {
-    // توجيه الرابط الصافي للمسار الرئيسي مباشرة لتخطي حظر الـ Proxy والـ 404 نهائياً
-    const BACKEND_URL = "https://hamedabdelmoez-watermark-remover.hf.space/";
+    // الرابط الموحد والمباشر للمسار الجديد
+    const BACKEND_URL = "https://hamedabdelmoez-watermark-remover.hf.space/api/remove-watermark";
     
     const translations = {
         ar: {
@@ -300,8 +300,7 @@
             });
 
             if (!response.ok) {
-                const errText = await response.text();
-                throw new Error(errText || "حدث خطأ أثناء معالجة الصورة.");
+                throw new Error("حدث خطأ أثناء معالجة الصورة من الخادم.");
             }
 
             const imageBlob = await response.blob();
@@ -311,7 +310,6 @@
             loadingZone.style.display = "none";
             resultZone.style.display = "block";
 
-            // تفعيل التحميل الفوري والمباشر بجودة عالية جداً
             downloadBtn.onclick = () => {
                 const a = document.createElement("a");
                 a.href = processedBlobUrl;
@@ -323,7 +321,7 @@
 
         } catch (error) {
             console.error("Upload failed:", error);
-            alert(currentLang === "ar" ? "حدث خطأ أثناء المعالجة، يرجى المحاولة مرة أخرى." : "An error occurred during processing, please try again.");
+            alert(currentLang === "ar" ? "خوادم المعالجة تواجه ضغطاً مؤقتاً، يرجى المحاولة مرة أخرى لاحقاً." : "An error occurred during processing, please try again.");
             resetPage();
         }
     }
