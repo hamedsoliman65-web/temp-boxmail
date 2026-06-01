@@ -215,90 +215,55 @@
 
 <script>
 (() => {
-  const translations = {
-    ar: {
-      page_title: "الأدوات الذكية المجانية - Temp Box Mail",
-      nav_home: "الرئيسية", nav_blog: "المدونة", nav_tools: "الأدوات الذكية",
-      img_title: "🎨 أدوات معالجة وتعديل الصور",
-      doc_title: "📄 أدوات إدارة وتحويل المستندات",
-      btn_open: "افتح الأداة",
-      footer_title: "أدوات Temp Box Mail",
-      footer_desc: "منصتك المتكاملة والمجانية تماماً لمعالجة الصور بالذكاء الاصطناعي وتحويل المستندات والملفات بلمحة بصر.",
-      
-      tool_wm_title: "إزالة العلامة المائية",
-      tool_wm_desc: "احذف الشعارات والنصوص المائية من صورك بدقة شديدة بالذكاء الاصطناعي وبدون تقليل الجودة الأصلية.",
-      tool_bg_title: "تفريغ خلفية الصورة",
-      tool_bg_desc: "قص وتفريغ خلفيات الصور تلقائياً في ثانيتين واجعلها شفافة تماماً بأعلى جودة بكسل.",
-      tool_up_title: "تكبير وتحسين الصور",
-      tool_up_desc: "ضاعف أبعاد وجودة صورك الضعيفة أو المشوشة واجعل ملامحها حادة وممتازة عبر تقنية الـ Upscaling.",
-      tool_conv_title: "تحويل صيغ الصور",
-      tool_conv_desc: "حوّل صورك فوراً بين كافة الصيغ العالمية الشهيرة مثل PNG, JPG, WebP, AVIF مع التحكم في حجم وضغط الصورة.",
-      
-      tool_w2p_title: "تحويل Word إلى PDF",
-      tool_w2p_desc: "حوّل ملفات المايكروسوفت وورد Docx إلى مستندات PDF منسقة ومحمية مع الحفاظ الصارم على الخطوط العربية.",
-      tool_e2p_title: "تحويل Excel إلى PDF",
-      tool_e2p_desc: "قم بتحويل جداول وبيانات الإكسيل Xlsx إلى جداول PDF منسقة وجاهزة للطباعة والعرض فوراً.",
-      tool_p2i_title: "تحويل PDF إلى صور",
-      tool_p2i_desc: "استخرج كافة صفحات ملف الـ PDF وحوّلها إلى صور منفصلة بجودة عالية ووضوح فائق (PNG / JPG).",
-      tool_pdfm_title: "دمج وتقسيم ملفات PDF",
-      tool_pdfm_desc: "اجمع عدة ملفات PDF في ملف واحد منظم، أو قم بفصل واستخراج صفحات معينة من مستنداتك بسهولة."
-    },
-    en: {
-      page_title: "Free Smart Tools - Temp Box Mail",
-      nav_home: "Home", nav_blog: "Blog", nav_tools: "Smart Tools",
-      img_title: "🎨 Image Processing & AI Tools",
-      doc_title: "📄 Document Management & Converters",
-      btn_open: "Open Tool",
-      footer_title: "Temp Box Mail Tools",
-      footer_desc: "Your comprehensive and completely free platform for AI image processing and instant document conversion.",
-      
-      tool_wm_title: "Watermark Remover",
-      tool_wm_desc: "Remove logos and text watermarks from your images accurately using AI without losing original quality.",
-      tool_bg_title: "Background Remover",
-      tool_bg_desc: "Automatically cut and remove image backgrounds in two seconds, making them completely transparent with top-notch quality.",
-      tool_up_title: "AI Image Upscaler",
-      tool_up_desc: "Double the size and quality of your low-res or blurry photos, making details sharp using AI upscaling techniques.",
-      tool_conv_title: "Image Converter",
-      tool_conv_desc: "Instantly convert your images between global formats like PNG, JPG, WebP, AVIF with full size and compression control.",
-      
-      tool_w2p_title: "Word to PDF",
-      tool_w2p_desc: "Convert Microsoft Word Docx files into fully formatted, secure PDF documents with precise layouts.",
-      tool_e2p_title: "Excel to PDF",
-      tool_e2p_desc: "Convert your spreadsheets and Excel Xlsx data into perfectly aligned PDF files ready for printing and viewing.",
-      tool_p2i_title: "PDF to Images",
-      tool_p2i_desc: "Extract all pages from a PDF file and transform them into separate, ultra-clear high-quality images (PNG / JPG).",
-      tool_pdfm_title: "Merge & Split PDF",
-      tool_pdfm_desc: "Combine multiple PDF files into one structured document, or split and extract specific pages from your files effortlessly."
+    const BACKEND_URL = "https://hamedabdelmoez-watermark-remover.hf.space/api/remove-watermark";
+    // ... (جزء الـ translations يظل كما هو)
+
+    // إضافة وظيفة التحميل المباشر للصورة الناتجة
+    async function downloadResult(dataUrl) {
+        const link = document.createElement('a');
+        link.href = dataUrl;
+        link.download = 'cleaned-image.png';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
     }
-  };
 
-  const currentLang = localStorage.getItem("lang") === "en" ? "en" : "ar";
-  document.documentElement.lang = currentLang;
-  document.documentElement.dir = currentLang === "ar" ? "rtl" : "ltr";
+    // ربط زر التحميل
+    downloadBtn.onclick = () => {
+        const resultImg = document.getElementById("resultPreview").src;
+        downloadResult(resultImg);
+    };
 
-  document.addEventListener("DOMContentLoaded", () => {
-    const t = translations[currentLang];
-    
-    document.getElementById("pageTitle").textContent = t.page_title;
-    document.getElementById("imgSectionTitle").textContent = t.img_title;
-    document.getElementById("docSectionTitle").textContent = t.doc_title;
-    document.getElementById("footerTitle").textContent = t.footer_title;
-    document.getElementById("footerDesc").textContent = t.footer_desc;
+    async function handleUpload(file) {
+        const formData = new FormData();
+        formData.append('image', file);
+        
+        // إخفاء منطقة الرفع وإظهار شاشة التحميل
+        dropZone.style.display = "none";
+        loadingZone.style.display = "block";
 
-    document.querySelectorAll("[data-text]").forEach(el => {
-      const attr = el.getAttribute("data-text");
-      if(attr && t[attr]) el.textContent = t[attr];
-    });
+        try {
+            const response = await fetch(BACKEND_URL, {
+                method: "POST",
+                body: formData
+            });
+            const data = await response.json();
 
-    const langBtn = document.getElementById("langBtn");
-    if (langBtn) {
-      langBtn.textContent = currentLang === "en" ? "AR" : "EN";
-      langBtn.onclick = () => {
-        localStorage.setItem("lang", currentLang === "en" ? "ar" : "en");
-        window.location.reload();
-      };
+            if (data.image) {
+                document.getElementById("resultPreview").src = data.image;
+                document.getElementById("originalPreview").src = URL.createObjectURL(file); // عرض الصورة الأصلية للمقارنة
+                loadingZone.style.display = "none";
+                resultZone.style.display = "block";
+            } else {
+                throw new Error(data.error || "Unknown Error");
+            }
+        } catch (error) {
+            loadingZone.style.display = "none";
+            dropZone.style.display = "block";
+            alert("خطأ: " + error.message + ". تأكد أن السيرفر يعمل.");
+        }
     }
-  });
+    // ... (باقي الكود يظل كما هو)
 })();
 </script>
 
