@@ -2,94 +2,40 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>تفريغ خلفية الصورة - Temp Box Mail</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <title>إزالة الخلفية - Temp Box Mail</title>
     <style>
-        :root { --accent: #00ffcc; --bg: #0d1117; --card-bg: #1e293b; }
-        body { font-family: 'Cairo', sans-serif; background-color: var(--bg); color: white; margin: 0; padding: 20px; }
-        .container { max-width: 800px; margin: 50px auto; text-align: center; }
-        
-        .glass-card {
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border: 1px solid #334155;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .upload-area {
-            border: 2px dashed var(--accent);
-            padding: 40px;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: 0.3s;
-            margin: 20px 0;
-        }
-        .upload-area:hover { background: rgba(0, 255, 204, 0.05); }
-
-        .btn-main {
-            background: linear-gradient(135deg, var(--accent), #00a3ff);
-            color: #0d1117;
-            border: none;
-            padding: 15px 40px;
-            border-radius: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 18px;
-        }
-
-        #resultPreview { max-width: 100%; border-radius: 10px; margin-top: 20px; display: none; }
+        body { background: #0d1117; color: white; font-family: sans-serif; text-align: center; padding: 50px; }
+        .card { background: #1e293b; padding: 40px; border-radius: 20px; display: inline-block; width: 80%; max-width: 500px; }
+        button { background: #00ffcc; border: none; padding: 15px 30px; border-radius: 10px; cursor: pointer; font-weight: bold; margin-top: 20px; }
+        img { max-width: 100%; margin-top: 20px; border-radius: 10px; }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <div class="glass-card">
-        <h1>🎭 إزالة الخلفية بالذكاء الاصطناعي</h1>
-        <p>ارفع صورتك وسنقوم بتفريغ الخلفية بدقة فائقة في ثوانٍ</p>
-        
-        <div class="upload-area" onclick="document.getElementById('fileInput').click()">
-            <p>اضغط هنا لرفع الصورة</p>
-            <input type="file" id="fileInput" hidden accept="image/*">
-        </div>
-        
-        <button class="btn-main" onclick="processImage()">بدء المعالجة</button>
-        
-        <div id="loading" style="display:none; margin-top: 20px;">
-            <p>⏳ جاري معالجة الصورة...</p>
-        </div>
-        
-        <img id="resultPreview" src="">
-        <button id="downloadBtn" style="display:none; margin-top: 20px;" class="btn-main">تحميل النتيجة</button>
+    <div class="card">
+        <h1>إزالة الخلفية بالذكاء الاصطناعي</h1>
+        <input type="file" id="fileInput" accept="image/*"><br>
+        <button onclick="process()">بدء الإزالة</button>
+        <div id="status" style="margin-top:20px;"></div>
+        <img id="result" src="">
     </div>
-</div>
 
-<script>
-    async function processImage() {
-        const file = document.getElementById('fileInput').files[0];
-        if(!file) return alert("يرجى اختيار صورة أولاً");
+    <script>
+        async function process() {
+            const file = document.getElementById('fileInput').files[0];
+            const status = document.getElementById('status');
+            status.innerText = "⏳ جاري المعالجة... يرجى الانتظار";
+            
+            const formData = new FormData();
+            formData.append('image', file);
 
-        const formData = new FormData();
-        formData.append('image', file);
-
-        document.getElementById('loading').style.display = 'block';
-        
-        // غير الرابط أدناه لرابط الـ API الخاص بـ Hugging Face
-        const response = await fetch("https://[اسم-الـ-Space-الخاص-بك].hf.space/api/remove-bg", {
-            method: "POST", body: formData
-        });
-        const data = await response.json();
-        
-        if(data.image) {
-            const img = document.getElementById('resultPreview');
-            img.src = data.image;
-            img.style.display = 'block';
-            document.getElementById('downloadBtn').style.display = 'inline-block';
+            // استبدل الرابط أدناه برابط الـ Space الخاص بك
+            const res = await fetch("https://hamedabdelmoez-watermark-remover.hf.space/api/remove-bg", {
+                method: "POST", body: formData
+            });
+            const data = await res.json();
+            document.getElementById('result').src = data.image;
+            status.innerText = "✅ تم الإنجاز!";
         }
-        document.getElementById('loading').style.display = 'none';
-    }
-</script>
-
+    </script>
 </body>
 </html>
