@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>أداة إزالة الخلفية</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <main class="container">
+        <h1>إزالة الخلفية بالذكاء الاصطناعي</h1>
+        <input type="file" id="imageInput" accept="image/*">
+        <button id="processBtn">إزالة الخلفية</button>
+        
+        <div id="loading" style="display:none;">جاري المعالجة... يرجى الانتظار</div>
+        <img id="resultPreview" src="" alt="النتيجة">
+        <button id="downloadBtn" style="display:none;">تحميل الصورة</button>
+    </main>
+
+    <script>
+        const BACKEND_URL = "https://hamedabdelmoez-your-space.hf.space/api/remove-bg";
+        
+        document.getElementById('processBtn').onclick = async () => {
+            const file = document.getElementById('imageInput').files[0];
+            const formData = new FormData();
+            formData.append('image', file);
+
+            document.getElementById('loading').style.display = 'block';
+            
+            const response = await fetch(BACKEND_URL, { method: "POST", body: formData });
+            const data = await response.json();
+            
+            if(data.image) {
+                document.getElementById('resultPreview').src = data.image;
+                document.getElementById('downloadBtn').style.display = 'block';
+            }
+            document.getElementById('loading').style.display = 'none';
+        };
+    </script>
+</body>
+</html>
