@@ -2,68 +2,94 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>تفريغ الخلفية - Temp Box Mail</title>
-    <link rel="stylesheet" href="../css/style.css"> </head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>تفريغ خلفية الصور مجاناً بالذكاء الاصطناعي</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        /* نفس ستايل صفحة العلامة المائية لضمان تناسق الموقع */
+        .tool-container { max-width: 800px; margin: 40px auto; background: var(--card-bg, #1e293b); border: 1px solid var(--border-color, #334155); border-radius: 16px; padding: 30px; text-align: center; }
+        .drop-zone { border: 2px dashed #00ffcc; border-radius: 12px; padding: 50px 20px; cursor: pointer; transition: 0.3s; background: rgba(0, 255, 204, 0.02); }
+        .drop-zone:hover { background: rgba(0, 255, 204, 0.08); }
+        .loading-zone { display: none; padding: 40px; }
+        .spinner { width: 50px; height: 50px; border: 5px solid #334155; border-top: 5px solid #00ffcc; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .result-zone { display: none; padding: 20px 0; }
+        .download-btn { background: linear-gradient(135deg, #00ffcc, #00a3ff); color: #0d1117; border: none; padding: 14px 40px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+    </style>
+</head>
 <body>
 
 <header>
   <div class="nav">
     <div class="logo" onclick="window.location.href='/'" style="cursor:pointer;">📧 Temp Box Mail</div>
+    <nav class="menu"><a href="/tools/index.html">الأدوات الذكية</a></nav>
   </div>
 </header>
 
 <main class="container">
-    <section class="card" style="max-width: 600px; margin: 40px auto; padding: 40px; text-align: center;">
-        <h1 style="color: var(--green);">🎭 إزالة الخلفية بالذكاء الاصطناعي</h1>
-        <p>ارفع صورتك وسنقوم بتفريغ الخلفية بدقة فائقة.</p>
-        
-        <input type="file" id="imageInput" accept="image/*" style="display:none;">
-        <button class="cta" onclick="document.getElementById('imageInput').click()" style="cursor:pointer;">اختر الصورة</button>
-        
-        <div id="loadingZone" style="display:none; margin-top:20px;">⏳ جاري المعالجة...</div>
-        
-        <div id="resultZone" style="display:none; margin-top:20px;">
-            <img id="resultPreview" style="max-width: 100%; border-radius: 12px;">
-            <br>
-            <button class="cta" style="margin-top:20px;" onclick="downloadImage()">تحميل النتيجة</button>
+    <div class="tool-container">
+        <h2 id="toolHeading">🎭 تفريغ خلفية الصورة بالذكاء الاصطناعي</h2>
+        <p id="toolSubheading" style="color: #94a3b8;">قص الخلفية تلقائياً واجعلها شفافة بدقة احترافية.</p>
+
+        <div class="drop-zone" id="dropZone">
+            <input type="file" id="fileInput" accept="image/*" style="display: none;">
+            <div style="font-size: 50px;">🎭</div>
+            <p id="dzText">اسحب الصورة هنا أو اضغط للتصفح</p>
         </div>
-    </section>
+
+        <div class="loading-zone" id="loadingZone">
+            <div class="spinner"></div>
+            <p id="loadingText">جاري تحليل البكسلات وتفريغ الخلفية...</p>
+        </div>
+
+        <div class="result-zone" id="resultZone">
+            <img id="resultPreview" style="max-width: 100%; border-radius: 8px; margin-bottom: 20px;">
+            <br>
+            <button class="download-btn" id="downloadBtn">📥 تحميل الصورة الشفافة</button>
+        </div>
+    </div>
 </main>
 
 <script>
-    document.getElementById('imageInput').onchange = async function() {
-        const file = this.files[0];
-        if(!file) return;
+(() => {
+    // تأكد من الرابط الصحيح على Hugging Face
+    const BACKEND_URL = "https://hamedabdelmoez-watermark-remover.hf.space/api/remove-bg";
+    
+    const dropZone = document.getElementById("dropZone");
+    const fileInput = document.getElementById("fileInput");
+    const loadingZone = document.getElementById("loadingZone");
+    const resultZone = document.getElementById("resultZone");
 
-        document.getElementById('loadingZone').style.display = 'block';
-        
+    dropZone.onclick = () => fileInput.click();
+    fileInput.onchange = () => { if(fileInput.files.length) handleUpload(fileInput.files[0]); };
+
+    async function handleUpload(file) {
         const formData = new FormData();
         formData.append('image', file);
+        dropZone.style.display = "none";
+        loadingZone.style.display = "block";
 
         try {
-            // ضع هنا رابط الـ API الخاص بـ Hugging Face
-            const res = await fetch("https://[اسم-الـ-Space-الخاص-بك].hf.space/api/remove-bg", {
-                method: "POST", body: formData
-            });
-            const data = await res.json();
-            
-            if(data.image) {
+            const response = await fetch(BACKEND_URL, { method: "POST", body: formData });
+            const data = await response.json();
+            if (data.image) {
                 document.getElementById("resultPreview").src = data.image;
-                document.getElementById("resultZone").style.display = "block";
+                loadingZone.style.display = "none";
+                resultZone.style.display = "block";
             }
-        } catch(e) {
-            alert("خطأ في الاتصال بالسيرفر");
-        } finally {
-            document.getElementById('loadingZone').style.display = 'none';
+        } catch (e) {
+            alert("خطأ في الاتصال بالخادم");
+            location.reload();
         }
-    };
-
-    function downloadImage() {
-        const link = document.createElement('a');
-        link.href = document.getElementById('resultPreview').src;
-        link.download = 'removed-bg.png';
-        link.click();
     }
+
+    document.getElementById("downloadBtn").onclick = () => {
+        const link = document.createElement('a');
+        link.href = document.getElementById("resultPreview").src;
+        link.download = 'transparent-image.png';
+        link.click();
+    };
+})();
 </script>
 </body>
 </html>
