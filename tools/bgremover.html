@@ -9,6 +9,7 @@
     <title id="pageTitle">إزالة الخلفية من الصور مجاناً بالذكاء الاصطناعي</title>   
     <link rel="stylesheet" href="/css/style.css">
     <link rel="icon" href="/og.webp" type="image/webp">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js"></script>
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4901985375072472" crossorigin="anonymous"></script>
     <style>
@@ -74,37 +75,39 @@
   </div>
 </footer>
 <script>
-    document.getElementById('imageInput').onchange = async function() {
-        const file = this.files[0];
-        if(!file) return;
-        
-        document.getElementById('loadingZone').style.display = "block";
-        const formData = new FormData();
-        formData.append('image', file);
+  document.getElementById('imageInput').onchange = async function() {
+    const file = this.files[0];
+    if(!file) return;
 
-        try {
-            const response = await fetch("https://huggingface.co/spaces/hamedabdelmoez/Hamed-Bg-Remover", {
-              method: "POST",
-              body: formData
-    });
-            const data = await response.json();
-            if (data.image) {
-                document.getElementById('resultPreview').src = data.image;
-                document.getElementById('resultZone').style.display = "block";
-                document.getElementById('loadingZone').style.display = "none";
-            }
-        } catch (e) {
-            alert("خطأ في الاتصال بالسيرفر");
-            location.reload();
-        }
-    };
+    document.getElementById('loadingZone').style.display = "block";
 
-    function downloadImage() {
-        const link = document.createElement('a');
-        link.href = document.getElementById('resultPreview').src;
-        link.download = 'removed-bg.png';
-        link.click();
+    try {
+        // الاتصال بالسبيس
+        const { Client } = await import("https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js");
+        const client = await Client.connect("hamedabdelmoez/Hamed-Bg-Remover");
+
+        // تحويل الصورة لرابط بيانات للـ API
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = async function() {
+            const base64Image = reader.result;
+
+            // إرسال الصورة للمعالجة
+            const result = await client.predict("/predict", { 
+                input_image: base64Image 
+            });
+
+            // عرض النتيجة
+            document.getElementById('resultPreview').src = result.data;
+            document.getElementById('resultZone').style.display = "block";
+            document.getElementById('loadingZone').style.display = "none";
+        };
+    } catch (e) {
+        console.error(e);
+        alert("خطأ في الاتصال بالسيرفر. تأكد أن السبيس تعمل.");
+        document.getElementById('loadingZone').style.display = "none";
     }
+};
 </script>
 </body>
 </html>
