@@ -78,9 +78,9 @@
         try {
             // ملاحظة: تأكد من رابط الـ API الخاص بـ Upscaler على Hugging Face
             const response = await fetch("https://hamedabdelmoez-upscaler.hf.space/api/upscale", {
-                method: "POST",
-                body: formData
-            });
+    method: "POST",
+    body: formData
+});
             const data = await response.json();
             if (data.image) {
                 document.getElementById('resultPreview').src = data.image;
