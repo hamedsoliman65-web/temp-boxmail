@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>تكبير وتحسين الصور - Temp Box Mail</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <style>
+        .tool-card { max-width: 600px; margin: 40px auto; padding: 40px; background: #1e293b; border: 1px solid #334155; border-radius: 16px; text-align: center; color: white; }
+        .tool-btn { background: #00ffcc; color: #0d1117; padding: 12px 24px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; }
+        .spinner { border: 4px solid #f3f3f3; border-top: 4px solid #00ffcc; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 10px auto; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="logo" onclick="window.location.href='/'" style="cursor:pointer;">📧 Temp Box Mail</div>
+    <nav class="menu"><a href="/tools/index.html">الأدوات الذكية</a></nav>
+  </div>
+</header>
+
+<main class="container">
+    <div class="tool-card">
+        <h1>🔍 تكبير وتحسين الصور</h1>
+        <p>ضاعف دقة صورك المشوشة أو الصغيرة باستخدام الذكاء الاصطناعي دون فقدان الجودة.</p>
+        
+        <input type="file" id="imageInput" accept="image/*" style="display:none;">
+        <button class="tool-btn" onclick="document.getElementById('imageInput').click()">اختر الصورة</button>
+        
+        <div id="loadingZone" style="display:none; margin-top: 20px;">
+            <div class="spinner"></div>
+            <p>جاري التحسين (قد يستغرق الأمر لحظات)...</p>
+        </div>
+
+        <div id="resultZone" style="display:none; margin-top: 20px;">
+            <img id="resultPreview" style="max-width: 100%; border-radius: 8px; border: 2px solid #00ffcc;">
+            <br><br>
+            <button class="tool-btn" onclick="downloadImage()">📥 تحميل الصورة المحسنة</button>
+        </div>
+    </div>
+</main>
+
+<script>
+    document.getElementById('imageInput').onchange = async function() {
+        const file = this.files[0];
+        if(!file) return;
+        
+        document.getElementById('loadingZone').style.display = "block";
+        const formData = new FormData();
+        formData.append('image', file);
+
+        try {
+            // ملاحظة: تأكد من رابط الـ API الخاص بـ Upscaler على Hugging Face
+            const response = await fetch("https://hamedabdelmoez-upscaler.hf.space/api/upscale", {
+                method: "POST",
+                body: formData
+            });
+            const data = await response.json();
+            if (data.image) {
+                document.getElementById('resultPreview').src = data.image;
+                document.getElementById('resultZone').style.display = "block";
+                document.getElementById('loadingZone').style.display = "none";
+            }
+        } catch (e) {
+            alert("خطأ في الاتصال بالسيرفر. تأكد من تشغيل الـ Space.");
+            location.reload();
+        }
+    };
+
+    function downloadImage() {
+        const link = document.createElement('a');
+        link.href = document.getElementById('resultPreview').src;
+        link.download = 'upscaled-image.png';
+        link.click();
+    }
+</script>
+</body>
+</html>
