@@ -84,9 +84,9 @@
 
         try {
             const response = await fetch("https://hamedabdelmoez-watermark-remover.hf.space/api/remove-bg", {
-                method: "POST",
-                body: formData
-            });
+              method: "POST",
+              body: formData
+    });
             const data = await response.json();
             if (data.image) {
                 document.getElementById('resultPreview').src = data.image;
