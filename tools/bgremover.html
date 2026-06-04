@@ -74,40 +74,40 @@
       <a href="../pages/contact.html" class="footer-link" id="linkContact">📩 تواصل معنا | Contact</a>
   </div>
 </footer>
-<script>
-  document.getElementById('imageInput').onchange = async function() {
-    const file = this.files[0];
-    if(!file) return;
+<script type="module">
+    import { Client } from "https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js";
 
-    document.getElementById('loadingZone').style.display = "block";
+    document.getElementById('imageInput').onchange = async function() {
+        const file = this.files[0];
+        if(!file) return;
 
-    try {
-        // الاتصال بالسبيس
-        const { Client } = await import("https://cdn.jsdelivr.net/npm/@gradio/client/dist/index.min.js");
-        const client = await Client.connect("hamedabdelmoez/Hamed-Bg-Remover");
-
-        // تحويل الصورة لرابط بيانات للـ API
+        document.getElementById('loadingZone').style.display = "block";
+        
         const reader = new FileReader();
         reader.readAsDataURL(file);
         reader.onloadend = async function() {
             const base64Image = reader.result;
 
-            // إرسال الصورة للمعالجة
-            const result = await client.predict("/predict", { 
-                input_image: base64Image 
-            });
+            try {
+                // الاتصال بالسبيس الخاصة بك
+                const client = await Client.connect("hamedabdelmoez/Hamed-Bg-Remover");
+                
+                // إرسال الصورة للدالة المحددة باسمها
+                const result = await client.predict("/remove_bg", { 
+                    input_image: base64Image 
+                });
 
-            // عرض النتيجة
-            document.getElementById('resultPreview').src = result.data;
-            document.getElementById('resultZone').style.display = "block";
-            document.getElementById('loadingZone').style.display = "none";
+                // عرض النتيجة
+                document.getElementById('resultPreview').src = result.data[0].url; 
+                document.getElementById('resultZone').style.display = "block";
+                document.getElementById('loadingZone').style.display = "none";
+            } catch (e) {
+                console.error(e);
+                alert("حدث خطأ أثناء المعالجة، يرجى المحاولة مرة أخرى.");
+                document.getElementById('loadingZone').style.display = "none";
+            }
         };
-    } catch (e) {
-        console.error(e);
-        alert("خطأ في الاتصال بالسيرفر. تأكد أن السبيس تعمل.");
-        document.getElementById('loadingZone').style.display = "none";
-    }
-};
+    };
 </script>
 </body>
 </html>
