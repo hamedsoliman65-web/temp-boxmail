@@ -89,17 +89,17 @@
             const base64Image = reader.result;
 
             try {
-                // الاتصال بالسبيس الخاصة بك
-                const client = await Client.connect("hamedabdelmoez/Hamed-Bg-Remover");                
-                // إرسال الصورة للدالة المحددة باسمها
-               const result = await client.predict(0, { 
-              input_image: base64Image 
-             });
+                // 1. الاتصال بالسبيس
+                const client = await Client.connect("hamedabdelmoez/Hamed-Bg-Remover");
+                
+                // 2. إرسال الصورة (لاحظ أننا حذفنا السطر الزائد الذي كان يسبب الخطأ)
+                const result = await client.predict("/predict", [base64Image]);
 
-                // عرض النتيجة
-                document.getElementById('resultPreview').src = result.data[0].url; 
+                // 3. عرض النتيجة
+                document.getElementById('resultPreview').src = result.data[0].url;
                 document.getElementById('resultZone').style.display = "block";
                 document.getElementById('loadingZone').style.display = "none";
+
             } catch (e) {
                 console.error(e);
                 alert("حدث خطأ أثناء المعالجة، يرجى المحاولة مرة أخرى.");
