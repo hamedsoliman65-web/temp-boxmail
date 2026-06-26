@@ -1,0 +1,14 @@
+version: '3.8'
+services:
+  rembg:
+    image: danielgatis/rembg
+    ports:
+      - "5000:5000"
+  
+  lama-cleaner:
+    image: swflw/lama-cleaner
+    command: ["--port=8080", "--device=cpu"]
+    ports:
+      - "8080:8080"
+      
+  # يمكنك إضافة Real-ESRGAN هنا لاحقاً
