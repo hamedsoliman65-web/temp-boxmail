@@ -17,8 +17,8 @@
        2. حالة التطبيق (State) والبيانات
        ============================================================ */
   const App = {
-    api: 'https://nameless-butterfly-fb91.hamed-soliman65.workers.dev',
-        token: null,
+api: 'https://nameless-butterfly-fb91.hamed-soliman65.workers.dev',
+      token: null,
         address: null,
         faq: {
             ar: [
